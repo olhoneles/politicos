@@ -1,0 +1,14 @@
+language: python
+
+python:
+    - "2.7"
+
+install:
+    - make setup
+
+before_script:
+    - make drop_test
+    - make data_test
+
+script:
+    - make test
