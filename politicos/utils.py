@@ -40,7 +40,6 @@ def load_classes(classes=None, classes_to_load=None, default=None):
         if isinstance(class_full_name, (tuple, set, list)):
             load_classes(classes, class_full_name)
             continue
-
         try:
             klass = get_class(class_full_name)
             classes.append(klass)

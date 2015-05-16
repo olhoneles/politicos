@@ -47,3 +47,10 @@ class ApiServerTestCase(ApiTestCase):
     def test_server_main_function(self, server_mock):
         politicos.server.main()
         expect(server_mock.run.called).to_be_true()
+
+    def test_get_extra_server_parameters(self):
+        srv = politicos.server.PoliticosApiServer()
+        extra_server_parameters = srv.get_extra_server_parameters()
+
+        expect(extra_server_parameters).to_length(1)
+        expect(extra_server_parameters).to_be_like({'no_keep_alive': False})

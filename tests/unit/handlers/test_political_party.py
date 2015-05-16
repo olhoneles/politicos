@@ -26,6 +26,17 @@ from tests.fixtures import PoliticalPartyFactory
 class TestPoliticalPartyHandler(ApiTestCase):
 
     @gen_test
+    def test_cannot_get_political_party_info(self):
+        response = yield self.anonymous_fetch(
+            '/political-party/PBA',
+            method='GET'
+        )
+        expect(response.code).to_equal(200)
+        political_party = loads(response.body)
+        expect(political_party).to_equal({})
+        expect(political_party).to_length(0)
+
+    @gen_test
     def test_can_get_political_party_info(self):
         PoliticalPartyFactory.create(name='Partido Blah', siglum='PBA')
 
@@ -38,3 +49,38 @@ class TestPoliticalPartyHandler(ApiTestCase):
         expect(political_party).to_length(3)
         expect(political_party.get('name')).to_equal("Partido Blah")
         expect(political_party.get('siglum')).to_equal("PBA")
+
+
+class TestAllPoliticalPartyHandler(ApiTestCase):
+
+    @gen_test
+    def test_cannot_get_political_party_info(self):
+        response = yield self.anonymous_fetch(
+            '/political-party/',
+            method='GET'
+        )
+
+        expect(response.code).to_equal(200)
+        political_party = loads(response.body)
+        expect(political_party).to_equal({})
+        expect(political_party).to_length(0)
+
+    @gen_test
+    def test_can_get_all_political_parties(self):
+        political_parties = []
+        for x in range(5):
+            party = PoliticalPartyFactory.create(
+                name='Partido %s' % x,
+                siglum='%s' % x
+            )
+            political_parties.append(party.to_dict())
+
+        response = yield self.anonymous_fetch(
+            '/political-party/',
+            method='GET'
+        )
+
+        expect(response.code).to_equal(200)
+        political_parties_loaded = loads(response.body)
+        expect(political_parties_loaded).to_length(5)
+        expect(political_parties_loaded).to_be_like(political_parties)
