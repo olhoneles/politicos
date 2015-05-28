@@ -1,4 +1,5 @@
-#Politicos [![Build Status](https://secure.travis-ci.org/olhoneles/politicos.png?branch=master)](https://travis-ci.org/olhoneles/politicos)
+#Politicos [![Build Status](https://secure.travis-ci.org/olhoneles/politicos.png?branch=master)](https://travis-ci.org/olhoneles/politicos) [![Code Health](https://landscape.io/github/olhoneles/politicos/master/landscape.svg?style=flat)](https://landscape.io/github/olhoneles/politicos/master) [![Coverage Status](https://coveralls.io/repos/olhoneles/politicos/badge.svg)](https://coveralls.io/r/olhoneles/politicos)
+
 
 Database of political entities
 

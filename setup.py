@@ -23,6 +23,7 @@ tests_require = [
     'mock',
     'nose',
     'coverage',
+    'coveralls',
     'yanc',
     'preggy',
     'tox',
