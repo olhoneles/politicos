@@ -62,7 +62,6 @@ Political data
         'derpconf>=0.6.0,<0.7.0',
         'alembic>=0.6.3,<0.7.0',
         'mysql-python>=1.2.5,<1.3.0',
-        'requests>=2.2.1,<2.3.0',
         'pycurl>=7.19.0,<7.20.0',
         'ujson>=1.33,<1.34.0',
     ],
