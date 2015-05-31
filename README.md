@@ -10,10 +10,10 @@ Database of political entities
 
         git clone https://github.com/olhoneles/politicos.git
 
-1.  Create a *virtualenv*:
+1.  Create a [*virtualenv*](http://virtualenvwrapper.readthedocs.org/en/latest/install.html):
 
         cd politicos
-        virtualenv .
+        mkvirtualenv politicos
 
 1.  Install dependencies
 
@@ -26,6 +26,8 @@ Database of political entities
 1.  Run it
 
         make run
+
+### More info
 
 1. Run migrations
 
