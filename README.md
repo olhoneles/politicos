@@ -19,13 +19,17 @@ Database of political entities
 
         make setup
 
-1.  Create your database
+1.  Create your initial database
 
-         make data
+         make db
 
 1.  Run it
 
         make run
+
+1. Run migrations
+
+        make data
 
 1.  Run tests
 

@@ -30,8 +30,10 @@ drop_test:
 	@mysql -u root -e "DROP DATABASE IF EXISTS test_politicos; CREATE DATABASE IF NOT EXISTS test_politicos"
 	@echo "DB RECREATED"
 
-data db:
+data:
 	@cd politicos/ && alembic upgrade head
+
+db: drop data
 
 data_test:
 	@cd tests/ && alembic upgrade head
