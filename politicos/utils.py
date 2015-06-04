@@ -45,15 +45,15 @@ def load_classes(classes=None, classes_to_load=None, default=None):
             classes.append(klass)
         except ValueError:
             logging.warn(
-                'Invalid class name [%s]. Will be ignored.' % class_full_name
+                'Invalid class name [%s]. Will be ignored.', class_full_name
             )
         except AttributeError:
             logging.warn(
-                'Class [%s] not found. Will be ignored.' % class_full_name
+                'Class [%s] not found. Will be ignored.', class_full_name
             )
         except ImportError:
             logging.warn(
-                'Module [%s] not found. Will be ignored.' % class_full_name
+                'Module [%s] not found. Will be ignored.', class_full_name
             )
 
     return classes
