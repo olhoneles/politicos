@@ -17,6 +17,7 @@
 
 from unittest import TestCase
 
+from mock import patch, call
 from preggy import expect
 
 from politicos.utils import get_class, load_classes
@@ -40,6 +41,54 @@ class TestUtils(TestCase):
         expect(classes).to_length(1)
         expect(classes[0]).to_equal(PoliticalParty)
 
-    def test_cannot_load_classes(self):
+    def test_can_load_classes_with_list(self):
+        from politicos.models.political_party import PoliticalParty
+
+        classes = load_classes(default=[
+            ['politicos.models.political_party.PoliticalParty'],
+        ])
+
+        expect(classes).to_length(1)
+        expect(classes[0]).to_equal(PoliticalParty)
+
+    @patch('politicos.utils.logging')
+    @patch('politicos.utils.get_class')
+    def test_cannot_load_classes_import_error(self, get_class_mock, log_mock):
+        get_class_mock.side_effect = ImportError
         classes = load_classes(default=['blah.models.blah.Test'])
+
         expect(classes).to_length(0)
+        expect(log_mock.mock_calls).to_include(
+            call.warn(
+                'Module [%s] not found. Will be ignored.',
+                'blah.models.blah.Test'
+            )
+        )
+
+    @patch('politicos.utils.logging')
+    @patch('politicos.utils.get_class')
+    def test_cannot_load_classes_value_error(self, get_class_mock, log_mock):
+        get_class_mock.side_effect = ValueError
+        classes = load_classes(default=['blah.models.blah.Test'])
+
+        expect(classes).to_length(0)
+        expect(log_mock.mock_calls).to_include(
+            call.warn(
+                'Invalid class name [%s]. Will be ignored.',
+                'blah.models.blah.Test'
+            )
+        )
+
+    @patch('politicos.utils.logging')
+    @patch('politicos.utils.get_class')
+    def test_cannot_load_classes_attr_error(self, get_class_mock, log_mock):
+        get_class_mock.side_effect = AttributeError
+        classes = load_classes(default=['blah.models.blah.Test'])
+
+        expect(classes).to_length(0)
+        expect(log_mock.mock_calls).to_include(
+            call.warn(
+                'Class [%s] not found. Will be ignored.',
+                'blah.models.blah.Test'
+            )
+        )
