@@ -22,6 +22,7 @@ from politicos import __version__
 tests_require = [
     'mock',
     'nose',
+    'nose-focus',
     'coverage',
     'coveralls',
     'yanc',
