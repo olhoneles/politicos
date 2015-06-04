@@ -27,7 +27,7 @@ class TestUtils(TestCase):
     def test_can_get_class(self):
         from Queue import Queue
 
-        loaded = get_class("Queue.Queue")
+        loaded = get_class('Queue.Queue')
         expect(loaded).to_equal(Queue)
 
     def test_can_load_classes(self):

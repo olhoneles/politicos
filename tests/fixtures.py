@@ -28,7 +28,7 @@ from politicos.models import PoliticalParty
 
 sqlalchemy_echo = logging.getLogger('nose').getEffectiveLevel() < logging.INFO
 engine = create_engine(
-    "mysql+mysqldb://root@localhost:3306/test_politicos",
+    'mysql+mysqldb://root@localhost:3306/test_politicos',
     convert_unicode=True,
     pool_size=1,
     max_overflow=0,

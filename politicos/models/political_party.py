@@ -21,7 +21,7 @@ from politicos.models import Base
 
 
 class PoliticalParty(Base):
-    __tablename__ = "political_party"
+    __tablename__ = 'political_party'
 
     id = sa.Column(sa.Integer, primary_key=True)
     siglum = sa.Column('siglum', sa.String(15), nullable=False)
@@ -33,10 +33,10 @@ class PoliticalParty(Base):
 
     def to_dict(self):
         return {
-            "siglum": self.siglum,
-            "name": self.name,
-            "wikipedia": self.wikipedia,
-            "website": self.website,
-            "founded_date": self.founded_date,
-            "logo": self.logo,
+            'siglum': self.siglum,
+            'name': self.name,
+            'wikipedia': self.wikipedia,
+            'website': self.website,
+            'founded_date': self.founded_date,
+            'logo': self.logo,
         }

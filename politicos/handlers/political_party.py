@@ -28,7 +28,7 @@ class PoliticalPartyHandler(BaseHandler):
         query = self.db.query(PoliticalParty)
         political_party = query.filter(PoliticalParty.siglum == siglum).first()
         if not political_party:
-            self.write("{}")
+            self.write('{}')
             return
 
         result = political_party.to_dict()
@@ -43,7 +43,7 @@ class AllPoliticalPartyHandler(BaseHandler):
         political_party = query.order_by(PoliticalParty.name.asc()).all()
 
         if not political_party:
-            self.write("{}")
+            self.write('{}')
             return
 
         result = [x.to_dict() for x in political_party]

@@ -37,7 +37,7 @@ class ApiTestCase(CowTestCase):
         super(ApiTestCase, self).tearDown()
 
     def get_config(self):
-        connection = "mysql+mysqldb://root@localhost:3306/test_politicos"
+        connection = 'mysql+mysqldb://root@localhost:3306/test_politicos'
         return dict(
             SQLALCHEMY_CONNECTION_STRING=connection,
             SQLALCHEMY_POOL_SIZE=1,
