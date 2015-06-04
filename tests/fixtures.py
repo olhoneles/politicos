@@ -16,6 +16,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+from datetime import datetime
 
 import factory
 import factory.alchemy
@@ -58,4 +59,7 @@ class PoliticalPartyFactory(BaseFactory):
 
     name = factory.Sequence(lambda n: 'political party {0}'.format(n))
     siglum = factory.Sequence(lambda n: 'siglum {0}'.format(n))
-    wikipedia = factory.Sequence(lambda n: 'http://my-site-{0}.com/'.format(n))
+    wikipedia = factory.Sequence(lambda n: 'http://wiki-{0}.com/'.format(n))
+    website = factory.Sequence(lambda n: 'http://website-{0}.com/'.format(n))
+    logo = factory.Sequence(lambda n: 'http://logo-{0}.com/'.format(n))
+    founded_date = datetime.utcnow()

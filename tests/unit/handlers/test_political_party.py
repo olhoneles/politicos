@@ -46,7 +46,7 @@ class TestPoliticalPartyHandler(ApiTestCase):
         )
         expect(response.code).to_equal(200)
         political_party = loads(response.body)
-        expect(political_party).to_length(3)
+        expect(political_party).to_length(6)
         expect(political_party.get('name')).to_equal("Partido Blah")
         expect(political_party.get('siglum')).to_equal("PBA")
 
@@ -71,7 +71,8 @@ class TestAllPoliticalPartyHandler(ApiTestCase):
         for x in range(5):
             party = PoliticalPartyFactory.create(
                 name='Partido %s' % x,
-                siglum='%s' % x
+                siglum='%s' % x,
+                founded_date=None,
             )
             political_parties.append(party.to_dict())
 

@@ -27,10 +27,16 @@ class PoliticalParty(Base):
     siglum = sa.Column('siglum', sa.String(15), nullable=False)
     name = sa.Column('name', sa.String(2048), nullable=False)
     wikipedia = sa.Column('wikipedia', sa.String(2048), nullable=True)
+    website = sa.Column('website', sa.String(2048), nullable=True)
+    founded_date = sa.Column('founded_date', sa.DateTime, nullable=True)
+    logo = sa.Column('logo', sa.String(2048), nullable=True)
 
     def to_dict(self):
         return {
             "siglum": self.siglum,
             "name": self.name,
             "wikipedia": self.wikipedia,
+            "website": self.website,
+            "founded_date": self.founded_date,
+            "logo": self.logo,
         }
