@@ -16,7 +16,9 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from preggy import expect
+from mock import patch, call
 
+from politicos.models.political_party import PoliticalParty
 from tests.unit.base import ApiTestCase
 from tests.fixtures import PoliticalPartyFactory
 
@@ -56,4 +58,14 @@ class TestPoliticalParty(ApiTestCase):
         expect(political_party_dict['logo']).to_equal(political_party.logo)
         expect(political_party_dict['founded_date']).to_equal(
             political_party.founded_date
+        )
+
+    @patch('politicos.models.political_party.logging')
+    def test_can_add_political_party(self, logging_mock):
+        data = {'name': 'Hevy Metal Party', 'siglum': 'HMP'}
+        siglum = PoliticalParty.add_political_party(self.db, data)
+
+        expect(siglum).to_equal('HMP')
+        expect(logging_mock.mock_calls).to_include(
+            call.debug('Added political party: "HMP"')
         )

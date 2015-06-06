@@ -15,6 +15,8 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import logging
+
 import sqlalchemy as sa
 
 from politicos.models import Base
@@ -40,3 +42,20 @@ class PoliticalParty(Base):
             'founded_date': self.founded_date,
             'logo': self.logo,
         }
+
+    @classmethod
+    def add_political_party(self, db, data):
+        political_party = PoliticalParty(
+            name=data.get('name'),
+            siglum=data.get('siglum'),
+            wikipedia=data.get('wikipedia'),
+            website=data.get('website'),
+            founded_date=data.get('founded_date'),
+            logo=data.get('logo'),
+        )
+
+        db.add(political_party)
+
+        logging.debug('Added political party: "%s"' % political_party.siglum)
+
+        return political_party.siglum

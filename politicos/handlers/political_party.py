@@ -17,6 +17,8 @@
 
 from tornado.gen import coroutine
 
+from ujson import loads
+
 from politicos.models import PoliticalParty
 from politicos.handlers import BaseHandler
 
@@ -48,3 +50,26 @@ class AllPoliticalPartyHandler(BaseHandler):
 
         result = [x.to_dict() for x in political_party]
         self.write_json(result)
+
+    @coroutine
+    def post(self):
+        post_data = loads(self.request.body)
+
+        name = post_data.get('name')
+        siglum = post_data.get('siglum')
+
+        if not name or not siglum:
+            self.set_status(400, 'Invalid political party.')
+            return
+
+        data = {
+            'name': name,
+            'siglum': siglum,
+            'wikipedia': post_data.get('wikipedia'),
+            'website': post_data.get('website'),
+            'founded_date': post_data.get('founded_date'),
+            'logo': post_data.get('logo'),
+        }
+
+        siglum = PoliticalParty.add_political_party(self.db, data)
+        self.write_json({'siglum': siglum})

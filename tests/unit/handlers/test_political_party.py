@@ -15,9 +15,10 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from ujson import loads
+from ujson import loads, dumps
 from preggy import expect
 from tornado.testing import gen_test
+from tornado.httpclient import HTTPError
 
 from tests.unit.base import ApiTestCase
 from tests.fixtures import PoliticalPartyFactory
@@ -85,3 +86,40 @@ class TestAllPoliticalPartyHandler(ApiTestCase):
         political_parties_loaded = loads(response.body)
         expect(political_parties_loaded).to_length(5)
         expect(political_parties_loaded).to_be_like(political_parties)
+
+    @gen_test
+    def test_can_add_political_party(self):
+        response = yield self.anonymous_fetch(
+            '/political-party/',
+            method='POST',
+            body=dumps({'name': 'Partido Heavy Metal', 'siglum': 'PHM'})
+        )
+        expect(response.code).to_equal(200)
+        data = loads(response.body)
+        expect(data.get('siglum')).to_equal('PHM')
+
+    @gen_test
+    def test_cannot_add_political_party_without_name(self):
+        try:
+            yield self.anonymous_fetch(
+                '/political-party/',
+                method='POST',
+                body=dumps({'siglum': 'PHM'})
+            )
+        except HTTPError as e:
+            expect(e).not_to_be_null()
+            expect(e.code).to_equal(400)
+            expect(e.response.reason).to_be_like('Invalid political party.')
+
+    @gen_test
+    def test_cannot_add_political_party_without_siglum(self):
+        try:
+            yield self.anonymous_fetch(
+                '/political-party/',
+                method='POST',
+                body=dumps({'name': 'Partido Heavy Metal'})
+            )
+        except HTTPError as e:
+            expect(e).not_to_be_null()
+            expect(e.code).to_equal(400)
+            expect(e.response.reason).to_be_like('Invalid political party.')
