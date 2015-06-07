@@ -56,6 +56,6 @@ class PoliticalParty(Base):
 
         db.add(political_party)
 
-        logging.debug('Added political party: "%s"' % political_party.siglum)
+        logging.debug('Added political party: "%s"', political_party.siglum)
 
         return political_party.siglum

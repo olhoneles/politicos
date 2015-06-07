@@ -67,5 +67,5 @@ class TestPoliticalParty(ApiTestCase):
 
         expect(siglum).to_equal('HMP')
         expect(logging_mock.mock_calls).to_include(
-            call.debug('Added political party: "HMP"')
+            call.debug('Added political party: "%s"', 'HMP')
         )
