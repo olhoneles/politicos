@@ -69,6 +69,7 @@ class AllPoliticalPartyHandler(BaseHandler):
             'website': post_data.get('website'),
             'founded_date': post_data.get('founded_date'),
             'logo': post_data.get('logo'),
+            'tse_number': post_data.get('tse_number'),
         }
 
         siglum = PoliticalParty.add_political_party(self.db, data)

@@ -32,6 +32,7 @@ class PoliticalParty(Base):
     website = sa.Column('website', sa.String(2048), nullable=True)
     founded_date = sa.Column('founded_date', sa.DateTime, nullable=True)
     logo = sa.Column('logo', sa.String(2048), nullable=True)
+    tse_number = sa.Column(sa.Integer, nullable=True)
 
     def to_dict(self):
         return {
@@ -41,6 +42,7 @@ class PoliticalParty(Base):
             'website': self.website,
             'founded_date': self.founded_date,
             'logo': self.logo,
+            'tse_number': self.tse_number,
         }
 
     @classmethod
@@ -52,6 +54,7 @@ class PoliticalParty(Base):
             website=data.get('website'),
             founded_date=data.get('founded_date'),
             logo=data.get('logo'),
+            tse_number=data.get('tse_number'),
         )
 
         db.add(political_party)

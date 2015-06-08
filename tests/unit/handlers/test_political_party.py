@@ -47,7 +47,7 @@ class TestPoliticalPartyHandler(ApiTestCase):
         )
         expect(response.code).to_equal(200)
         political_party = loads(response.body)
-        expect(political_party).to_length(6)
+        expect(political_party).to_length(7)
         expect(political_party.get('name')).to_equal('Partido Blah')
         expect(political_party.get('siglum')).to_equal('PBA')
 

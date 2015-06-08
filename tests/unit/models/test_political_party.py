@@ -41,10 +41,11 @@ class TestPoliticalParty(ApiTestCase):
         political_party = PoliticalPartyFactory.create()
         political_party_dict = political_party.to_dict()
 
-        expect(political_party_dict.keys()).to_length(6)
+        expect(political_party_dict.keys()).to_length(7)
 
         expect(political_party_dict.keys()).to_be_like([
-            'website', 'siglum', 'name', 'wikipedia', 'founded_date', 'logo'
+            'website', 'siglum', 'name', 'wikipedia', 'founded_date',
+            'logo', 'tse_number'
         ])
 
         expect(political_party_dict['siglum']).to_equal(political_party.siglum)
