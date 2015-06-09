@@ -26,13 +26,13 @@ class PoliticalParty(Base):
     __tablename__ = 'political_party'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    siglum = sa.Column('siglum', sa.String(15), nullable=False)
-    name = sa.Column('name', sa.String(2048), nullable=False)
+    siglum = sa.Column('siglum', sa.String(15), unique=True, nullable=False)
+    name = sa.Column('name', sa.String(255), unique=True, nullable=False)
     wikipedia = sa.Column('wikipedia', sa.String(2048), nullable=True)
     website = sa.Column('website', sa.String(2048), nullable=True)
     founded_date = sa.Column('founded_date', sa.DateTime, nullable=True)
     logo = sa.Column('logo', sa.String(2048), nullable=True)
-    tse_number = sa.Column(sa.Integer, nullable=True)
+    tse_number = sa.Column(sa.Integer, index=True, nullable=True)
 
     def to_dict(self):
         return {
