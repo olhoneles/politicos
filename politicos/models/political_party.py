@@ -58,6 +58,7 @@ class PoliticalParty(Base):
         )
 
         db.add(political_party)
+        db.flush()
 
         logging.debug('Added political party: "%s"', political_party.siglum)
 
