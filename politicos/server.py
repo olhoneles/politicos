@@ -26,6 +26,7 @@ from politicos.handlers import BaseHandler
 from politicos.handlers.political_party import (
     PoliticalPartyHandler, AllPoliticalPartyHandler
 )
+from politicos.handlers.legislator import AllLegislatorsHandler
 
 
 def main():
@@ -62,6 +63,7 @@ class PoliticosApiServer(Server):
         handlers = [
             ('/political-party/?', AllPoliticalPartyHandler),
             ('/political-party/(%s)/?' % siglum_regex, PoliticalPartyHandler),
+            ('/legislators/?', AllLegislatorsHandler),
             ('/version/?', VersionHandler),
         ]
 
