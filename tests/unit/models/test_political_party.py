@@ -17,6 +17,7 @@
 
 from preggy import expect
 from mock import patch, call
+from sqlalchemy.exc import IntegrityError
 
 from politicos.models.political_party import PoliticalParty
 from tests.unit.base import ApiTestCase
@@ -70,3 +71,9 @@ class TestPoliticalParty(ApiTestCase):
         expect(logging_mock.mock_calls).to_include(
             call.debug('Added political party: "%s"', 'HMP')
         )
+
+    def test_cannot_add_political_party_twice(self):
+        PoliticalPartyFactory.create(siglum='HMP', name='Hevy Metal Party')
+
+        with expect.error_to_happen(IntegrityError):
+            PoliticalPartyFactory.create(siglum='HMP', name='Hevy Metal Party')

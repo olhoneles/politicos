@@ -19,6 +19,7 @@ from ujson import loads, dumps
 from preggy import expect
 from tornado.testing import gen_test
 from tornado.httpclient import HTTPError
+from sqlalchemy.exc import IntegrityError
 
 from tests.unit.base import ApiTestCase
 from tests.fixtures import PoliticalPartyFactory
@@ -97,6 +98,25 @@ class TestAllPoliticalPartyHandler(ApiTestCase):
         expect(response.code).to_equal(200)
         data = loads(response.body)
         expect(data.get('siglum')).to_equal('PHM')
+
+    @gen_test
+    def test_cannot_add_political_party_twice(self):
+        yield self.anonymous_fetch(
+            '/political-party/',
+            method='POST',
+            body=dumps({'name': 'Partido Heavy Metal', 'siglum': 'PHM'})
+        )
+
+        try:
+            yield self.anonymous_fetch(
+                '/political-party/',
+                method='POST',
+                body=dumps({'name': 'Partido Heavy Metal', 'siglum': 'PHM'})
+            )
+        except HTTPError as e:
+            expect(e).not_to_be_null()
+            expect(e.code).to_equal(500)
+            expect(e.response.reason).to_be_like('Internal Server Error')
 
     @gen_test
     def test_cannot_add_political_party_without_name(self):
