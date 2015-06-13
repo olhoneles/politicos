@@ -16,7 +16,6 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-import random
 from datetime import datetime
 
 import factory
@@ -26,6 +25,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 from politicos.models import PoliticalParty
 from politicos.models.legislator import Legislator
+from politicos.models.institution import Institution
+
 
 sqlalchemy_echo = logging.getLogger('nose').getEffectiveLevel() < logging.INFO
 engine = create_engine(
@@ -77,3 +78,12 @@ class LegislatorFactory(BaseFactory):
     gender = factory.Iterator(['M', 'F'])
     date_of_birth = datetime.now().date()
     about = factory.Sequence(lambda n: ' My About {0}'.format(n))
+
+
+class InstitutionFactory(BaseFactory):
+    class Meta:
+        model = Institution
+
+    siglum = factory.Sequence(lambda n: 'siglum {0}'.format(n))
+    name = factory.Sequence(lambda n: 'Institution {0}'.format(n))
+    logo = factory.Sequence(lambda n: 'http://i.com/p{0}.png'.format(n))
