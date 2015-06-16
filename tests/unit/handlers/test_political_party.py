@@ -19,7 +19,6 @@ from ujson import loads, dumps
 from preggy import expect
 from tornado.testing import gen_test
 from tornado.httpclient import HTTPError
-from sqlalchemy.exc import IntegrityError
 
 from tests.unit.base import ApiTestCase
 from tests.fixtures import PoliticalPartyFactory
