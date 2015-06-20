@@ -66,8 +66,8 @@ class PoliticosApiServer(Server):
         handlers = [
             ('/institutions/?', AllInstitutionsHandler),
             ('/institutions/(%s)/?' % siglum_regex, InstitutionHandler),
-            ('/political-party/?', AllPoliticalPartyHandler),
-            ('/political-party/(%s)/?' % siglum_regex, PoliticalPartyHandler),
+            ('/political-parties/?', AllPoliticalPartyHandler),
+            ('/political-parties/(%s)/?' % siglum_regex, PoliticalPartyHandler),
             ('/legislators/?', AllLegislatorsHandler),
             ('/version/?', VersionHandler),
         ]

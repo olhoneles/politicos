@@ -29,7 +29,7 @@ class TestPoliticalPartyHandler(ApiTestCase):
     @gen_test
     def test_cannot_get_political_party_info(self):
         response = yield self.anonymous_fetch(
-            '/political-party/PBA',
+            '/political-parties/PBA',
             method='GET'
         )
         expect(response.code).to_equal(200)
@@ -42,7 +42,7 @@ class TestPoliticalPartyHandler(ApiTestCase):
         PoliticalPartyFactory.create(name='Partido Blah', siglum='PBA')
 
         response = yield self.anonymous_fetch(
-            '/political-party/PBA',
+            '/political-parties/PBA',
             method='GET'
         )
         expect(response.code).to_equal(200)
@@ -57,7 +57,7 @@ class TestAllPoliticalPartyHandler(ApiTestCase):
     @gen_test
     def test_cannot_get_political_party_info(self):
         response = yield self.anonymous_fetch(
-            '/political-party/',
+            '/political-parties/',
             method='GET'
         )
 
@@ -78,7 +78,7 @@ class TestAllPoliticalPartyHandler(ApiTestCase):
             political_parties.append(party.to_dict())
 
         response = yield self.anonymous_fetch(
-            '/political-party/',
+            '/political-parties/',
             method='GET'
         )
 
@@ -90,7 +90,7 @@ class TestAllPoliticalPartyHandler(ApiTestCase):
     @gen_test
     def test_can_add_political_party(self):
         response = yield self.anonymous_fetch(
-            '/political-party/',
+            '/political-parties/',
             method='POST',
             body=dumps({'name': 'Partido Heavy Metal', 'siglum': 'PHM'})
         )
@@ -101,14 +101,14 @@ class TestAllPoliticalPartyHandler(ApiTestCase):
     @gen_test
     def test_cannot_add_political_party_twice(self):
         yield self.anonymous_fetch(
-            '/political-party/',
+            '/political-parties/',
             method='POST',
             body=dumps({'name': 'Partido Heavy Metal', 'siglum': 'PHM'})
         )
 
         try:
             yield self.anonymous_fetch(
-                '/political-party/',
+                '/political-parties/',
                 method='POST',
                 body=dumps({'name': 'Partido Heavy Metal', 'siglum': 'PHM'})
             )
@@ -121,7 +121,7 @@ class TestAllPoliticalPartyHandler(ApiTestCase):
     def test_cannot_add_political_party_without_name(self):
         try:
             yield self.anonymous_fetch(
-                '/political-party/',
+                '/political-parties/',
                 method='POST',
                 body=dumps({'siglum': 'PHM'})
             )
@@ -134,7 +134,7 @@ class TestAllPoliticalPartyHandler(ApiTestCase):
     def test_cannot_add_political_party_without_siglum(self):
         try:
             yield self.anonymous_fetch(
-                '/political-party/',
+                '/political-parties/',
                 method='POST',
                 body=dumps({'name': 'Partido Heavy Metal'})
             )
