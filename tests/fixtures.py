@@ -24,7 +24,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from slugify import slugify
 
-from politicos.models import PoliticalParty
+from politicos.models.political_party import PoliticalParty
 from politicos.models.legislator import Legislator
 from politicos.models.institution import Institution
 from politicos.models.political_office import PoliticalOffice

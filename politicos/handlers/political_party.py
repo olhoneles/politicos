@@ -19,7 +19,7 @@ from tornado.gen import coroutine
 
 from ujson import loads
 
-from politicos.models import PoliticalParty
+from politicos.models.political_party import PoliticalParty
 from politicos.handlers import BaseHandler
 
 
