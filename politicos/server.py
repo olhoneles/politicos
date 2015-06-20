@@ -30,6 +30,9 @@ from politicos.handlers.legislator import AllLegislatorsHandler
 from politicos.handlers.institution import (
     InstitutionHandler, AllInstitutionsHandler
 )
+from politicos.handlers.political_office import (
+    PoliticalOfficeHandler, AllPoliticalOfficesHandler
+)
 
 
 def main():
@@ -61,6 +64,7 @@ class PoliticosApiServer(Server):
 
     def get_handlers(self):
         siglum_regex = r'[A-Za-z0-9\.]+'
+        slug_regex = r'[a-z0-9-]+'
         # numbers_regex = r'[0-9]+'
 
         handlers = [
@@ -68,6 +72,8 @@ class PoliticosApiServer(Server):
             ('/institutions/(%s)/?' % siglum_regex, InstitutionHandler),
             ('/political-parties/?', AllPoliticalPartyHandler),
             ('/political-parties/(%s)/?' % siglum_regex, PoliticalPartyHandler),
+            ('/political-offices/?', AllPoliticalOfficesHandler),
+            ('/political-offices/(%s)/?' % slug_regex, PoliticalOfficeHandler),
             ('/legislators/?', AllLegislatorsHandler),
             ('/version/?', VersionHandler),
         ]

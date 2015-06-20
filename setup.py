@@ -65,6 +65,7 @@ Political data
         'mysql-python>=1.2.5,<1.3.0',
         'pycurl>=7.19.0,<7.20.0',
         'ujson>=1.33,<1.34.0',
+        'python-slugify>=1.1.2,<1.2.0',
     ],
     extras_require={
         'tests': tests_require,
