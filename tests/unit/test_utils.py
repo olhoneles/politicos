@@ -15,12 +15,16 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from datetime import datetime
 from unittest import TestCase
 
 from mock import patch, call
 from preggy import expect
 
-from politicos.utils import get_class, load_classes
+from politicos.utils import (
+    get_class, load_classes, date_to_timestamp, datetime_to_timestamp,
+    timestamp_to_date, timestamp_to_datetime
+)
 
 
 class TestUtils(TestCase):
@@ -92,3 +96,21 @@ class TestUtils(TestCase):
                 'blah.models.blah.Test'
             )
         )
+
+    def test_can_convert_date_to_timestamp(self):
+        dt = datetime.strptime('Jun 27 2015', '%b %d %Y').date()
+        expect(date_to_timestamp(dt)).to_equal(1435363200)
+
+    def test_can_convert_datetime_to_timestamp(self):
+        dt = datetime.strptime('Jun 27 2015 6:33PM', '%b %d %Y %I:%M%p')
+        expect(datetime_to_timestamp(dt)).to_equal(1435429980)
+
+    def test_can_convert_timestamp_to_date(self):
+        dt1 = timestamp_to_date(1435363200)
+        dt2 = datetime.strptime('Jun 27 2015', '%b %d %Y').date()
+        expect(dt1).to_equal(dt2)
+
+    def test_can_convert_timestamp_to_datetime(self):
+        dt1 = timestamp_to_datetime(1435429980)
+        dt2 = datetime.strptime('Jun 27 2015 6:33PM', '%b %d %Y %I:%M%p')
+        expect(dt1).to_equal(dt2)

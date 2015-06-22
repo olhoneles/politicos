@@ -16,7 +16,7 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import factory
 import factory.alchemy
@@ -28,6 +28,7 @@ from politicos.models.political_party import PoliticalParty
 from politicos.models.legislator import Legislator
 from politicos.models.institution import Institution
 from politicos.models.political_office import PoliticalOffice
+from politicos.models.legislature import Legislature
 
 
 sqlalchemy_echo = logging.getLogger('nose').getEffectiveLevel() < logging.INFO
@@ -97,3 +98,12 @@ class PoliticalOfficeFactory(BaseFactory):
 
     name = factory.Sequence(lambda n: 'name {0}'.format(n))
     slug = factory.LazyAttribute(lambda p: slugify(p.name))
+
+
+class LegislatureFactory(BaseFactory):
+    class Meta:
+        model = Legislature
+
+    institution = factory.SubFactory(InstitutionFactory)
+    date_start = datetime.utcnow().date()
+    date_end = (datetime.utcnow() + timedelta(days=10)).date()

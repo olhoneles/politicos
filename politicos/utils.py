@@ -15,7 +15,9 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import calendar
 import logging
+from datetime import datetime
 
 
 def get_class(klass):
@@ -57,3 +59,20 @@ def load_classes(classes=None, classes_to_load=None, default=None):
             )
 
     return classes
+
+
+def date_to_timestamp(dt):
+    aux = datetime.combine(dt, datetime.min.time())
+    return calendar.timegm(aux.utctimetuple())
+
+
+def datetime_to_timestamp(dt):
+    return calendar.timegm(dt.utctimetuple())
+
+
+def timestamp_to_date(timestamp):
+    return datetime.utcfromtimestamp(timestamp).date()
+
+
+def timestamp_to_datetime(timestamp):
+    return datetime.utcfromtimestamp(timestamp)

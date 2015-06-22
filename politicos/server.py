@@ -27,12 +27,14 @@ from politicos.handlers.political_party import (
     PoliticalPartyHandler, AllPoliticalPartyHandler
 )
 from politicos.handlers.legislator import AllLegislatorsHandler
+from politicos.handlers.legislature import AllLegislaturesHandler
 from politicos.handlers.institution import (
     InstitutionHandler, AllInstitutionsHandler
 )
 from politicos.handlers.political_office import (
     PoliticalOfficeHandler, AllPoliticalOfficesHandler
 )
+
 
 
 def main():
@@ -75,6 +77,7 @@ class PoliticosApiServer(Server):
             ('/political-offices/?', AllPoliticalOfficesHandler),
             ('/political-offices/(%s)/?' % slug_regex, PoliticalOfficeHandler),
             ('/legislators/?', AllLegislatorsHandler),
+            ('/legislatures/?', AllLegislaturesHandler),
             ('/version/?', VersionHandler),
         ]
 
