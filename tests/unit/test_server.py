@@ -34,7 +34,7 @@ class ApiServerTestCase(ApiTestCase):
         handlers = srv.get_handlers()
 
         expect(handlers).not_to_be_null()
-        expect(handlers).to_length(9)
+        expect(handlers).to_length(10)
 
     def test_server_plugins(self):
         srv = politicos.server.PoliticosApiServer()

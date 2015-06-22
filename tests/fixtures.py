@@ -29,6 +29,7 @@ from politicos.models.legislator import Legislator
 from politicos.models.institution import Institution
 from politicos.models.political_office import PoliticalOffice
 from politicos.models.legislature import Legislature
+from politicos.models.mandate import Mandate
 
 
 sqlalchemy_echo = logging.getLogger('nose').getEffectiveLevel() < logging.INFO
@@ -105,5 +106,15 @@ class LegislatureFactory(BaseFactory):
         model = Legislature
 
     institution = factory.SubFactory(InstitutionFactory)
+    date_start = datetime.utcnow().date()
+    date_end = (datetime.utcnow() + timedelta(days=10)).date()
+
+
+class MandateFactory(BaseFactory):
+    class Meta:
+        model = Mandate
+
+    legislator = factory.SubFactory(LegislatorFactory)
+    political_office = factory.SubFactory(PoliticalOfficeFactory)
     date_start = datetime.utcnow().date()
     date_end = (datetime.utcnow() + timedelta(days=10)).date()
