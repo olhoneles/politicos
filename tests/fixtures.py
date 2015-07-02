@@ -79,7 +79,7 @@ class LegislatorFactory(BaseFactory):
     website = factory.Sequence(lambda n: 'http://d{0}.com/'.format(n))
     email = factory.Sequence(lambda n: 'name@d{0}.com'.format(n))
     gender = factory.Iterator(['M', 'F'])
-    date_of_birth = datetime.now().date()
+    date_of_birth = datetime.utcnow().date()
     about = factory.Sequence(lambda n: ' My About {0}'.format(n))
 
 

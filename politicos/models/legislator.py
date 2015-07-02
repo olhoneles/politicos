@@ -20,6 +20,7 @@ import logging
 import sqlalchemy as sa
 
 from politicos.models import Base
+from politicos.utils import date_to_timestamp, timestamp_to_date
 
 
 class Legislator(Base):
@@ -41,19 +42,23 @@ class Legislator(Base):
             'website': self.website,
             'email': self.email,
             'gender': self.gender,
-            'date_of_birth': self.date_of_birth,
+            'date_of_birth': date_to_timestamp(self.date_of_birth),
             'about': self.about,
         }
 
     @classmethod
     def add_legislator(self, db, data):
+        date_of_birth = None
+        if data.get('date_of_birth'):
+            date_of_birth = timestamp_to_date(data.get('date_of_birth'))
+
         legislator = Legislator(
             name=data.get('name'),
             picture=data.get('picture'),
             website=data.get('website'),
             email=data.get('email'),
             gender=data.get('gender'),
-            date_of_birth=data.get('date_of_birth'),
+            date_of_birth=date_of_birth,
             about=data.get('about'),
         )
 

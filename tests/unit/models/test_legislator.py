@@ -21,6 +21,7 @@ from preggy import expect
 from mock import patch, call
 
 from politicos.models.legislator import Legislator
+from politicos.utils import date_to_timestamp
 from tests.unit.base import ApiTestCase
 from tests.fixtures import LegislatorFactory
 
@@ -60,19 +61,20 @@ class TestLegislator(ApiTestCase):
             'date_of_birth', 'about',
         ])
 
+        date_of_birth = date_to_timestamp(legislator.date_of_birth)
+
         expect(legislator_dict['name']).to_equal(legislator.name)
         expect(legislator_dict['picture']).to_equal(legislator.picture)
         expect(legislator_dict['website']).to_equal(legislator.website)
         expect(legislator_dict['email']).to_equal(legislator.email)
         expect(legislator_dict['gender']).to_equal(legislator.gender)
-        expect(legislator_dict['date_of_birth']).to_equal(
-            legislator.date_of_birth
-        )
+        expect(legislator_dict['date_of_birth']).to_equal(date_of_birth)
         expect(legislator_dict['about']).to_equal(legislator.about)
 
     @patch('politicos.models.legislator.logging')
     def test_can_add_legislator(self, logging_mock):
-        data = {'name': 'Marcelo Jorge Vieira'}
+        date_of_birth = date_to_timestamp(datetime.utcnow().date())
+        data = {'name': 'Marcelo Jorge Vieira', 'date_of_birth': date_of_birth}
         name = Legislator.add_legislator(self.db, data)
 
         expect(name).to_equal('Marcelo Jorge Vieira')

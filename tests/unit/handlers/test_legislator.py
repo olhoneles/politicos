@@ -30,7 +30,7 @@ class TestAllLegislatorsHandler(ApiTestCase):
     def test_can_get_all_legislators(self):
         legislators = []
         for x in range(5):
-            legislator = LegislatorFactory.create(date_of_birth=None)
+            legislator = LegislatorFactory.create()
             legislators.append(legislator.to_dict())
 
         response = yield self.anonymous_fetch(
