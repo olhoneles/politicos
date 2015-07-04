@@ -52,3 +52,6 @@ run:
 
 publish:
 	@python setup.py sdist upload
+
+
+.PHONY: coverage-html data data_test db drop drop_now drop_test focus kill_run list publish run setup sqltap test tox unit
