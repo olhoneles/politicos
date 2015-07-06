@@ -31,6 +31,7 @@ from politicos.models.political_office import PoliticalOffice
 from politicos.models.legislature import Legislature
 from politicos.models.mandate import Mandate
 from politicos.models.mandate_events_type import MandateEventsType
+from politicos.models.mandate_events import MandateEvents
 
 
 sqlalchemy_echo = logging.getLogger('nose').getEffectiveLevel() < logging.INFO
@@ -127,3 +128,12 @@ class MandateEventsTypeFactory(BaseFactory):
 
     name = factory.Sequence(lambda n: 'name {0}'.format(n))
     slug = factory.LazyAttribute(lambda p: slugify(p.name))
+
+
+class MandateEventsFactory(BaseFactory):
+    class Meta:
+        model = MandateEvents
+
+    mandate = factory.SubFactory(MandateFactory)
+    mandate_events_type = factory.SubFactory(MandateEventsTypeFactory)
+    date = datetime.utcnow().date()
