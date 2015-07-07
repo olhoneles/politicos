@@ -101,6 +101,7 @@ class TestAllInstitutionHandler(ApiTestCase):
         expect(response.code).to_equal(200)
         data = loads(response.body)
         expect(data.get('name')).to_equal('Heavy Metal Institution')
+        expect(data.get('siglum')).to_equal('HMI')
 
     @gen_test
     def test_cannot_add_institution_twice(self):

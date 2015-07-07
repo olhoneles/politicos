@@ -30,6 +30,12 @@ class Institution(Base):
     name = sa.Column('name', sa.String(255), unique=True, nullable=False)
     logo = sa.Column('logo', sa.String(2048), nullable=True)
 
+    def __str__(self):
+        return str('%s (%s)' % (self.siglum, self.name))
+
+    def __repr__(self):
+        return str(self)
+
     def to_dict(self):
         return {
             'siglum': self.siglum,
@@ -48,6 +54,6 @@ class Institution(Base):
         db.add(institution)
         db.flush()
 
-        logging.debug(u'Added institution: "%s"', institution.name)
+        logging.debug(u'Added institution: "%s"', str(institution))
 
         return institution

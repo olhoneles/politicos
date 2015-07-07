@@ -59,9 +59,9 @@ class TestInstitution(ApiTestCase):
 
         expect(institution.name).to_equal('Hevy Metal Institution')
         expect(institution.siglum).to_equal('HMI')
-        expect(logging_mock.mock_calls).to_include(
-            call.debug('Added institution: "%s"', 'Hevy Metal Institution')
-        )
+        expect(logging_mock.mock_calls).to_include(call.debug(
+            'Added institution: "%s"', 'HMI (Hevy Metal Institution)'
+        ))
 
     def test_cannot_add_institution_twice(self):
         InstitutionFactory.create(siglum='HMI', name='Hevy Metal Institution')
