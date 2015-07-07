@@ -35,6 +35,12 @@ class Legislator(Base):
     date_of_birth = sa.Column('date_of_birth', sa.Date, nullable=True)
     about = sa.Column('about', sa.Text(), nullable=True)
 
+    def __str__(self):
+        return str('%s' % self.name)
+
+    def __repr__(self):
+        return str(self)
+
     def to_dict(self):
         date_of_birth = None
         if self.date_of_birth:
@@ -69,6 +75,6 @@ class Legislator(Base):
         db.add(legislator)
         db.flush()
 
-        logging.debug('Added legislator: "%s"', legislator.name)
+        logging.debug('Added legislator: "%s"', str(legislator))
 
         return legislator
