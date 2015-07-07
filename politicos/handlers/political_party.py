@@ -72,5 +72,5 @@ class AllPoliticalPartyHandler(BaseHandler):
             'tse_number': post_data.get('tse_number'),
         }
 
-        siglum = PoliticalParty.add_political_party(self.db, data)
-        self.write_json({'siglum': siglum})
+        political_party = PoliticalParty.add_political_party(self.db, data)
+        self.write_json(political_party.to_dict())

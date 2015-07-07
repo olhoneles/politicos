@@ -65,12 +65,13 @@ class TestPoliticalParty(ApiTestCase):
     @patch('politicos.models.political_party.logging')
     def test_can_add_political_party(self, logging_mock):
         data = {'name': 'Hevy Metal Party', 'siglum': 'HMP'}
-        siglum = PoliticalParty.add_political_party(self.db, data)
+        political_party = PoliticalParty.add_political_party(self.db, data)
 
-        expect(siglum).to_equal('HMP')
-        expect(logging_mock.mock_calls).to_include(
-            call.debug('Added political party: "%s"', 'HMP (Hevy Metal Party)')
-        )
+        expect(political_party.name).to_equal('Hevy Metal Party')
+        expect(political_party.siglum).to_equal('HMP')
+        expect(logging_mock.mock_calls).to_include(call.debug(
+            'Added political party: "%s"', 'HMP (Hevy Metal Party)'
+        ))
 
     def test_cannot_add_political_party_twice(self):
         PoliticalPartyFactory.create(siglum='HMP', name='Hevy Metal Party')

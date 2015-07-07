@@ -68,4 +68,4 @@ class PoliticalParty(Base):
 
         logging.debug('Added political party: "%s"', str(political_party))
 
-        return political_party.siglum
+        return political_party
