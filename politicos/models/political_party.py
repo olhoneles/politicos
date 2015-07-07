@@ -34,6 +34,12 @@ class PoliticalParty(Base):
     logo = sa.Column('logo', sa.String(2048), nullable=True)
     tse_number = sa.Column(sa.Integer, index=True, nullable=True)
 
+    def __str__(self):
+        return str('%s (%s)' % (self.siglum, self.name))
+
+    def __repr__(self):
+        return str(self)
+
     def to_dict(self):
         return {
             'siglum': self.siglum,
@@ -60,6 +66,6 @@ class PoliticalParty(Base):
         db.add(political_party)
         db.flush()
 
-        logging.debug('Added political party: "%s"', political_party.siglum)
+        logging.debug('Added political party: "%s"', str(political_party))
 
         return political_party.siglum
