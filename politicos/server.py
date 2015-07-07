@@ -27,6 +27,9 @@ from politicos.handlers.political_party import (
     PoliticalPartyHandler, AllPoliticalPartyHandler
 )
 from politicos.handlers.legislator import AllLegislatorsHandler
+from politicos.handlers.legislator_events_type import (
+    LegislatorEventsTypeHandler, AllLegislatorEventsTypesHandler
+)
 from politicos.handlers.legislature import AllLegislaturesHandler
 from politicos.handlers.mandate import AllMandatesHandler
 from politicos.handlers.mandate_events import AllMandateEventsHandler
@@ -81,6 +84,8 @@ class PoliticosApiServer(Server):
             ('/political-offices/?', AllPoliticalOfficesHandler),
             ('/political-offices/(%s)/?' % slug_regex, PoliticalOfficeHandler),
             ('/legislators/?', AllLegislatorsHandler),
+            ('/legislator-events-types/?', AllLegislatorEventsTypesHandler),
+            ('/legislator-events-types/(%s)/?' % slug_regex, LegislatorEventsTypeHandler),
             ('/legislatures/?', AllLegislaturesHandler),
             ('/mandates/?', AllMandatesHandler),
             ('/mandate-events/?', AllMandateEventsHandler),
