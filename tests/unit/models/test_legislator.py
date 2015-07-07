@@ -71,6 +71,13 @@ class TestLegislator(ApiTestCase):
         expect(legislator_dict['date_of_birth']).to_equal(date_of_birth)
         expect(legislator_dict['about']).to_equal(legislator.about)
 
+    def test_can_convert_to_dict_with_none_date_of_birth(self):
+        legislator = LegislatorFactory.create()
+        legislator.date_of_birth = None
+        legislator_dict = legislator.to_dict()
+
+        expect(legislator_dict['date_of_birth']).to_be_null()
+
     @patch('politicos.models.legislator.logging')
     def test_can_add_legislator(self, logging_mock):
         date_of_birth = date_to_timestamp(datetime.utcnow().date())

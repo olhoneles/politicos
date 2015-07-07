@@ -36,13 +36,17 @@ class Legislator(Base):
     about = sa.Column('about', sa.Text(), nullable=True)
 
     def to_dict(self):
+        date_of_birth = None
+        if self.date_of_birth:
+            date_of_birth = date_to_timestamp(self.date_of_birth)
+
         return {
             'name': self.name,
             'picture': self.picture,
             'website': self.website,
             'email': self.email,
             'gender': self.gender,
-            'date_of_birth': date_to_timestamp(self.date_of_birth),
+            'date_of_birth': date_of_birth,
             'about': self.about,
         }
 
