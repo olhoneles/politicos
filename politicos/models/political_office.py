@@ -48,4 +48,4 @@ class PoliticalOffice(Base):
 
         logging.debug('Added political office: "%s"', political_office.name)
 
-        return political_office.name
+        return political_office

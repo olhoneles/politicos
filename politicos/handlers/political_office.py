@@ -63,5 +63,5 @@ class AllPoliticalOfficesHandler(BaseHandler):
 
         data = {'name': name}
 
-        name = PoliticalOffice.add_political_office(self.db, data)
-        self.write_json({'name': name})
+        political_office = PoliticalOffice.add_political_office(self.db, data)
+        self.write_json(political_office.to_dict())

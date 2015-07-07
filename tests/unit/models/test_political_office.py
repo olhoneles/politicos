@@ -47,9 +47,9 @@ class TestPoliticalOffice(ApiTestCase):
     @patch('politicos.models.political_office.logging')
     def test_can_add_political_office(self, logging_mock):
         data = {'name': 'Deputado Federal'}
-        name = PoliticalOffice.add_political_office(self.db, data)
+        political_office = PoliticalOffice.add_political_office(self.db, data)
 
-        expect(name).to_equal('Deputado Federal')
+        expect(political_office.name).to_equal('Deputado Federal')
         expect(logging_mock.mock_calls).to_include(
             call.debug('Added political office: "%s"', 'Deputado Federal')
         )

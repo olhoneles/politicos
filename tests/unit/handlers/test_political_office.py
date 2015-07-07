@@ -93,6 +93,7 @@ class TestAllPoliticalOfficesHandler(ApiTestCase):
         expect(response.code).to_equal(200)
         data = loads(response.body)
         expect(data.get('name')).to_equal('Deputado Estadual')
+        expect(data.get('slug')).to_equal('deputado-estadual')
 
     @gen_test
     def test_cannot_add_political_office_twice(self):
