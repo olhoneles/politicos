@@ -30,6 +30,12 @@ class PoliticalOffice(Base):
     name = sa.Column('name', sa.String(100), unique=True, nullable=False)
     slug = sa.Column('slug', sa.String(255), unique=True, nullable=False)
 
+    def __str__(self):
+        return str('%s' % self.name)
+
+    def __repr__(self):
+        return str(self)
+
     def to_dict(self):
         return {
             'name': self.name,
@@ -46,6 +52,6 @@ class PoliticalOffice(Base):
         db.add(political_office)
         db.flush()
 
-        logging.debug('Added political office: "%s"', political_office.name)
+        logging.debug('Added political office: "%s"', str(political_office))
 
         return political_office
