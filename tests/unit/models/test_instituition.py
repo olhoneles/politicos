@@ -55,9 +55,10 @@ class TestInstitution(ApiTestCase):
     @patch('politicos.models.institution.logging')
     def test_can_add_institution(self, logging_mock):
         data = {'name': 'Hevy Metal Institution', 'siglum': 'HMI'}
-        name = Institution.add_institution(self.db, data)
+        institution = Institution.add_institution(self.db, data)
 
-        expect(name).to_equal('Hevy Metal Institution')
+        expect(institution.name).to_equal('Hevy Metal Institution')
+        expect(institution.siglum).to_equal('HMI')
         expect(logging_mock.mock_calls).to_include(
             call.debug('Added institution: "%s"', 'Hevy Metal Institution')
         )

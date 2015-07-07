@@ -50,4 +50,4 @@ class Institution(Base):
 
         logging.debug(u'Added institution: "%s"', institution.name)
 
-        return institution.name
+        return institution

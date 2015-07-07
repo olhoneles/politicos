@@ -68,5 +68,5 @@ class AllInstitutionsHandler(BaseHandler):
             'logo': post_data.get('logo'),
         }
 
-        name = Institution.add_institution(self.db, data)
-        self.write_json({'name': name})
+        institution = Institution.add_institution(self.db, data)
+        self.write_json(institution.to_dict())
