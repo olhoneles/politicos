@@ -71,4 +71,4 @@ class Legislator(Base):
 
         logging.debug('Added legislator: "%s"', legislator.name)
 
-        return legislator.name
+        return legislator

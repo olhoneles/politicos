@@ -56,5 +56,5 @@ class AllLegislatorsHandler(BaseHandler):
             'about': post_data.get('about'),
         }
 
-        name = Legislator.add_legislator(self.db, data)
-        self.write_json({'name': name})
+        legislator = Legislator.add_legislator(self.db, data)
+        self.write_json(legislator.to_dict())

@@ -82,9 +82,9 @@ class TestLegislator(ApiTestCase):
     def test_can_add_legislator(self, logging_mock):
         date_of_birth = date_to_timestamp(datetime.utcnow().date())
         data = {'name': 'Marcelo Jorge Vieira', 'date_of_birth': date_of_birth}
-        name = Legislator.add_legislator(self.db, data)
+        legislator = Legislator.add_legislator(self.db, data)
 
-        expect(name).to_equal('Marcelo Jorge Vieira')
+        expect(legislator.name).to_equal('Marcelo Jorge Vieira')
         expect(logging_mock.mock_calls).to_include(
             call.debug('Added legislator: "%s"', 'Marcelo Jorge Vieira')
         )
