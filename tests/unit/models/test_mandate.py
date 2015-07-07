@@ -32,8 +32,8 @@ from tests.fixtures import (
 class TestMandate(ApiTestCase):
 
     def test_can_create_mandate(self):
-        date_start = datetime.now().date()
-        date_end = (datetime.now() + timedelta(days=10)).date()
+        date_start = datetime.utcnow().date()
+        date_end = (datetime.utcnow() + timedelta(days=10)).date()
         political_office = PoliticalOfficeFactory.create()
         legislator = LegislatorFactory.create()
 
@@ -99,8 +99,8 @@ class TestMandate(ApiTestCase):
         )
 
     def test_cannot_add_mandate_twice(self):
-        date_start = datetime.now().date()
-        date_end = (datetime.now() + timedelta(days=10)).date()
+        date_start = datetime.utcnow().date()
+        date_end = (datetime.utcnow() + timedelta(days=10)).date()
         political_office = PoliticalOfficeFactory.create()
         legislator = LegislatorFactory.create()
 

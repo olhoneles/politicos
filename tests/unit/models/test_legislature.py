@@ -30,8 +30,8 @@ from tests.fixtures import LegislatureFactory, InstitutionFactory
 class TestLegislature(ApiTestCase):
 
     def test_can_create_legislature(self):
-        date_start = datetime.now().date()
-        date_end = (datetime.now() + timedelta(days=10)).date()
+        date_start = datetime.utcnow().date()
+        date_end = (datetime.utcnow() + timedelta(days=10)).date()
         institution = InstitutionFactory.create()
 
         legislature = LegislatureFactory.create(
@@ -89,8 +89,8 @@ class TestLegislature(ApiTestCase):
         )
 
     def test_cannot_add_legislature_twice(self):
-        date_start = datetime.now().date()
-        date_end = (datetime.now() + timedelta(days=10)).date()
+        date_start = datetime.utcnow().date()
+        date_end = (datetime.utcnow() + timedelta(days=10)).date()
         institution = InstitutionFactory.create()
 
         LegislatureFactory.create(

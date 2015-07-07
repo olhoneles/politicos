@@ -29,7 +29,7 @@ from tests.fixtures import LegislatorFactory
 class TestLegislator(ApiTestCase):
 
     def test_can_create_legislator(self):
-        date = datetime.now().date()
+        date = datetime.utcnow().date()
 
         legislator = LegislatorFactory.create(
             name='Marcelo Jorge Vieira',

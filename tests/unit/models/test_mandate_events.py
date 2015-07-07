@@ -32,7 +32,7 @@ from tests.fixtures import (
 class TestMandateEvents(ApiTestCase):
 
     def test_can_create_mandate_events(self):
-        date = datetime.now().date()
+        date = datetime.utcnow().date()
         mandate_events_type = MandateEventsTypeFactory.create()
         mandate = MandateFactory.create()
 
@@ -90,7 +90,7 @@ class TestMandateEvents(ApiTestCase):
         )
 
     def test_cannot_add_mandate_events_twice(self):
-        date = datetime.now().date()
+        date = datetime.utcnow().date()
         mandate_events_type = MandateEventsTypeFactory.create()
         mandate = MandateFactory.create()
 
