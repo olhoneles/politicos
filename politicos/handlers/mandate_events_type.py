@@ -70,4 +70,4 @@ class AllMandateEventsTypesHandler(BaseHandler):
         mandate_events_type = MandateEventsType.add_mandate_events_type(
             self.db, data
         )
-        self.write_json({'mandate_events_type': mandate_events_type.to_dict()})
+        self.write_json(mandate_events_type.to_dict())

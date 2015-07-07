@@ -96,9 +96,7 @@ class TestAllPoliticalOfficesHandler(ApiTestCase):
         )
         expect(response.code).to_equal(200)
         data = loads(response.body)
-        expect(data.get('mandate_events_type').get('name')).to_equal(
-            'Assumiu cargo no executivo'
-        )
+        expect(data.get('name')).to_equal('Assumiu cargo no executivo')
 
     @gen_test
     def test_cannot_add_mandate_events_type_twice(self):
