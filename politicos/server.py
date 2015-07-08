@@ -81,18 +81,24 @@ class PoliticosApiServer(Server):
             ('/institutions/?', AllInstitutionsHandler),
             ('/institutions/(%s)/?' % siglum_regex, InstitutionHandler),
             ('/political-parties/?', AllPoliticalPartyHandler),
-            ('/political-parties/(%s)/?' % siglum_regex, PoliticalPartyHandler),
+            (
+                '/political-parties/(%s)/?' % siglum_regex,
+                PoliticalPartyHandler),
             ('/political-offices/?', AllPoliticalOfficesHandler),
             ('/political-offices/(%s)/?' % slug_regex, PoliticalOfficeHandler),
             ('/legislators/?', AllLegislatorsHandler),
             ('/legislator-events/?', AllLegislatorEventsHandler),
             ('/legislator-events-types/?', AllLegislatorEventsTypesHandler),
-            ('/legislator-events-types/(%s)/?' % slug_regex, LegislatorEventsTypeHandler),
+            (
+                '/legislator-events-types/(%s)/?' % slug_regex,
+                LegislatorEventsTypeHandler),
             ('/legislatures/?', AllLegislaturesHandler),
             ('/mandates/?', AllMandatesHandler),
             ('/mandate-events/?', AllMandateEventsHandler),
             ('/mandate-events-types/?', AllMandateEventsTypesHandler),
-            ('/mandate-events-types/(%s)/?' % slug_regex, MandateEventsTypeHandler),
+            (
+                '/mandate-events-types/(%s)/?' % slug_regex,
+                MandateEventsTypeHandler),
             ('/version/?', VersionHandler),
         ]
 
@@ -113,9 +119,11 @@ class PoliticosApiServer(Server):
             from sqltap import sqltap
             self.sqltap = sqltap.start()
 
-        self.application.error_handlers = [
-            handler(self.application.config) for handler in self._load_error_handlers()
-        ]
+        self.application.error_handlers = []
+        for handler in self._load_error_handlers():
+            self.application.error_handlers.append(
+                handler(self.application.config)
+            )
         self.application.http_client = AsyncHTTPClient(io_loop=io_loop)
 
     def _load_error_handlers(self):
