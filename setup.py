@@ -66,6 +66,7 @@ Political data
         'pycurl>=7.19.0,<7.20.0',
         'ujson>=1.33,<1.34.0',
         'python-slugify>=1.1.2,<1.2.0',
+        'sparqlwrapper>=1.6.4,1.7.0',
     ],
     extras_require={
         'tests': tests_require,
