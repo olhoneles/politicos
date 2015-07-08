@@ -53,5 +53,7 @@ run:
 publish:
 	@python setup.py sdist upload
 
+clean_pycs:
+	@find . -name "*.pyc" -delete
 
-.PHONY: coverage-html data data_test db drop drop_now drop_test focus kill_run list publish run setup sqltap test tox unit
+.PHONY: clean_pycs coverage-html data data_test db drop drop_now drop_test focus kill_run list publish run setup sqltap test tox unit
