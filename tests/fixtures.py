@@ -54,7 +54,8 @@ class BaseFactory(factory.alchemy.SQLAlchemyModelFactory):
 
     @classmethod
     def _create(cls, target_class, *args, **kwargs):
-        instance = super(BaseFactory, cls)._create(target_class, *args, **kwargs)
+        instance = \
+            super(BaseFactory, cls)._create(target_class, *args, **kwargs)
         if (hasattr(cls, '_meta')
            and cls._meta is not None
            and hasattr(cls._meta, 'sqlalchemy_session')
