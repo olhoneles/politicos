@@ -18,13 +18,13 @@ def upgrade():
     op.create_table(
         'legislator',
         sa.Column('id', sa.Integer, primary_key=True),
-        sa.Column('name', sa.String(255), nullable=False),
-        sa.Column('picture', sa.String(2048), nullable=True),
-        sa.Column('website', sa.String(2048), nullable=True),
-        sa.Column('email', sa.String(2048), nullable=True),
-        sa.Column('gender', sa.String(1), nullable=True),
+        sa.Column('name', sa.Unicode(255), nullable=False),
+        sa.Column('picture', sa.Unicode(2048), nullable=True),
+        sa.Column('website', sa.Unicode(2048), nullable=True),
+        sa.Column('email', sa.Unicode(2048), nullable=True),
+        sa.Column('gender', sa.Unicode(1), nullable=True),
         sa.Column('date_of_birth', sa.Date, nullable=True),
-        sa.Column('about', sa.Text(), nullable=True),
+        sa.Column('about', sa.UnicodeText(), nullable=True),
     )
 
 

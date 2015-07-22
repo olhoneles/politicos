@@ -18,8 +18,8 @@ def upgrade():
     op.create_table(
         'mandate_events_type',
         sa.Column('id', sa.Integer, primary_key=True),
-        sa.Column('name', sa.String(100), nullable=False),
-        sa.Column('slug', sa.String(255), nullable=False),
+        sa.Column('name', sa.Unicode(100), nullable=False),
+        sa.Column('slug', sa.Unicode(255), nullable=False),
     )
 
     op.create_unique_constraint('uk_name', 'mandate_events_type', ['name'])

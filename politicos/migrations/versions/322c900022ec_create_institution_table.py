@@ -18,9 +18,9 @@ def upgrade():
     op.create_table(
         'institution',
         sa.Column('id', sa.Integer, primary_key=True),
-        sa.Column('name', sa.String(255), nullable=False),
-        sa.Column('siglum', sa.String(15), nullable=False),
-        sa.Column('logo', sa.String(2048), nullable=True),
+        sa.Column('name', sa.Unicode(255), nullable=False),
+        sa.Column('siglum', sa.Unicode(15), nullable=False),
+        sa.Column('logo', sa.Unicode(2048), nullable=True),
     )
 
     op.create_unique_constraint('uk_siglum', 'institution', ['siglum'])

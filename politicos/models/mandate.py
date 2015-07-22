@@ -42,9 +42,9 @@ class Mandate(Base):
     )
 
     def __str__(self):
-        return str('%s: %s until %s' % (
+        return unicode('%s: %s until %s' % (
             self.legislator.name, self.date_start, self.date_end
-        ))
+        )).encode('utf-8')
 
     def __repr__(self):
         return str(self)
@@ -72,6 +72,6 @@ class Mandate(Base):
         db.add(mandate)
         db.flush()
 
-        logging.debug('Added mandate: "%s"', str(mandate))
+        logging.debug(u'Added mandate: "%s"', str(mandate))
 
         return mandate

@@ -25,12 +25,16 @@ drop:
 	@$(MAKE) drop_now
 
 drop_now:
-	@mysql -u root -e "DROP DATABASE IF EXISTS politicos; CREATE DATABASE IF NOT EXISTS politicos"
+	@mysql -u root -e "DROP DATABASE IF EXISTS politicos; \
+		CREATE DATABASE IF NOT EXISTS politicos \
+		DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci"
 	@echo "DB RECREATED"
 
 drop_test:
 	@-cd tests/ && alembic downgrade base
-	@mysql -u root -e "DROP DATABASE IF EXISTS test_politicos; CREATE DATABASE IF NOT EXISTS test_politicos"
+	@mysql -u root -e "DROP DATABASE IF EXISTS test_politicos; \
+		CREATE DATABASE IF NOT EXISTS test_politicos \
+		DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci"
 	@echo "DB RECREATED"
 
 data:

@@ -26,16 +26,16 @@ class PoliticalParty(Base):
     __tablename__ = 'political_party'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    siglum = sa.Column('siglum', sa.String(15), unique=True, nullable=False)
-    name = sa.Column('name', sa.String(255), unique=True, nullable=False)
-    wikipedia = sa.Column('wikipedia', sa.String(2048), nullable=True)
-    website = sa.Column('website', sa.String(2048), nullable=True)
+    siglum = sa.Column('siglum', sa.Unicode(15), unique=True, nullable=False)
+    name = sa.Column('name', sa.Unicode(255), unique=True, nullable=False)
+    wikipedia = sa.Column('wikipedia', sa.Unicode(2048), nullable=True)
+    website = sa.Column('website', sa.Unicode(2048), nullable=True)
     founded_date = sa.Column('founded_date', sa.DateTime, nullable=True)
-    logo = sa.Column('logo', sa.String(2048), nullable=True)
+    logo = sa.Column('logo', sa.Unicode(2048), nullable=True)
     tse_number = sa.Column(sa.Integer, index=True, nullable=True)
 
     def __str__(self):
-        return str('%s (%s)' % (self.siglum, self.name))
+        return unicode('%s (%s)' % (self.siglum, self.name)).encode('utf-8')
 
     def __repr__(self):
         return str(self)
@@ -66,6 +66,6 @@ class PoliticalParty(Base):
         db.add(political_party)
         db.flush()
 
-        logging.debug('Added political party: "%s"', str(political_party))
+        logging.debug(u'Added political party: "%s"', str(political_party))
 
         return political_party

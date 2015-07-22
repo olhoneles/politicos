@@ -17,12 +17,12 @@ import sqlalchemy as sa
 def upgrade():
     op.add_column(
         'political_party',
-        sa.Column('website', type_=sa.String(2048), nullable=True)
+        sa.Column('website', type_=sa.Unicode(2048), nullable=True)
     )
 
     op.add_column(
         'political_party',
-        sa.Column('logo', type_=sa.String(2048), nullable=True)
+        sa.Column('logo', type_=sa.Unicode(2048), nullable=True)
     )
 
     op.add_column(

@@ -36,9 +36,9 @@ class Legislature(Base):
     institution = relationship('Institution', foreign_keys=[institution_id])
 
     def __str__(self):
-        return str('%s: %s until %s' % (
+        return unicode('%s: %s until %s' % (
             self.institution.name, self.date_start, self.date_end
-        ))
+        )).encode('utf-8')
 
     def __repr__(self):
         return str(self)
@@ -64,6 +64,6 @@ class Legislature(Base):
         db.add(legislature)
         db.flush()
 
-        logging.debug('Added legislature: "%s"', str(legislature))
+        logging.debug(u'Added legislature: "%s"', str(legislature))
 
         return legislature

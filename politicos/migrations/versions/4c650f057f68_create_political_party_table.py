@@ -18,9 +18,9 @@ def upgrade():
     op.create_table(
         'political_party',
         sa.Column('id', sa.Integer, primary_key=True),
-        sa.Column('name', sa.String(2048), nullable=False),
-        sa.Column('siglum', sa.String(2048), nullable=False),
-        sa.Column('wikipedia', sa.String(2048), nullable=True),
+        sa.Column('name', sa.Unicode(2048), nullable=False),
+        sa.Column('siglum', sa.Unicode(2048), nullable=False),
+        sa.Column('wikipedia', sa.Unicode(2048), nullable=True),
     )
 
 

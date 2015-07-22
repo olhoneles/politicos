@@ -27,16 +27,16 @@ class Legislator(Base):
     __tablename__ = 'legislator'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    name = sa.Column('name', sa.String(200), nullable=False)
-    picture = sa.Column('picture', sa.String(2048), nullable=True)
-    website = sa.Column('website', sa.String(2048), nullable=True)
-    email = sa.Column('email', sa.String(2048), nullable=True)
-    gender = sa.Column('gender', sa.String(1), nullable=True)
+    name = sa.Column('name', sa.Unicode(200), nullable=False)
+    picture = sa.Column('picture', sa.Unicode(2048), nullable=True)
+    website = sa.Column('website', sa.Unicode(2048), nullable=True)
+    email = sa.Column('email', sa.Unicode(2048), nullable=True)
+    gender = sa.Column('gender', sa.Unicode(1), nullable=True)
     date_of_birth = sa.Column('date_of_birth', sa.Date, nullable=True)
-    about = sa.Column('about', sa.Text(), nullable=True)
+    about = sa.Column('about', sa.UnicodeText(), nullable=True)
 
     def __str__(self):
-        return str('%s' % self.name)
+        return unicode('%s' % self.name).encode('utf-8')
 
     def __repr__(self):
         return str(self)
@@ -75,6 +75,6 @@ class Legislator(Base):
         db.add(legislator)
         db.flush()
 
-        logging.debug('Added legislator: "%s"', str(legislator))
+        logging.debug(u'Added legislator: "%s"', str(legislator))
 
         return legislator

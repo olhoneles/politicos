@@ -43,7 +43,9 @@ class LegislatorEvents(Base):
     legislator = relationship('Legislator', foreign_keys=[legislator_id])
 
     def __str__(self):
-        return str('%s: %s' % (self.date, self.legislator_events_type.name))
+        return unicode('%s: %s' % (
+            self.date, self.legislator_events_type.name
+        )).encode('utf-8')
 
     def __repr__(self):
         return str(self)
@@ -68,6 +70,6 @@ class LegislatorEvents(Base):
         db.add(legislator_events)
         db.flush()
 
-        logging.debug('Added legislator events: "%s"', str(legislator_events))
+        logging.debug(u'Added legislator events: "%s"', str(legislator_events))
 
         return legislator_events

@@ -27,11 +27,11 @@ class LegislatorEventsType(Base):
     __tablename__ = 'legislator_events_type'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    name = sa.Column('name', sa.String(100), unique=True, nullable=False)
-    slug = sa.Column('slug', sa.String(255), unique=True, nullable=False)
+    name = sa.Column('name', sa.Unicode(100), unique=True, nullable=False)
+    slug = sa.Column('slug', sa.Unicode(255), unique=True, nullable=False)
 
     def __str__(self):
-        return str('%s' % self.name)
+        return unicode('%s' % self.name).encode('utf-8')
 
     def __repr__(self):
         return str(self)
@@ -53,7 +53,7 @@ class LegislatorEventsType(Base):
         db.flush()
 
         logging.debug(
-            'Added legislator events type: "%s"', str(legislator_events_type)
+            u'Added legislator events type: "%s"', str(legislator_events_type)
         )
 
         return legislator_events_type

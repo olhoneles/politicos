@@ -16,7 +16,7 @@ import sqlalchemy as sa
 
 def upgrade():
     op.alter_column(
-        'political_party', 'name', type_=sa.String(255), nullable=False
+        'political_party', 'name', type_=sa.Unicode(255), nullable=False
     )
 
     op.create_index('idx_founded_date', 'political_party', ['founded_date'])
@@ -30,5 +30,5 @@ def downgrade():
     op.drop_constraint('uk_name', 'political_party', type_='unique')
 
     op.alter_column(
-        'political_party', 'name', type_=sa.String(2048), nullable=False
+        'political_party', 'name', type_=sa.Unicode(2048), nullable=False
     )

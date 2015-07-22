@@ -27,11 +27,11 @@ class PoliticalOffice(Base):
     __tablename__ = 'political_office'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    name = sa.Column('name', sa.String(100), unique=True, nullable=False)
-    slug = sa.Column('slug', sa.String(255), unique=True, nullable=False)
+    name = sa.Column('name', sa.Unicode(100), unique=True, nullable=False)
+    slug = sa.Column('slug', sa.Unicode(255), unique=True, nullable=False)
 
     def __str__(self):
-        return str('%s' % self.name)
+        return unicode('%s' % self.name).encode('utf-8')
 
     def __repr__(self):
         return str(self)
@@ -52,6 +52,6 @@ class PoliticalOffice(Base):
         db.add(political_office)
         db.flush()
 
-        logging.debug('Added political office: "%s"', str(political_office))
+        logging.debug(u'Added political office: "%s"', str(political_office))
 
         return political_office

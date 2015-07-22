@@ -43,7 +43,9 @@ class MandateEvents(Base):
     mandate = relationship('Mandate', foreign_keys=[mandate_id])
 
     def __str__(self):
-        return str('%s: %s' % (self.date, self.mandate_events_type.name))
+        return unicode('%s: %s' % (
+            self.date, self.mandate_events_type.name
+        )).encode('utf-8')
 
     def __repr__(self):
         return str(self)
@@ -68,6 +70,6 @@ class MandateEvents(Base):
         db.add(mandate_events)
         db.flush()
 
-        logging.debug('Added mandate events: "%s"', str(mandate_events))
+        logging.debug(u'Added mandate events: "%s"', str(mandate_events))
 
         return mandate_events

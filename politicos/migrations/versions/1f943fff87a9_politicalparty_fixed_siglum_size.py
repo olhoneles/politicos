@@ -16,11 +16,11 @@ import sqlalchemy as sa
 
 def upgrade():
     op.alter_column(
-        'political_party', 'siglum', type_=sa.String(15), nullable=False
+        'political_party', 'siglum', type_=sa.Unicode(15), nullable=False
     )
 
 
 def downgrade():
     op.alter_column(
-        'political_party', 'siglum', type_=sa.String(2048), nullable=False
+        'political_party', 'siglum', type_=sa.Unicode(2048), nullable=False
     )

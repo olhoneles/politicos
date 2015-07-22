@@ -26,12 +26,12 @@ class Institution(Base):
     __tablename__ = 'institution'
 
     id = sa.Column(sa.Integer, primary_key=True)
-    siglum = sa.Column('siglum', sa.String(15), unique=True, nullable=False)
-    name = sa.Column('name', sa.String(255), unique=True, nullable=False)
-    logo = sa.Column('logo', sa.String(2048), nullable=True)
+    siglum = sa.Column('siglum', sa.Unicode(15), unique=True, nullable=False)
+    name = sa.Column('name', sa.Unicode(255), unique=True, nullable=False)
+    logo = sa.Column('logo', sa.Unicode(2048), nullable=True)
 
     def __str__(self):
-        return str('%s (%s)' % (self.siglum, self.name))
+        return unicode('%s (%s)' % (self.siglum, self.name)).encode('utf-8')
 
     def __repr__(self):
         return str(self)
