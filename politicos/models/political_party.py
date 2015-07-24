@@ -69,3 +69,21 @@ class PoliticalParty(Base):
         logging.debug(u'Added political party: "%s"', str(political_party))
 
         return political_party
+
+    @classmethod
+    def get_political_party_by_name(self, db, name):
+        return db.query(PoliticalParty) \
+            .filter(PoliticalParty.name == name) \
+            .first()
+
+    @classmethod
+    def update_political_party(self, db, political_party, data):
+        db.query(PoliticalParty) \
+            .filter(PoliticalParty.id == political_party.id) \
+            .update(data)
+
+        db.flush()
+
+        logging.debug(u'Updated political party: "%s"', str(political_party))
+
+        return political_party

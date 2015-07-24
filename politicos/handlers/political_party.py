@@ -74,3 +74,36 @@ class AllPoliticalPartyHandler(BaseHandler):
 
         political_party = PoliticalParty.add_political_party(self.db, data)
         self.write_json(political_party.to_dict())
+
+    @coroutine
+    def put(self):
+        post_data = loads(self.request.body)
+
+        name = post_data.get('name')
+        siglum = post_data.get('siglum')
+
+        if not name or not siglum:
+            self.set_status(400, 'Invalid political party.')
+            return
+
+        political_party = PoliticalParty.get_political_party_by_name(
+            self.db, name
+        )
+
+        if not political_party:
+            self.set_status(404, 'Political party not found.')
+            return
+
+        data = {
+            'name': name,
+            'siglum': siglum,
+            'wikipedia': post_data.get('wikipedia'),
+            'website': post_data.get('website'),
+            'founded_date': post_data.get('founded_date'),
+            'logo': post_data.get('logo'),
+            'tse_number': post_data.get('tse_number'),
+        }
+
+        political_party = PoliticalParty.update_political_party(
+            self.db, political_party, data
+        )
