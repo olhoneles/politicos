@@ -54,3 +54,8 @@ docs/_build/
 
 # SQLtap
 report.html
+
+# settings
+local.config
+
+logs

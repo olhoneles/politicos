@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load markup_tags %}
+{% load staticfiles %}
+
+{% block head_css %}
+    <link rel="stylesheet" href="{% static "css/pygments_default.css" %}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+
+  <h2>Exemplos</h2>
+
+  <div>
+{% filter apply_markup:"markdown" %}
+
+#### cURL
+
+##### Pegando a lista de partidos políticos:
+
+    #!bash
+    curl http://politicos.olhoneles.org/api/v0/political-parties/
+
+##### Result:
+
+    #!json
+    {
+        "meta":{
+            "limit":20,
+            "next":"/api/v0/political-parties/?limit=20&offset=20",
+            "offset":0,
+            "previous":null,
+            "total_count":1
+        },
+        "objects":[
+            {
+                "founded_date":null,
+                "id":1,
+                "logo":null,
+                "name":"Heavy Metal",
+                "resource_uri":"/api/v0/political-parties/1/",
+                "siglum":"HV",
+                "tse_number":666,
+                "website":null,
+                "wikipedia":null
+            }
+        ]
+    }
+
+{% endfilter %}
+
+  </div>
+
+</div> <!-- container -->
+
+{% endblock %}
+

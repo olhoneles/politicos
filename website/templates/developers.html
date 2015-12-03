@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+
+      <div class="row">
+        <div class="col-lg-12">
+
+            <h2>Desenvolvedores</h2>
+
+            <h3>
+                <a href="https://djangoproject.com" target="_blank">Django</a> +
+                <a href="https://django-tastypie.readthedocs.org" target="_blank">Tastypie</a> +
+                <a href="https://github.com/concentricsky/django-tastypie-swagger" target="_blank">Swagger</a>
+            </h3>
+
+            <p>A base da <strong>Politicos API</strong> é o framework Django.
+            Por isso optamos em usar o Tastypie, que é um framework Python
+            poderoso e altamente personalizável de criação de APIs. Também usamos
+            o Swagger, que é uma representação simples mas poderosa de uma API RESTful.</p>
+
+            <p>O endereço da API é:</p>
+            <pre><strong>http://politicos.olhoneles.org/api/v0/</strong></pre>
+
+            <p>Você pode ver todas as rotas da API no item <a href="/api/v0">Demonstração</a> no menu superior.</p>
+
+            <p>Alguns exemplos de rotas:</p>
+            <pre>http://politicos.olhoneles.org/api/v0/<strong>educations/</strong></pre>
+            <pre>http://politicos.olhoneles.org/api/v0/<strong>candidacies/?election_round__election__year=2014</strong></pre>
+
+            <h3>Software Livre</h3>
+
+            <p>O código da API é livre e licenciado sob a Affero GPL. Você pode pegar o código executando o seguinte comando:</p>
+            <pre>git clone https://github.com/olhoneles/politicos.git</pre>
+
+
+            <h3>Contribuindo</h3>
+
+            <p>Vamos deixar as contribuições para este projeto tão fácil e transparente quanto possível. Portanto
+            faça um fork do repositório e nos envie suas melhorias.</p>
+
+            <p>Usamos o GitHub para armazenar o código, acompanhar as questões e solicitações de recursos.</p>
+
+
+            <h3>Ajuda</h3>
+
+            <p>Você pode abrir um <a href="https://github.com/olhoneles/politicos/issues" target="_blank">ticket via GitHub</a>,
+            mas se preferir temos uma <a href="http://listas.olhoneles.org/cgi-bin/mailman/listinfo/montanha-dev" target="_blank">lista de email</a>
+            do projeto e também estamos online via IRC no canal <strong>#olhoneles</strong> na Freenode.</p>
+
+        </div>
+      </div>
+
+    </div> <!-- /container -->
+{% endblock %}
