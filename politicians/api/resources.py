@@ -15,12 +15,19 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import operator
+
 from django.conf import settings
+from django.conf.urls import url
+from django.db.models import Q
+from django.utils.html import escape, strip_tags
 from tastypie import fields
 from tastypie.resources import ModelResource
 from tastypie.cache import SimpleCache
 from tastypie.throttle import CacheThrottle
 from tastypie.resources import ALL, ALL_WITH_RELATIONS
+from tastypie.paginator import Paginator
+from tastypie.utils import trailing_slash
 
 from politicians.models import (
     PoliticalParty, Institution, Politician, PoliticianEventType,
@@ -38,6 +45,34 @@ class BasicResource(ModelResource):
         cache = SimpleCache(timeout=settings.RESOURCE_CACHE_TIMEOUT)
         throttle = CacheThrottle(throttle_at=settings.RESOURCE_MAX_REQUESTS)
         allowed_methods = ['get']
+
+    def get_filters(self, request):
+        query = escape(strip_tags(request.GET.get('q', '')))
+        return [Q(name__icontains=word) for word in query.split(' ')]
+
+    def basic_search(self, request, results, method, **kwargs):
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        paginator = Paginator(
+            request.GET,
+            results,
+            resource_uri=self._build_reverse_url(method, kwargs=kwargs)
+        )
+
+        objects = []
+        for result in paginator.page().get('objects'):
+            bundle = self.build_bundle(obj=result, request=request)
+            objects.append(self.full_dehydrate(bundle))
+
+        object_list = {
+            'objects': objects,
+            'meta': paginator.page().get('meta'),
+        }
+
+        self.log_throttled_access(request)
+        return self.create_response(request, object_list)
 
 
 class CountryResource(BasicResource):
@@ -85,6 +120,34 @@ class CityResource(BasicResource):
             'state': ALL_WITH_RELATIONS,
             'name': ALL,
         }
+        extra_actions = [{
+            'name': 'search',
+            'http_method': 'GET',
+            'resource_type': 'list',
+            'summary': 'Retrieve a list of cities',
+            'fields': {
+                'q': {
+                    'type': 'string',
+                    'required': False,
+                    'description': 'Search query terms'
+                }
+            }
+        }]
+
+    def prepend_urls(self):
+        return [url(
+            r'^(?P<resource_name>{0})/search{1}$'.format(
+                self._meta.resource_name, trailing_slash()
+            ),
+            self.wrap_view('city_search'),
+            name="city_get_search"
+         )]
+
+    def city_search(self, request, **kwargs):
+        filters = self.get_filters(request)
+        results = City.objects.filter(reduce(operator.and_, filters))
+        url = 'city_get_search'
+        return self.basic_search(request, results, url, **kwargs)
 
 
 class ElectionRoundResource(BasicResource):
@@ -217,6 +280,34 @@ class OccupationResource(BasicResource):
             'name': ALL,
             'slug': ALL,
         }
+        extra_actions = [{
+            'name': 'search',
+            'http_method': 'GET',
+            'resource_type': 'list',
+            'summary': 'Retrieve a list of occupations',
+            'fields': {
+                'q': {
+                    'type': 'string',
+                    'required': False,
+                    'description': 'Search query terms'
+                }
+            }
+        }]
+
+    def prepend_urls(self):
+        return [url(
+            r'^(?P<resource_name>{0})/search{1}$'.format(
+                self._meta.resource_name, trailing_slash()
+            ),
+            self.wrap_view('occupation_search'),
+            name="occupation_get_search"
+         )]
+
+    def occupation_search(self, request, **kwargs):
+        filters = self.get_filters(request)
+        results = Occupation.objects.filter(reduce(operator.and_, filters))
+        url = 'occupation_get_search'
+        return self.basic_search(request, results, url, **kwargs)
 
 
 class MaritalStatusResource(BasicResource):
@@ -374,6 +465,34 @@ class PoliticianResource(BasicResource):
             'nationality': ALL_WITH_RELATIONS,
             'candidacies': ALL_WITH_RELATIONS,
         }
+        extra_actions = [{
+            'name': 'search',
+            'http_method': 'GET',
+            'resource_type': 'list',
+            'summary': 'Retrieve a list of politicians',
+            'fields': {
+                'q': {
+                    'type': 'string',
+                    'required': False,
+                    'description': 'Search query terms'
+                }
+            }
+        }]
+
+    def prepend_urls(self):
+        return [url(
+            r'^(?P<resource_name>{0})/search{1}$'.format(
+                self._meta.resource_name, trailing_slash()
+            ),
+            self.wrap_view('politician_search'),
+            name="politician_get_search"
+         )]
+
+    def politician_search(self, request, **kwargs):
+        filters = self.get_filters(request)
+        results = Politician.objects.filter(reduce(operator.and_, filters))
+        url = 'politician_get_search'
+        return self.basic_search(request, results, url, **kwargs)
 
     def apply_filters(self, request, applicable_filters):
         resource = super(PoliticianResource, self)
