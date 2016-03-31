@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load elections_tag %}
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -72,14 +73,8 @@
                 </div>
                 <div class="col-lg-4">
                     <h3>Conteúdo</h3>
-                    <p>Os dados usados pelo site são públicos e foram extraídos de sites oficiais.</p>
-                    <p>
-                        Todo o conteúdo original está disponível sob a licença
-                        <a href="http://creativecommons.org/licenses/by/3.0/deed.pt_BR" target="_blank">Creative Commons Attribution 3.0</a>
-                        <a href="http://creativecommons.org/licenses/by/3.0/deed.pt_BR" target="_blank">
-                            <img src="http://i.creativecommons.org/l/by/3.0/80x15.png" width="80" height="15" alt="Creative Commons BY 3.0">
-                        </a>
-                    </p>
+                    <p>Os dados usados neste site são públicos e foram extraídos de sites oficiais.</p>
+                    {% show_footer_elections %}
                 </div>
             </div>
         </div>
