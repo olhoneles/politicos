@@ -55,6 +55,9 @@ docs/_build/
 # SQLtap
 report.html
 
+# VIM
+*.swp
+
 # settings
 local.config
 
