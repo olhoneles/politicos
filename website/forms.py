@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (c) 2015, Marcelo Jorge Vieira <metal@alucinados.com>
+# Copyright (c) 2016, Marcelo Jorge Vieira <metal@alucinados.com>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Affero General Public License as
@@ -15,13 +15,28 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from django.conf.urls import patterns, url
+from django import forms
+from captcha.fields import ReCaptchaField
 
 
-urlpatterns = patterns(
-    'website.views',
-    url(r'^$', 'home', name='home'),
-    url(r'^examples/$', 'examples', name='examples'),
-    url(r'^developers/$', 'developers', name='developers'),
-    url(r'^contact-us/$', 'contact_us', name='contact-us'),
-)
+class ContactUsForm(forms.Form):
+
+    name = forms.CharField(
+        label=u'Nome',
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Seu nome'})
+    )
+
+    email = forms.EmailField(
+        label=u'Email',
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Seu email'})
+   )
+
+    message = forms.CharField(
+        label=u'Mensagem',
+        required=True,
+        widget=forms.Textarea(attrs={'placeholder': 'Sua mensagem', 'rows': 5})
+    )
+
+    captcha = ReCaptchaField(attrs={'theme': 'clean'})

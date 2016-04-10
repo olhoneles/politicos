@@ -54,6 +54,7 @@ DEFAULT_INSTALLED_APPS = (
     'django_markup',
     'politicians',
     'website',
+    'captcha',
     'tastypie',
     'tastypie_swagger',
     'cacheops',
@@ -214,3 +215,8 @@ DEFAULT_CACHEOPS = {
 CACHEOPS = conf.get('CACHEOPS', DEFAULT_CACHEOPS)
 
 CACHEOPS_DEGRADE_ON_FAILURE = True
+
+RECAPTCHA_PUBLIC_KEY = conf.get('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = conf.get('RECAPTCHA_PRIVATE_KEY')
+
+CONTACT_US_EMAIL = conf.get('CONTACT_US_EMAIL', '')

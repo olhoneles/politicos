@@ -15,8 +15,12 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
+from django.core.mail import send_mail
 from django.template import RequestContext
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
+
+from forms import ContactUsForm
 
 
 def home(request):
@@ -30,3 +34,39 @@ def examples(request):
 def developers(request):
     return render_to_response('developers.html', RequestContext(request, {}))
 
+
+def contact_us(request):
+    contact_us_form = ContactUsForm(request.POST or None)
+    success_message = ''
+
+    if request.POST and contact_us_form.is_valid():
+        subject = '[Politicos API]: Fale Conosco'
+
+        message = (
+            'Nome: {0}\nEmail: {1}\nIP: {2}\nMensagem:\n\n{3}').format(
+                contact_us_form.cleaned_data['name'],
+                contact_us_form.cleaned_data['email'],
+                request.META['REMOTE_ADDR'],
+                contact_us_form.cleaned_data['message']
+            )
+
+        from_field = '{0} <{1}>'.format(
+            contact_us_form.cleaned_data['name'],
+            contact_us_form.cleaned_data['email']
+        )
+
+        send_mail(subject, message, from_field, [settings.CONTACT_US_EMAIL])
+
+        success_message = (
+            """Sua mensagem foi enviada com sucesso. """
+            """Em breve entraremos em contato!"""
+        )
+
+        contact_us_form = ContactUsForm(None)
+
+    c = {
+        'contact_us_form': contact_us_form,
+        'success_message': success_message
+    }
+
+    return render(request, 'contact_us.html', c)

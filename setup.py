@@ -56,6 +56,7 @@ Political data
         'django-cors-headers>=1.1.0,<1.2.0',
         'django-cacheops>=2.4.3,<2.5.0',
         'django-extensions>=1.6.1,<1.7.0',
+        'django-recaptcha>=1.0.5,<1.1.0',
         'derpconf>=0.7.3,<0.8.0',
         'Pygments>=2.0.2,<2.1.0',
         'psycopg2>=2.6.1,<2.7.0',
