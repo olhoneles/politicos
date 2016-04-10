@@ -31,8 +31,8 @@ from politicians.models import (
     PoliticalParty, Institution, PoliticalOffice, Politician,
     Mandate, Ethnicity, Education, PoliticianAlternativeName,
     PoliticianEventType, PoliticianEvent, PoliticianPoliticalParty,
-    Candidacy, Election, CandidacyStatus, City, State, Country,
-    MaritalStatus, Nationality, Occupation
+    Candidacy, Election, CandidacyStatus, City, State, MaritalStatus,
+    Nationality, Occupation
 )
 
 
