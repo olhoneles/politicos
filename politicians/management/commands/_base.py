@@ -354,7 +354,7 @@ class Politicos(Base):
             state = State.objects.cache().get(siglum=item.get('state_of_birth'))
         except:
             state = None
-        place_of_birth = name=item.get('place_of_birth')
+        place_of_birth = item.get('place_of_birth')
 
         try:
             politician = Politician(
