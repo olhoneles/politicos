@@ -124,7 +124,7 @@ class CityResource(BasicResource):
             'name': 'search',
             'http_method': 'GET',
             'resource_type': 'list',
-            'description': 'Search endpoint',
+            'summary': 'Retrieve a list of cities',
             'fields': {
                 'q': {
                     'type': 'string',
@@ -284,7 +284,7 @@ class OccupationResource(BasicResource):
             'name': 'search',
             'http_method': 'GET',
             'resource_type': 'list',
-            'description': 'Search endpoint',
+            'summary': 'Retrieve a list of occupations',
             'fields': {
                 'q': {
                     'type': 'string',
@@ -469,7 +469,7 @@ class PoliticianResource(BasicResource):
             'name': 'search',
             'http_method': 'GET',
             'resource_type': 'list',
-            'description': 'Search endpoint',
+            'summary': 'Retrieve a list of politicians',
             'fields': {
                 'q': {
                     'type': 'string',
