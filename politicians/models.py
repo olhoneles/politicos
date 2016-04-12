@@ -625,7 +625,7 @@ class Candidacy(models.Model):
 
     election_round = models.ForeignKey('ElectionRound')
 
-    politician = models.ForeignKey('Politician')
+    politician = models.ForeignKey('Politician', related_name='candidacies')
 
     elected = models.BooleanField(verbose_name=_('Elected'))
 
