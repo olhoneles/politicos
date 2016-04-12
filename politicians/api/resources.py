@@ -375,6 +375,10 @@ class PoliticianResource(BasicResource):
             'candidacies': ALL_WITH_RELATIONS,
         }
 
+    def apply_filters(self, request, applicable_filters):
+        resource = super(PoliticianResource, self)
+        return resource.apply_filters(request, applicable_filters).distinct()
+
 
 class MandateEventTypeResource(BasicResource):
 
