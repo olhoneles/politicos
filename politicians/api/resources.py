@@ -347,6 +347,15 @@ class PoliticianResource(BasicResource):
         full=True,
     )
 
+    candidacies = fields.ToManyField(
+        'politicians.api.resources.CandidacyResource',
+        'candidacies',
+        related_name='candidacies',
+        null=True,
+        blank=True,
+        full=True,
+    )
+
     class Meta(BasicResource.Meta):
         resource_name = 'politicians'
         queryset = Politician.objects.all()
@@ -363,6 +372,7 @@ class PoliticianResource(BasicResource):
             'alternative_names': ALL_WITH_RELATIONS,
             'occupation': ALL_WITH_RELATIONS,
             'nationality': ALL_WITH_RELATIONS,
+            'candidacies': ALL_WITH_RELATIONS,
         }
 
 
@@ -425,6 +435,7 @@ class CandidacyResource(BasicResource):
         'politician',
         null=True,
         full=True,
+        use_in='list',
     )
 
     state = fields.ToOneField(
