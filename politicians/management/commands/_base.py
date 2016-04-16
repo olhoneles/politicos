@@ -186,8 +186,9 @@ class Politicos(Base):
         except Election.DoesNotExist:
             cls.raise_error('Election not found: {0}'.format(year))
 
-        states = [(x.siglum, x.name) for x in State.objects.all()]
-        states = ((u'BR', u'Brasil'),) + tuple(states)
+        # states = [(x.siglum, x.name) for x in State.objects.all()]
+        # states = ((u'BR', u'Brasil'),) + tuple(states)
+        states = ((u'BR', u'Brasil'),)
 
         if settings.TSE_CONCURRENCY <= 1:
             for state in states:
@@ -351,27 +352,40 @@ class Politicos(Base):
             state = None
         place_of_birth = name=item.get('place_of_birth')
 
-        try:
-            politician = Politician(
-                name=item.get('name'),
-                cpf=item.get('cpf'),
-                picture=item.get('picture'),
-                gender=item.get('gender')[:1],
-                date_of_birth=item.get('date_of_birth'),
-                marital_status=marital_status,
-                nationality=nationality,
-                place_of_birth=place_of_birth,
-                state=state,
-                email=email,
-                education=education,
-                ethnicity=ethnicity,
-                occupation=occupation,
-            )
-            politician.save()
-            cls.logger.debug('Added Politician: %s', str(politician))
-        except Exception as e:
-            cls.logger.error('On save Politician. Details: %s', str(e))
-            return None
+        # FIXME: 2002 election
+        if not item.get('cpf'):
+            try:
+                politician = Politician.objects.get(
+                    name=item.get('name'),
+                    place_of_birth=place_of_birth,
+                    state=state,
+                )
+                cls.logger.debug('Politician already exist: %s', str(politician))
+            except Politician.DoesNotExist:
+                cls.logger.error('Error on get politician: %s', item.get('name'))
+                return
+        else:
+            try:
+                politician = Politician(
+                    name=item.get('name'),
+                    cpf=item.get('cpf'),
+                    picture=item.get('picture'),
+                    gender=item.get('gender')[:1],
+                    date_of_birth=item.get('date_of_birth'),
+                    marital_status=marital_status,
+                    nationality=nationality,
+                    place_of_birth=place_of_birth,
+                    state=state,
+                    email=email,
+                    education=education,
+                    ethnicity=ethnicity,
+                    occupation=occupation,
+                )
+                politician.save()
+                cls.logger.debug('Added Politician: %s', str(politician))
+            except Exception as e:
+                cls.logger.error('On save Politician. Details: %s', str(e))
+                return None
 
         try:
             lan, _ = PoliticianAlternativeName.objects.get_or_create(

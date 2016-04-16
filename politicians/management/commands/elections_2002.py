@@ -38,20 +38,6 @@ class Politicos2002(Politicos):
             political_office=cls.formatter(data[9]),
             name=cls.formatter(data[10]),
             politician_id=cls.formatter(data[11]),
-            cpf=cls.formatter(data[13]),
-            alternative_name=cls.formatter(data[14]),
-            candidacy_status=cls.formatter(data[16]),
-            political_party_siglum=data[18],
-            political_party_name=cls.formatter(data[19]),
-            occupation=cls.formatter(data[25]),
-            date_of_birth=None,
-            gender=data[30],
-            education=cls.formatter(data[32]),
-            marital_status=cls.formatter(data[34]),
-            nationality=cls.formatter(data[36]),
-            state_of_birth=data[37],
-            place_of_birth=cls.formatter(data[39]),
-            status=cls.formatter(data[42]),
         )
         item.update(
             picture=cls.get_picture(
@@ -59,8 +45,42 @@ class Politicos2002(Politicos):
                 item.get('state_siglum'),
             )
         )
-        return item
 
+        if state_siglum == 'BR': #  President
+            item.update(
+                cpf=None,
+                alternative_name=cls.formatter(data[13]),
+                candidacy_status=cls.formatter(data[15]),
+                political_party_siglum=data[17],
+                political_party_name=cls.formatter(data[18]),
+                occupation=cls.formatter(data[24]),
+                date_of_birth=None,
+                gender=data[29],
+                education=cls.formatter(data[31]),
+                marital_status=cls.formatter(data[33]),
+                nationality=cls.formatter(data[35]),
+                state_of_birth=data[36],
+                place_of_birth=cls.formatter(data[38]),
+                status=cls.formatter(data[41]),
+            )
+        else:
+            item.update(
+                cpf=cls.formatter(data[13]),
+                alternative_name=cls.formatter(data[14]),
+                candidacy_status=cls.formatter(data[16]),
+                political_party_siglum=data[18],
+                political_party_name=cls.formatter(data[19]),
+                occupation=cls.formatter(data[25]),
+                date_of_birth=None,
+                gender=data[30],
+                education=cls.formatter(data[32]),
+                marital_status=cls.formatter(data[34]),
+                nationality=cls.formatter(data[36]),
+                state_of_birth=data[37],
+                place_of_birth=cls.formatter(data[39]),
+                status=cls.formatter(data[41]),
+            )
+        return item
 
 class Command(PoliticosCommand):
 

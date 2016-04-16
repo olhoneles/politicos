@@ -49,7 +49,7 @@ class Politicos2000(Politicos):
             state_of_birth=data[37],
             place_of_birth=cls.formatter(data[39]),
             picture=None,
-            status=cls.formatter(data[42]),
+            status=cls.formatter(data[41]),
         )
         return item
 
