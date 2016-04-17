@@ -55,7 +55,7 @@ class PoliticianAdmin(admin.ModelAdmin):
     model = Politician
     form = PoliticianForm
     list_display = ['__str__', 'cpf', 'date_of_birth']
-    list_filter = ['ethnicity', 'education']
+    list_filter = ['gender', 'ethnicity', 'education']
     exclude = ['alternative_names']
     search_fields = ['name']
     inlines = [PoliticianPoliticalPartyInline, PoliticianEventInline]
