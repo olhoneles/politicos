@@ -533,6 +533,7 @@ class Politician(models.Model):
         choices=(
             ('F', _('Female')),
             ('M', _('Male')),
+            ('N', _('Uninformed')),
         ),
         blank=True,
         null=True,
