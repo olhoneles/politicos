@@ -628,6 +628,10 @@ class Candidacy(models.Model):
 
     politician = models.ForeignKey('Politician', related_name='candidacies')
 
+    political_party = models.ForeignKey(
+        'PoliticalParty', blank=True, null=True
+    )
+
     elected = models.BooleanField(verbose_name=_('Elected'))
 
     state = models.ForeignKey('State', blank=True, null=True)

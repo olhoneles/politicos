@@ -281,6 +281,10 @@ class Politicos(Base):
             name=item.get('candidacy_status')
         )
 
+        political_party = cls.get_political_party(
+            item.get('political_party_siglum')
+        )
+
         political_office = cls.add_political_office(item)
 
         institution = cls.add_institution(item, political_office)
@@ -294,6 +298,7 @@ class Politicos(Base):
 
         candidacy, created = Candidacy.objects.get_or_create(
             politician=politician,
+            political_party=political_party,
             election_round=election_round,
             elected=elected,
             state=state,
@@ -423,10 +428,15 @@ class Politicos(Base):
         return institution
 
     @classmethod
-    def add_politician_political_party(cls, item, politician, election):
-        pp_siglum = item.get('political_party_siglum').replace(' ', '')
-        political_party = PoliticalParty.get_by_siglum(pp_siglum)
+    def get_political_party(cls, siglum):
+        pp_siglum = siglum.replace(' ', '')
+        return PoliticalParty.get_by_siglum(pp_siglum)
 
+    @classmethod
+    def add_politician_political_party(cls, item, politician, election):
+        political_party = cls.get_political_party(
+            item.get('political_party_siglum')
+        )
         if not political_party:
             cls.logger.error(
                 'Political Party not found: %s (%s)',
