@@ -18,7 +18,6 @@
 
 from django.db import models
 from django.utils.translation import ugettext as _
-from django.utils.text import slugify
 
 
 class Country(models.Model):
@@ -32,12 +31,6 @@ class Country(models.Model):
     siglum = models.CharField(
         max_length=15,
         verbose_name=_('Siglum'),
-        unique=True,
-    )
-
-    slug = models.SlugField(
-        verbose_name=_('Slug'),
-        max_length=255,
         unique=True,
     )
 
@@ -61,11 +54,6 @@ class Country(models.Model):
     def __unicode__(self):
         return u'{0}'.format(self.name)
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.name)
-        super(Country, self).save(*args, **kwargs)
-
 
 class State(models.Model):
 
@@ -80,12 +68,6 @@ class State(models.Model):
     siglum = models.CharField(
         max_length=15,
         verbose_name=_('Siglum'),
-        unique=True,
-    )
-
-    slug = models.SlugField(
-        verbose_name=_('Slug'),
-        max_length=255,
         unique=True,
     )
 
@@ -108,11 +90,6 @@ class State(models.Model):
 
     def __unicode__(self):
         return u'{0}'.format(self.name)
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.name)
-        super(State, self).save(*args, **kwargs)
 
 
 class City(models.Model):
@@ -387,12 +364,6 @@ class Ethnicity(models.Model):
         unique=True,
     )
 
-    slug = models.SlugField(
-        verbose_name=_('Slug'),
-        max_length=255,
-        unique=True,
-    )
-
     class Meta:
         verbose_name = _('Ethnicity')
         verbose_name_plural = _('Ethnicities')
@@ -401,23 +372,12 @@ class Ethnicity(models.Model):
     def __unicode__(self):
         return u'{0}'.format(self.name)
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.name)
-        super(Ethnicity, self).save(*args, **kwargs)
-
 
 class MaritalStatus(models.Model):
 
     name = models.CharField(
         max_length=255,
         verbose_name=_('Full Name'),
-        unique=True,
-    )
-
-    slug = models.SlugField(
-        verbose_name=_('Slug'),
-        max_length=255,
         unique=True,
     )
 
@@ -429,23 +389,12 @@ class MaritalStatus(models.Model):
     def __unicode__(self):
         return u'{0}'.format(self.name)
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.name)
-        super(MaritalStatus, self).save(*args, **kwargs)
-
 
 class Nationality(models.Model):
 
     name = models.CharField(
         max_length=255,
         verbose_name=_('Name'),
-        unique=True,
-    )
-
-    slug = models.SlugField(
-        verbose_name=_('Slug'),
-        max_length=255,
         unique=True,
     )
 
@@ -457,23 +406,12 @@ class Nationality(models.Model):
     def __unicode__(self):
         return u'{0}'.format(self.name)
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.name)
-        super(Nationality, self).save(*args, **kwargs)
-
 
 class Occupation(models.Model):
 
     name = models.CharField(
         max_length=255,
         verbose_name=_('Name'),
-        unique=True,
-    )
-
-    slug = models.SlugField(
-        verbose_name=_('Slug'),
-        max_length=255,
         unique=True,
     )
 
@@ -484,11 +422,6 @@ class Occupation(models.Model):
 
     def __unicode__(self):
         return u'{0}'.format(self.name)
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.name)
-        super(Occupation, self).save(*args, **kwargs)
 
 
 class Politician(models.Model):
@@ -668,12 +601,6 @@ class PoliticianEventType(models.Model):
         unique=True,
     )
 
-    slug = models.SlugField(
-        verbose_name=_('Slug'),
-        max_length=255,
-        unique=True,
-    )
-
     class Meta:
         verbose_name = _('Politician Event Type')
         verbose_name_plural = _('Politician Event Types')
@@ -681,11 +608,6 @@ class PoliticianEventType(models.Model):
 
     def __unicode__(self):
         return u'{0}'.format(self.name)
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.name)
-        super(PoliticianEventType, self).save(*args, **kwargs)
 
 
 class PoliticianEvent(models.Model):
@@ -727,12 +649,6 @@ class PoliticalOffice(models.Model):
         unique=True,
     )
 
-    slug = models.SlugField(
-        verbose_name=_('Slug'),
-        max_length=255,
-        unique=True,
-    )
-
     term = models.IntegerField(verbose_name=_('Term'))
 
     description = models.TextField(
@@ -762,23 +678,12 @@ class PoliticalOffice(models.Model):
         except PoliticalOffice.DoesNotExist:
             return None
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.name)
-        super(PoliticalOffice, self).save(*args, **kwargs)
-
 
 class MandateEventType(models.Model):
 
     name = models.CharField(
         max_length=255,
         verbose_name=_('Name'),
-        unique=True,
-    )
-
-    slug = models.SlugField(
-        verbose_name=_('Slug'),
-        max_length=255,
         unique=True,
     )
 
@@ -789,11 +694,6 @@ class MandateEventType(models.Model):
 
     def __unicode__(self):
         return u'{0}'.format(self.name)
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.name)
-        super(MandateEventType, self).save(*args, **kwargs)
 
 
 class MandateEvent(models.Model):

@@ -15,8 +15,6 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from django.utils.text import slugify
-
 from politicians.management.commands._base import PoliticosCommand
 from politicians.models import MandateEventType
 
@@ -37,10 +35,7 @@ class Command(PoliticosCommand):
 
         for item in items:
             try:
-                mandate_event_type = MandateEventType(
-                    name=item,
-                    slug=slugify(item)
-                )
+                mandate_event_type = MandateEventType(name=item)
                 mandate_event_type.save()
                 self.logger.info('Added mandate event type: "%s"', item)
             except Exception as e:

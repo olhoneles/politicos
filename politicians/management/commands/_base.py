@@ -343,8 +343,8 @@ class Politicos(Base):
         )
 
         try:
-            occupation_slug = slugify(item.get('occupation'))
-            occupation = Occupation.objects.cache().get(slug=occupation_slug)
+            occupation_name = item.get('occupation')
+            occupation = Occupation.objects.cache().get(name=occupation_name)
         except:
             occupation = Occupation(name=item.get('occupation'))
             occupation.save()

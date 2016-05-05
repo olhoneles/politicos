@@ -16,7 +16,6 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.db import IntegrityError
-from django.utils.text import slugify
 
 from politicians.management.commands._base import PoliticosCommand
 from politicians.models import PoliticalOffice
@@ -48,7 +47,6 @@ class Command(PoliticosCommand):
                 political_office = PoliticalOffice(
                     name=item.get('name'),
                     term=item.get('term'),
-                    slug=slugify(item.get('name')),
                 )
                 political_office.save()
                 self.logger.info(

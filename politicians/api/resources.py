@@ -48,7 +48,6 @@ class CountryResource(BasicResource):
         filtering = {
             'name': ALL,
             'siglum': ALL,
-            'slug': ALL,
         }
 
 
@@ -66,7 +65,6 @@ class StateResource(BasicResource):
         filtering = {
             'name': ALL,
             'siglum': ALL,
-            'slug': ALL,
         }
 
 
@@ -147,7 +145,6 @@ class PoliticalOfficeResource(BasicResource):
         queryset = PoliticalOffice.objects.all()
         filtering = {
             'name': ALL,
-            'slug': ALL,
         }
 
 
@@ -204,7 +201,6 @@ class NationalityResource(BasicResource):
         queryset = Nationality.objects.all()
         filtering = {
             'name': ALL,
-            'slug': ALL,
         }
 
 
@@ -215,7 +211,6 @@ class OccupationResource(BasicResource):
         queryset = Occupation.objects.all()
         filtering = {
             'name': ALL,
-            'slug': ALL,
         }
 
 
@@ -226,7 +221,6 @@ class MaritalStatusResource(BasicResource):
         queryset = MaritalStatus.objects.all()
         filtering = {
             'name': ALL,
-            'slug': ALL,
         }
 
 
@@ -256,7 +250,6 @@ class PoliticianEventTypeResource(BasicResource):
         resource_name = 'politician-event-types'
         queryset = PoliticianEventType.objects.all()
         filtering = {
-            'slug': ALL,
             'name': ALL,
         }
 
@@ -386,7 +379,6 @@ class MandateEventTypeResource(BasicResource):
         resource_name = 'mandate-event-types'
         queryset = MandateEventType.objects.all()
         filtering = {
-            'slug': ALL,
             'name': ALL,
         }
 
