@@ -434,7 +434,7 @@ class Politician(models.Model):
     cpf = models.CharField(
         verbose_name=_('CPF'),
         max_length=11,
-        unique=True,
+        db_index=True,
     )
 
     picture = models.URLField(
