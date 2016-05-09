@@ -443,19 +443,11 @@ class Politicos(Base):
                 item.get('political_party_name'),
                 item.get('political_party_siglum')
             )
+            return
 
-        try:
-            pp = PoliticianPoliticalParty.objects.get(
-                politician=politician,
-                political_party=political_party
-            )
-            created = False
-        except PoliticianPoliticalParty.DoesNotExist:
-            pp = PoliticianPoliticalParty(
-                politician=politician,
-                political_party=political_party
-            )
-            created = True
+        pp, created = PoliticianPoliticalParty.objects.cache().get_or_create(
+            politician=politician, political_party=political_party
+        )
 
         if created or not pp.date_start or election.year < pp.date_start.year:
             date = '01/01/{0}'.format(election.year)
