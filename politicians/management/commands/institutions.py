@@ -24,6 +24,10 @@ from politicians.management.commands._base import PoliticosCommand
 from politicians.models import Institution, PoliticalOffice, State
 
 
+# FIXME: Verify CPF
+# http://postgresqlbr.blogspot.com.br/2008/06/validao-de-cpf-com-pl-pgsql.html
+
+
 class Command(PoliticosCommand):
 
     def formatter(self, name):

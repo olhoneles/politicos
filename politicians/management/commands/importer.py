@@ -28,6 +28,7 @@ from politicians.models import (
     MaritalStatus, Nationality, Occupation
 )
 
+# http://stackoverflow.com/questions/11005036/does-postgresql-support-accent-insensitive-collations
 
 columns_2014 = [
     'DATA_GERACAO',
@@ -154,7 +155,20 @@ class Command(BaseCommand):
                 CALLED ON NULL INPUT
                 SECURITY DEFINER
                 COST 100;
-        ''')
+            ''')
+
+    def create_siglum_function(self):
+        print 'Creating siglum function'
+        with closing(connection.cursor()) as cursor:
+            cursor.execute('''
+                CREATE OR REPLACE FUNCTION public.siglum(col text)
+                RETURNS text AS
+                $body$
+                SELECT string_agg(col, '')
+                FROM (SELECT left(unnest(string_to_array(col, ' ')), 1) col) t
+                $body$
+                language 'sql'
+            ''')
 
     def convert_file(self, source, target):
         # iconv -f latin1 -t utf-8 consulta_cand_2012_SP.txt > blah.txt
@@ -236,7 +250,7 @@ class Command(BaseCommand):
         # self.import_tse_data()
         # self.create_indexes()
         # self.create_to_date_function()
-        self.insert_data()
+        # self.insert_data()
 
     def import_tse_data(self):
         elections = Election.objects.all()
@@ -252,15 +266,6 @@ class Command(BaseCommand):
                     self.copy_data(election.year)
                 except Exception as e:
                     print e
-
-        """
-        year = 2004
-        state = 'MG'
-        print 'Starting state {0}'.format(state)
-        file_name = '/home/metal/Desktop/eleicoes/{0}/consulta_cand_{0}/consulta_cand_{0}_{1}.txt'.format(year, state)
-        self.convert_file(file_name, '/home/metal/Desktop/blah.txt')
-        self.copy_data(year)
-        """
 
     def copy_data(self, year):
         if year == 2014:
@@ -281,9 +286,12 @@ class Command(BaseCommand):
             'sigla_uf', 'descricao_ue', 'descricao_estado_civil',
             'descricao_cor_raca', 'descricao_nacionalidade',
             'desc_sit_tot_turno', 'des_situacao_candidatura',
-            'nome_urna_candidato',
+            'nome_urna_candidato', 'sigla_partido', 'descricao_cargo',
+            'descricao_sexo'
         ]
-        integer_indexes = ['codigo_ocupacao', 'codigo_sexo']
+        integer_indexes = [
+            'codigo_ocupacao', 'ano_eleicao', 'codigo_cargo',
+        ]
 
         print 'Creating indexes...'
         with closing(connection.cursor()) as cursor:
@@ -313,8 +321,9 @@ class Command(BaseCommand):
             print 'Inserting alternative names'
             cursor.execute('''
                 INSERT INTO politicians_politicianalternativename(name)
-                SELECT lower(nome_urna_candidato)
+                SELECT lower(nome_urna_candidato) as name
                 FROM tse_csv2
+                WHERE nome_urna_candidato != ''
                 GROUP BY nome_urna_candidato;
             ''')
 
@@ -359,6 +368,7 @@ class Command(BaseCommand):
                 GROUP BY tc.descricao_ue, tc.sigla_uf;
             ''')
             """
+
             print 'Inserting politician'
             cursor.execute('''
                 INSERT INTO politicians_politician(
@@ -377,7 +387,7 @@ class Command(BaseCommand):
                 SELECT
                     LOWER(tc.nome_candidato) AS name,
                     tc.cpf_candidato AS cpf,
-                    CASE WHEN @tc.codigo_sexo = 2 THEN 'M' WHEN @tc.codigo_sexo = 4 THEN 'F' ELSE 'N' END AS gender,
+                    SUBSTRING(tc.descricao_sexo, 1, 1) AS gender,
                     LOWER(tc.nome_municipio_nascimento) AS place_of_birth,
                     my_to_date(tc.data_nascimento, 'DD/MM/YYYY') AS date_of_birth,
                     pet.id AS ethnicity_id,
@@ -385,7 +395,7 @@ class Command(BaseCommand):
                     st.id AS state_id,
                     mt.id AS marital_status_id,
                     ped.id AS education_id,
-                    LOWER(tc.email)
+                    LOWER(tc.email) AS email
                 FROM tse_csv2 tc
                     INNER JOIN (SELECT MIN(id) AS id, cpf_candidato FROM tse_csv2 GROUP BY cpf_candidato) tc2 ON tc2.id = tc.id
                     FULL OUTER JOIN politicians_nationality nat ON LOWER(nat.name) = LOWER(tc.descricao_nacionalidade)
@@ -397,19 +407,125 @@ class Command(BaseCommand):
                     tc.cpf_candidato DESC;
             ''')
 
-            """
             print 'Inserting politician alternative names'
             cursor.execute('''
                 INSERT INTO politicians_politician_alternative_names(
-                    politician_id,
-                    politicianalternativename_id
+                    politicianalternativename_id,
+                    politician_id
                 )
                 SELECT
-                    (SELECT id FROM politicians_politician pp WHERE pp.cpf = tc.cpf_candidato AND pp.name = tc.nome_candidato) as politician_id,
-                    (SELECT id FROM politicians_politicianalternativename pa WHERE pa.name = tc.nome_urna_candidato) as politicianalternativename_id,
+                    pa.id as politicianalternativename_id,
+                    pp.id as politician_id
                 FROM tse_csv2 tc
+                    INNER JOIN (SELECT MIN(id) AS id, cpf_candidato FROM tse_csv2 GROUP BY cpf_candidato) tc2 ON tc2.id = tc.id
+                    INNER JOIN politicians_politicianalternativename pa ON LOWER(pa.name) = LOWER(tc.nome_urna_candidato)
+                    INNER JOIN politicians_politician pp ON LOWER(pp.cpf) = LOWER(tc.cpf_candidato)
             ''')
+
+
             """
+            print 'Inserting institution "Vereador"'
+            cursor.execute('''
+                INSERT INTO politicians_institution(name, siglum, state_id)
+                SELECT
+                    'Camara Municipal ' || LOWER(tc.descricao_ue),
+                    'CM' || siglum(tc.descricao_ue),
+                    pst.id AS state_id
+                FROM tse_csv2 tc
+                    FULL OUTER JOIN politicians_state pst ON LOWER(pst.siglum) = LOWER(tc.sigla_uf)
+                WHERE  codigo_cargo = 13
+                GROUP BY tc.descricao_ue, pst.id
+            ''')
+
+            print 'Inserting institution "Prefeito"'
+            cursor.execute('''
+                INSERT INTO politicians_institution(name, siglum, state_id)
+                SELECT
+                    'Prefeitura Municipal ' || LOWER(descricao_ue),
+                    'PM' || siglum(descricao_ue),
+                    pst.id AS state_id
+                FROM tse_csv2 tc
+                    FULL OUTER JOIN politicians_state pst ON LOWER(pst.siglum) = LOWER(tc.sigla_uf)
+                WHERE  codigo_cargo = 11 or codigo_cargo = 12
+                GROUP BY descricao_ue, pst.id
+            ''')
+
+            print 'Inserting institution x political office "Vereador"'
+            cursor.execute('''
+                INSERT INTO politicians_institution_political_offices(
+                    institution_id,
+                    politicaloffice_id
+                )
+                SELECT
+                    pi.id AS institution_id,
+                    ppo.id AS political_office_id
+                FROM tse_csv2 tc
+                    INNER JOIN politicians_politicaloffice ppo ON LOWER(ppo.name) = LOWER(tc.descricao_cargo)
+                    INNER JOIN politicians_institution pi ON pi.name = 'Camara Municipal ' || LOWER(tc.descricao_ue)
+                WHERE codigo_cargo = 13
+                GROUP BY pi.id, ppo.id
+            ''')
+
+            print 'Inserting institution x political office "Prefeito"'
+            cursor.execute('''
+                INSERT INTO politicians_institution_political_offices(
+                    institution_id,
+                    politicaloffice_id
+                )
+                SELECT
+                    pi.id AS institution_id,
+                    ppo.id AS political_office_id
+                FROM tse_csv2 tc
+                    INNER JOIN politicians_politicaloffice ppo ON LOWER(ppo.name) = LOWER(tc.descricao_cargo)
+                    INNER JOIN politicians_institution pi ON pi.name = 'Prefeitura Municipal ' || LOWER(tc.descricao_ue)
+                WHERE codigo_cargo = 12
+                GROUP BY pi.id, ppo.id
+            ''')
+
+            print 'Inserting candidacy status'
+            cursor.execute('''
+                INSERT INTO politicians_candidacystatus(name)
+                SELECT lower(des_situacao_candidatura)
+                FROM tse_csv2
+                GROUP BY des_situacao_candidatura;
+            ''')
+
+            print 'Inserting candidacy'
+            cursor.execute('''
+                INSERT INTO politicians_candidacy(
+                    elected,
+                    candidacy_status_id,
+                    city_id,
+                    election_round_id,
+                    institution_id,
+                    political_office_id,
+                    politician_id,
+                    state_id,
+                    political_party_id
+                )
+                SELECT
+                    lower(tc.desc_sit_tot_turno),
+                    tc.num_turno,
+                    per.id AS election_round_id,
+                    ppo.id AS political_office_id,
+                    pcs.id AS candidacy_status_id,
+                    pci.id AS city_id,
+                    pst.id AS state_id,
+                    pp.id AS politician_id,
+                    ppl.id AS politicalparty_id
+                FROM tse_csv2 tc
+                    FULL OUTER JOIN politicians_candidacystatus pcs ON LOWER(pcs.name) = LOWER(tc.des_situacao_candidatura)
+                    FULL OUTER JOIN politicians_city pci ON LOWER(pci.name) = LOWER(tc.descricao_ue)
+                    FULL OUTER JOIN politicians_state pst ON LOWER(pst.siglum) = LOWER(tc.sigla_uf)
+                    FULL OUTER JOIN politicians_election pel ON pel.year = tc.ano_eleicao
+                    FULL OUTER JOIN politicians_electionround per ON per.round_number = CAST(tc.num_turno as text) AND per.election_id = pel.id
+                    FULL OUTER JOIN politicians_politicaloffice ppo ON LOWER(ppo.name) = LOWER(tc.descricao_cargo)
+                    FULL OUTER JOIN politicians_politician pp ON pp.cpf = tc.cpf_candidato
+                    FULL OUTER JOIN politicians_politicalparty ppl ON ppl.siglum = tc.sigla_partido
+            ''')
+
+            """
+
 
             """
             # FIXME: slug;
