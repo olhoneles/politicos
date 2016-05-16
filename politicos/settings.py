@@ -59,6 +59,7 @@ DEFAULT_INSTALLED_APPS = (
     'tastypie_swagger',
     'cacheops',
     'django_extensions',
+    'raven.contrib.django.raven_compat',
 )
 INSTALLED_APPS = conf.get('INSTALLED_APPS', DEFAULT_INSTALLED_APPS)
 
@@ -164,6 +165,10 @@ DEAFAULT_LOGGING = {
         },
     },
     'handlers': {
+        'sentry': {
+            'level': 'ERROR',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        },
         'console': {
             'class': 'logging.StreamHandler',
         },
@@ -179,6 +184,11 @@ DEAFAULT_LOGGING = {
         },
     },
     'loggers': {
+        'raven': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
+        },
         'django': {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
@@ -220,3 +230,5 @@ RECAPTCHA_PUBLIC_KEY = conf.get('RECAPTCHA_PUBLIC_KEY')
 RECAPTCHA_PRIVATE_KEY = conf.get('RECAPTCHA_PRIVATE_KEY')
 
 CONTACT_US_EMAIL = conf.get('CONTACT_US_EMAIL', '')
+
+RAVEN_CONFIG = conf.get('RAVEN_CONFIG', {'dsn': ''})
