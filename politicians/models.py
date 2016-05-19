@@ -124,8 +124,8 @@ class ElectionRound(models.Model):
     round_number = models.CharField(
         verbose_name=_('Round'),
         choices=(
-            ('1', _('Round 1')),
-            ('2', _('Round 2')),
+            (1, _('Round 1')),
+            (2, _('Round 2')),
         ),
         max_length=1,
     )
