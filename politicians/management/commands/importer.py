@@ -249,6 +249,7 @@ class Command(BaseCommand):
         # self.create_tse_table()
         # self.import_tse_data()
         # self.create_indexes()
+        # self.convert_string_to_lower()
         # self.create_to_date_function()
         # self.insert_data()
 
@@ -282,7 +283,7 @@ class Command(BaseCommand):
 
     def create_indexes(self):
         string_indexes = [
-            'cpf_candidato', 'descricao_ocupacao', 'descricao_grau_instrucao',
+            'descricao_ocupacao', 'descricao_grau_instrucao',
             'sigla_uf', 'descricao_ue', 'descricao_estado_civil',
             'descricao_cor_raca', 'descricao_nacionalidade',
             'desc_sit_tot_turno', 'des_situacao_candidatura',
@@ -295,12 +296,34 @@ class Command(BaseCommand):
 
         print 'Creating indexes...'
         with closing(connection.cursor()) as cursor:
+            cursor.execute('CREATE INDEX CONCURRENTLY tse_cpf_candidato_idx ON tse_csv2 (cpf_candidato);'.format(x))
+
             for x in string_indexes:
                 print '* {0}'.format(x)
                 cursor.execute('CREATE INDEX CONCURRENTLY tse_{0}_idx ON tse_csv2 (LOWER({0}));'.format(x))
             for x in integer_indexes:
                 print '* {0}'.format(x)
                 cursor.execute('CREATE INDEX CONCURRENTLY tse_{0}_idx ON tse_csv2 ({0});'.format(x))
+
+    def convert_string_to_lower(self):
+        with closing(connection.cursor()) as cursor:
+            cursor.execute('''
+                UPDATE tse_csv2 SET
+                    email=LOWER(email),
+                    nome_municipio_nascimento=LOWER(nome_municipio_nascimento),
+                    nome_candidato=LOWER(nome_candidato),
+                    descricao_ocupacao=LOWER(descricao_ocupacao),
+                    nome_urna_candidato=LOWER(nome_urna_candidato),
+                    descricao_grau_instrucao=LOWER(descricao_grau_instrucao),
+                    des_situacao_candidatura=LOWER(des_situacao_candidatura),
+                    descricao_estado_civil=LOWER(descricao_estado_civil),
+                    descricao_nacionalidade=LOWER(descricao_nacionalidade),
+                    descricao_ue=LOWER(descricao_ue),
+                    sigla_uf=LOWER(sigla_uf),
+                    descricao_cargo=LOWER(descricao_cargo),
+                    descricao_cor_raca=LOWER(descricao_cor_raca),
+                    desc_sit_tot_turno=LOWER(desc_sit_tot_turno);
+            ''')
 
     def insert_data(self):
         with closing(connection.cursor()) as cursor:
@@ -398,13 +421,11 @@ class Command(BaseCommand):
                     LOWER(tc.email) AS email
                 FROM tse_csv2 tc
                     INNER JOIN (SELECT MIN(id) AS id, cpf_candidato FROM tse_csv2 GROUP BY cpf_candidato) tc2 ON tc2.id = tc.id
-                    FULL OUTER JOIN politicians_nationality nat ON LOWER(nat.name) = LOWER(tc.descricao_nacionalidade)
-                    FULL OUTER JOIN politicians_maritalstatus mt ON LOWER(mt.name) = LOWER(tc.descricao_estado_civil)
-                    FULL OUTER JOIN politicians_state st ON st.siglum = tc.sigla_uf_nascimento
-                    FULL OUTER JOIN politicians_ethnicity pet ON pet.name = INITCAP(tc.descricao_cor_raca)
-                    FULL OUTER JOIN politicians_education ped ON LOWER(ped.name) = LOWER(tc.descricao_grau_instrucao)
-                ORDER BY
-                    tc.cpf_candidato DESC;
+                    LEFT JOIN politicians_nationality nat ON LOWER(nat.name) = LOWER(tc.descricao_nacionalidade)
+                    LEFT JOIN politicians_maritalstatus mt ON LOWER(mt.name) = LOWER(tc.descricao_estado_civil)
+                    LEFT JOIN politicians_state st ON st.siglum = tc.sigla_uf_nascimento
+                    LEFT JOIN politicians_ethnicity pet ON pet.name = INITCAP(tc.descricao_cor_raca)
+                    LEFT JOIN politicians_education ped ON LOWER(ped.name) = LOWER(tc.descricao_grau_instrucao);
             ''')
 
             print 'Inserting politician alternative names'
@@ -419,7 +440,7 @@ class Command(BaseCommand):
                 FROM tse_csv2 tc
                     INNER JOIN (SELECT MIN(id) AS id, cpf_candidato FROM tse_csv2 GROUP BY cpf_candidato) tc2 ON tc2.id = tc.id
                     INNER JOIN politicians_politicianalternativename pa ON LOWER(pa.name) = LOWER(tc.nome_urna_candidato)
-                    INNER JOIN politicians_politician pp ON LOWER(pp.cpf) = LOWER(tc.cpf_candidato)
+                    INNER JOIN politicians_politician pp ON pp.cpf = tc.cpf_candidato
             ''')
 
 
@@ -478,7 +499,7 @@ class Command(BaseCommand):
                 FROM tse_csv2 tc
                     INNER JOIN politicians_politicaloffice ppo ON LOWER(ppo.name) = LOWER(tc.descricao_cargo)
                     INNER JOIN politicians_institution pi ON pi.name = 'Prefeitura Municipal ' || LOWER(tc.descricao_ue)
-                WHERE codigo_cargo = 12
+                WHERE codigo_cargo = 12 or codigo_cargo = 11
                 GROUP BY pi.id, ppo.id
             ''')
 
