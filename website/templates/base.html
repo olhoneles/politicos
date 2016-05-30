@@ -8,6 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Marcelo Jorge Vieira">
+    <meta property="og:site_name" content="Políticos API" />
+    <meta property="og:title" content="Políticos API" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta property="og:description" content="Todos os candidatos Brasileiros! Aqui você vai encontrar os dados, ferramentas e recursos para realizar pesquisas, desenvolver aplicativos, visualizações de dados, e muito mais." />
+    <meta property="og:image" content="http://{{ request.get_host }}{% static 'imgs/olhoneles_op.png' %}" />
 
     <title>{% block title %}{% endblock title %}</title>
 
