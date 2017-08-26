@@ -1,5 +1,5 @@
 setup:
-	@pip install -U -e .\[tests\]
+	@pip install -U --process-dependency-links  -e .\[tests\]
 
 run:
 	@python manage.py runserver 0.0.0.0:8000

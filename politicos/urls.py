@@ -15,7 +15,7 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -27,8 +27,7 @@ from politicos import __version__
 admin.autodiscover()
 
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'api/v0/',
         include('tastypie_swagger.urls', namespace='politicians-v0'),
         kwargs={
@@ -44,7 +43,7 @@ urlpatterns = patterns(
 
     # Admin
     url(r'^admin/', include(admin.site.urls)),
-)
+]
 
 if settings.DEBUG:
     urlpatterns += static(
