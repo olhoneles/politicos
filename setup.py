@@ -64,7 +64,7 @@ Political data
         'requests>=2.8.1,<2.9.0',
         'cssselect==0.9.1,<0.10.1',
         'lxml>=3.5.0,<3.6.0',
-        'raven>=5.17.0,<5.18.0',
+        'raven>=6.1.0,<6.2.0',
     ],
     extras_require={
         'tests': tests_require,
