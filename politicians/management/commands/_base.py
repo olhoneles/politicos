@@ -104,6 +104,11 @@ class PoliticosCommand(BaseCommand, Base):
         politicos_class.process_tse_files(tse, year)
         tse.remove_tmp_dir()
 
+    @classmethod
+    def raise_error(cls, text):
+        cls.logger.error(text)
+        raise
+
 
 class Politicos(Base):
 
