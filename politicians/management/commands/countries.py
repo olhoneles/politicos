@@ -18,6 +18,7 @@
 import requests
 import lxml.html
 from django.db import IntegrityError
+from json import loads
 
 from politicians.management.commands._base import PoliticosCommand
 from politicians.models import Country
@@ -31,22 +32,18 @@ class Command(PoliticosCommand):
     def handle(self, *args, **options):
         self.set_options(*args, **options)
 
-        url = 'http://inf.ufrgs.br/~cabral/Paises.html'
+        url = 'https://restcountries.eu/rest/v2/all'
         response = requests.get(url)
 
         if response.status_code != 200:
             self.raise_error('Error on get countries')
 
-        data = lxml.html.fromstring(response.content)
-        trs = data.cssselect('table tr')
-        trs.pop(0)
-        trs.pop(1)
-        for row in trs:
+        data = loads(response.content)
+        for country in data:
             try:
-                _, name, siglum, _, _ = row.getchildren()
                 country = Country(
-                    name=self.formatter(name),
-                    siglum=self.formatter(siglum),
+                    name=country.get('translations', {}).get('br'),
+                    siglum=country.get('alpha2Code'),
                 )
                 country.save()
                 self.logger.info('Added country: %s', country)
