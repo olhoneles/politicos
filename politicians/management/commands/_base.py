@@ -187,7 +187,7 @@ class Politicos(Base):
     @classmethod
     def process_tse_files(cls, tse, year):
         try:
-            election = Election.objects.cache().get(year=year)
+            election = Election.objects.cache().get_or_create(year=year)
         except Election.DoesNotExist:
             cls.raise_error('Election not found: {0}'.format(year))
 
