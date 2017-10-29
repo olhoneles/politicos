@@ -5,7 +5,7 @@ run:
 	@python manage.py runserver 0.0.0.0:8000
 
 data:
-	@python manage.py syncdb
+	@python manage.py migrate
 
 initial_data:
 	@python manage.py countries
