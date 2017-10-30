@@ -31,7 +31,7 @@ class ContactUsForm(forms.Form):
         label=u'Email',
         required=True,
         widget=forms.TextInput(attrs={'placeholder': 'Seu email'})
-   )
+    )
 
     message = forms.CharField(
         label=u'Mensagem',

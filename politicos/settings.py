@@ -158,7 +158,7 @@ TSE_CONCURRENCY = conf.get('TSE_CONCURRENCY', 2)
 
 LOG_DIR = conf.get('LOG_DIR', '/tmp')
 
-DEAFAULT_LOGGING = {
+DEFAULT_LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
@@ -170,7 +170,7 @@ DEAFAULT_LOGGING = {
     'handlers': {
         'sentry': {
             'level': 'ERROR',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',  # noqa
         },
         'console': {
             'class': 'logging.StreamHandler',
@@ -203,7 +203,7 @@ DEAFAULT_LOGGING = {
         },
     },
 }
-LOGGING = conf.get('LOGGING', DEAFAULT_LOGGING)
+LOGGING = conf.get('LOGGING', DEFAULT_LOGGING)
 
 DEFAULT_CACHEOPS_REDIS = {
     'host': 'localhost',
@@ -214,12 +214,12 @@ DEFAULT_CACHEOPS_REDIS = {
 CACHEOPS_REDIS = conf.get('CACHEOPS_REDIS', DEFAULT_CACHEOPS_REDIS)
 
 DEFAULT_CACHEOPS_DEFAULTS = {
-    'timeout': 60*60
+    'timeout': 60 * 60
 }
 CACHEOPS_DEFAULTS = conf.get('CACHEOPS_DEFAULTS', DEFAULT_CACHEOPS_DEFAULTS)
 
 DEFAULT_CACHEOPS = {
-    'auth.user': {'ops': 'get', 'timeout': 60*15},
+    'auth.user': {'ops': 'get', 'timeout': 60 * 15},
     'auth.*': {'ops': ('fetch', 'get')},
     'auth.permission': {'ops': 'all'},
     'politicians.*': {'ops': 'all'},

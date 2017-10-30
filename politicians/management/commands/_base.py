@@ -77,7 +77,7 @@ class Base(object):
     @classmethod
     def get_urls_in_text(cls, text):
         urls = re.finditer(
-            r'(([a-z]{3,6}:\/\/)|(^|\s))([a-zA-Z0-9\-]+\.)+[a-z]{2,13}(?:\/[a-zA-Z0-9]{1,})*',
+            r'(([a-z]{3,6}:\/\/)|(^|\s))([a-zA-Z0-9\-]+\.)+[a-z]{2,13}(?:\/[a-zA-Z0-9]{1,})*',  # noqa
             text
         )
         return [x.group(0).strip() for x in urls]
@@ -168,7 +168,7 @@ class Politicos(Base):
         return institution
 
     @classmethod
-    def add_institution_prefeito(cls,  item):
+    def add_institution_prefeito(cls, item):
         city = cls.add_city(item)
         institution, created = Institution.objects.cache().get_or_create(
             name=u'Prefeitura Municipal {}'.format(city.name),
@@ -350,14 +350,16 @@ class Politicos(Base):
         try:
             occupation_slug = slugify(item.get('occupation'))
             occupation = Occupation.objects.cache().get(slug=occupation_slug)
-        except:
+        except Occupation.DoesNotExist:
             occupation = Occupation(name=item.get('occupation'))
             occupation.save()
             cls.logger.debug('Added Occupation: %s', str(occupation))
 
         try:
-            state = State.objects.cache().get(siglum=item.get('state_of_birth'))
-        except:
+            state = State.objects.cache().get(
+                siglum=item.get('state_of_birth')
+            )
+        except State.DoesNotExist:
             state = None
         place_of_birth = item.get('place_of_birth')
 

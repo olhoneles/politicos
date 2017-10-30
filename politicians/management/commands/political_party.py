@@ -61,7 +61,7 @@ class Command(PoliticosCommand):
         for row in trs:
             try:
                 _, siglum, name, _, _, tse_number = row.getchildren()
-            except:
+            except Exception:
                 continue
             self.add_political_party(
                 self.title_except(self.formatter(name)),
@@ -133,7 +133,7 @@ class Command(PoliticosCommand):
                 founded_date = self.formatter(founded_date)
                 founded_date = re.sub(r'\[.*\]', '', founded_date).strip()
                 name = re.sub(r'\[.*\]', '', self.formatter(name)).strip()
-            except:
+            except Exception:
                 continue
 
             logo = self.get_logo(wikipedia)

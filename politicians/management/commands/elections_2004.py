@@ -23,7 +23,7 @@ class Politicos2004(Politicos):
     @classmethod
     def get_picture(cls, politician_id, city_cod, state_siglum):
         domain = 'http://www.tse.jus.br/sadEleicao2004DivCand'
-        url = '{0}/candidatoFoto.jsp?sq_cand={1}&sg_ue={2}&sg_ue_sup={3}'.format(
+        url = '{0}/candidatoFoto.jsp?sq_cand={1}&sg_ue={2}&sg_ue_sup={3}'.format(  # noqa
             domain, politician_id, city_cod, state_siglum
         )
         return url

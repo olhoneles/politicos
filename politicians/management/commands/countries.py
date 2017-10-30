@@ -16,7 +16,6 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import requests
-import lxml.html
 from django.db import IntegrityError
 from json import loads
 

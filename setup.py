@@ -37,7 +37,8 @@ Political data
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
+        'License :: OSI Approved :: GNU Affero General Public License v3 \
+            or later (AGPLv3+)',
         'Natural Language :: English',
         'Operating System :: Unix',
         'Programming Language :: Python :: 2.7',
@@ -67,7 +68,7 @@ Political data
         'raven>=6.1.0,<6.2.0',
     ],
     dependency_links=[
-        'https://github.com/olhoneles/django-tastypie-swagger/archive/fix-compatibility-django-1.10.zip#egg=django-tastypie-swagger-0.1.4-django1.10',
+        'https://github.com/olhoneles/django-tastypie-swagger/archive/fix-compatibility-django-1.10.zip#egg=django-tastypie-swagger-0.1.4-django1.10',  # noqa
     ],
     extras_require={
         'tests': tests_require,
