@@ -1,4 +1,4 @@
-# Politicos API
+# Politicos API [![Build Status](https://secure.travis-ci.org/olhoneles/politicos.png?branch=master)](https://travis-ci.org/olhoneles/politicos)
 
 Aqui você vai encontrar os dados, ferramentas e recursos para realizar pesquisas, desenvolver aplicativos, visualizações de dados, e muito mais.
 
