@@ -142,7 +142,7 @@ class City(models.Model):
 
 class ElectionRound(models.Model):
 
-    election = models.ForeignKey('Election',  related_name='rounds')
+    election = models.ForeignKey('Election', related_name='rounds')
 
     round_number = models.CharField(
         verbose_name=_('Round'),
@@ -847,7 +847,7 @@ class Mandate(models.Model):
             'executive-branch office, or affiliation change.'
         ),
         db_index=True,
-     )
+    )
 
     class Meta:
         verbose_name = _('Mandate')

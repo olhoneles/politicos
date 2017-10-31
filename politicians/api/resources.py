@@ -141,7 +141,7 @@ class CityResource(BasicResource):
             ),
             self.wrap_view('city_search'),
             name="city_get_search"
-         )]
+        )]
 
     def city_search(self, request, **kwargs):
         filters = self.get_filters(request)
@@ -301,7 +301,7 @@ class OccupationResource(BasicResource):
             ),
             self.wrap_view('occupation_search'),
             name="occupation_get_search"
-         )]
+        )]
 
     def occupation_search(self, request, **kwargs):
         filters = self.get_filters(request)
@@ -486,7 +486,7 @@ class PoliticianResource(BasicResource):
             ),
             self.wrap_view('politician_search'),
             name="politician_get_search"
-         )]
+        )]
 
     def politician_search(self, request, **kwargs):
         filters = self.get_filters(request)

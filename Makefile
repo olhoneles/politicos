@@ -21,5 +21,8 @@ initial_data:
 clean_pycs:
 	@find . -name "*.pyc" -delete
 
+lint:
+	@flake8
+
 
 .PHONY: initial_data clean_pycs setup run

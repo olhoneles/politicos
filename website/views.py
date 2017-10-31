@@ -42,13 +42,12 @@ def contact_us(request):
     if request.POST and contact_us_form.is_valid():
         subject = '[Politicos API]: Fale Conosco'
 
-        message = (
-            'Nome: {0}\nEmail: {1}\nIP: {2}\nMensagem:\n\n{3}').format(
-                contact_us_form.cleaned_data['name'],
-                contact_us_form.cleaned_data['email'],
-                request.META['REMOTE_ADDR'],
-                contact_us_form.cleaned_data['message']
-            )
+        message = ('Nome: {0}\nEmail: {1}\nIP: {2}\nMensagem:\n\n{3}').format(
+            contact_us_form.cleaned_data['name'],
+            contact_us_form.cleaned_data['email'],
+            request.META['REMOTE_ADDR'],
+            contact_us_form.cleaned_data['message']
+        )
 
         from_field = '{0} <{1}>'.format(
             contact_us_form.cleaned_data['name'],

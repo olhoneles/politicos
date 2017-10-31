@@ -20,6 +20,7 @@ from politicos import __version__
 
 
 tests_require = [
+    'flake8',
 ]
 
 setup(
