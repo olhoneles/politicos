@@ -16,27 +16,61 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import argparse
 import logging
+import os
 
+from collector.models import setup_indices
 from collector.tse import TSE
 from collector.tse_headers import year_headers
 
 
-# FIXME
-FILES_DIR = '/home/metal/Downloads/blah'
+DEFAULT_DOWNLOAD_DIRECTORY = os.path.abspath(
+    os.path.expanduser('~/Downloads/tse')
+)
 
 
-def main():
+def run(args):
+    "Collect data"
     FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(format=FORMAT, level=logging.INFO)
+    logging.basicConfig(format=FORMAT, level=args.log_level)
     # mute elasticsearch INFO logs
     log = logging.getLogger('elasticsearch')
     log.setLevel('ERROR')
-
+    # Setup elastic search indices once before starting
+    setup_indices()
+    # Collect!
     for year in year_headers.keys():
-        tse = TSE(year, path=FILES_DIR)
+        tse = TSE(year, path=args.download_directory)
         tse.download_and_extract(remove_tmp_dir=False, remove_zip=False)
         tse.all_candidates()
+
+
+def main():
+    "Parse command line and launch collector"
+    parser = argparse.ArgumentParser(description='Data Collector')
+
+    # Log levels accepted by logging library. Probably a good idea to
+    # rely on _levelToName but didn't find anything better :(
+    log_levels = list(logging._levelToName.values())
+
+    parser.add_argument(
+        '-d', '--download-dir',
+        dest='download_directory',
+        action='store',
+        default=DEFAULT_DOWNLOAD_DIRECTORY,
+        help='Directory where files will be downloaded',
+    )
+
+    parser.add_argument(
+        '-l', '--log-level',
+        default='CRITICAL',
+        choices=log_levels,
+        type=lambda x: x.upper(),
+        help=f'Log verbosity level: {", ".join(log_levels)}',
+    )
+
+    run(parser.parse_args())
 
 
 if __name__ == '__main__':

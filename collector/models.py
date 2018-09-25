@@ -114,20 +114,24 @@ class Politicians(Document):
         return bulk(client, objects)
 
 
-index = Index(f'{INDEX_NAME}-index')
+def setup_indices():
+    index = Index(f'{INDEX_NAME}-index')
 
-index.settings(
-    number_of_shards=1,
-    number_of_replicas=0
-)
+    index.settings(
+        number_of_shards=1,
+        number_of_replicas=0
+    )
 
-index.aliases(
-    politicians={}
-)
+    index.aliases(
+        politicians={}
+    )
 
-index.document(Politicians)
+    index.document(Politicians)
 
-index.analyzer(text_analyzer)
+    index.analyzer(text_analyzer)
 
-index_template = Politicians._index.as_template(INDEX_NAME, f'{INDEX_NAME}-*')
-index_template.save()
+    index_template = Politicians._index.as_template(
+        INDEX_NAME,
+        f'{INDEX_NAME}-*',
+    )
+    index_template.save()
