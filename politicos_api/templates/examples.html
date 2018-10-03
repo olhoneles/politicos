@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Exemplos - Politicos API{% end %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+{% end %}
+
+{% block content %}
+  <div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+      <div class="col-lg-12">
+
+        <h2>Exemplos</h2>
+        <div>
+          <h4>Lista de candidaturas:</h4>
+          <pre><code class="shell">$ curl https://politicos.olhoneles.org/api/v1/candidacies/</code></pre>
+          <h5>Resultado:</h5>
+<pre>
+<code class="json">{
+  "meta": {
+    "next": "/?page=2&perPage=10",
+    "page": 1,
+    "perPage": 10,
+    "previous": null,
+    "total": 10000
+  },
+  "objects": [
+    {
+      "codigo_estado_civil": 1,
+      "codigo_legenda": 1,
+      "codigo_municipio_nascimento": "-1",
+      "codigo_nacionalidade": 1,
+      "codigo_ocupacao": 601,
+      "codigo_sexo": 2,
+      "cod_grau_instrucao": 3,
+      "cod_situacao_candidatura": 2,
+      "cod_sit_tot_turno": 1,
+      "composicao_legenda": "PSD / PMDB / PSDB",
+      "cpf_candidato": "19619707320",
+      "data_nascimento": "1953-12-04",
+      "descricao_estado_civil": "SOLTEIRO(A)",
+      "descricao_grau_instrucao": "1º GRAU INCOMPLETO",
+      "descricao_nacionalidade": "BRASILEIRA",
+      "descricao_ocupacao": "TRABALHADOR AGRÍCOLA",
+      "descricao_sexo": "MASCULINO",
+      "desc_sit_tot_turno": "ELEITO",
+      "despesa_max_campanha": "-1",
+      "des_situacao_candidatura": "DEFERIDO",
+      "idade_data_eleicao": "-1",
+      "nome_candidato": "GERALDO DEODATO DO NASCIMENTO",
+      "nome_legenda": "UNIDOS PARA CONTINUAR CRESCENDO",
+      "nome_municipio_nascimento": "ABAIARA",
+      "nome_partido": "PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO",
+      "nome_urna_candidato": "G",
+      "numero_candidato": 15601,
+      "numero_partido": 15,
+      "num_titulo_eleitoral_candidato": "009864620787",
+      "sequencial_candidato": 56,
+      "sigla_legenda": "#NE#",
+      "sigla_partido": "PMDB",
+      "sigla_uf_nascimento": "CE",
+      "ano_eleicao": 2000,
+      "codigo_cargo": 13,
+      "data_geracao": "2016-11-25T00:00:00",
+      "descricao_cargo": "VEREADOR",
+      "descricao_eleicao": "ELEICOES 2000",
+      "descricao_ue": "ABAIARA",
+      "hora_geracao": "18:23:17",
+      "num_turno": 1,
+      "sigla_ue": "13013",
+      "sigla_uf": "CE",
+      "source": {
+        "filename": "consulta_cand_2000_CE.txt",
+        "line": 11
+      }
+    }
+  ]
+}
+</code>
+</pre>
+
+      </div>
+    </div> <!-- /row -->
+  </div> <!-- /container -->
+{% end %}
+
+{% block footer %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/json.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/shell.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% end %}

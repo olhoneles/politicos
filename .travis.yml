@@ -1,11 +1,19 @@
 language: python
 
+before_install:
+  - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.4.2.deb
+  - sudo dpkg -i --force-confnew elasticsearch-6.4.2.deb
+  - sudo /etc/init.d/elasticsearch start
+  - until curl --silent -XGET --fail http://localhost:9200; do printf '.'; sleep 1; done
+  - sudo apt-get install redis-server
+
 python:
-    - "2.7"
+    - "3.6"
 
 env:
   matrix:
     - TEST_TYPE=lint
+    - TEST_TYPE=unit
 
 install:
     - make setup

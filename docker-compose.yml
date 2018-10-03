@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  api:
+    command: python3 server.py --redis-host=redis --es-hosts=elasticsearch
+    build: .
+    ports:
+      - "8888:8888"
+    links:
+      - redis
+      - elasticsearch
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  elasticsearch:
+    image: elasticsearch:latest
+    ports:
+      - "9200:9200"
+      - "9300:9300"

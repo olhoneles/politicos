@@ -1,28 +1,32 @@
-setup:
-	@pip install -U --process-dependency-links  -e .\[tests\]
-
 run:
-	@python manage.py runserver 0.0.0.0:8000
+	@python server.py
 
-data:
-	@python manage.py migrate
+setup:
+	@pip install -r requirements.txt -r requirements_dev.txt
 
-initial_data:
-	@python manage.py countries
-	@python manage.py states
-	@python manage.py ethnicity
-	@python manage.py education
-	@python manage.py political_party
-	@python manage.py mandate_event_type
-	@python manage.py political_office
-	@python manage.py institutions
-	@python manage.py elections
-
-clean_pycs:
-	@find . -name "*.pyc" -delete
+setup-prod:
+	@pip install -r requirements.txt
 
 lint:
 	@flake8
 
+test: coverage lint
 
-.PHONY: initial_data clean_pycs setup run
+unit:
+	@coverage run --branch `which nosetests` -vv --with-yanc -s tests
+
+focus:
+	@coverage run --branch `which nosetests` -vv --with-yanc --with-focus -s tests
+
+coverage: unit
+	@coverage report -m
+
+coverage-html: coverage
+	@coverage html
+
+collect:
+	@python collector.py
+
+clean_pycs:
+	@find . -name "*.pyc" -delete
+	@find . -type d -name __pycache__ -delete

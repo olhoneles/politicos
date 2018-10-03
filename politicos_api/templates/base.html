@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="Todos os candidatos Brasileiros!"/>
+    <meta name="keywords" content="político, prefeito, presidente, deputado, vereador, governador, parlamentar, api, dados abertos, candidatos brasileiros, eleição, eleições, brasil"/>
+    <meta name="author" content="Marcelo Jorge Vieira">
+    <meta property="og:site_name" content="Políticos API"/>
+    <meta property="og:title" content="Políticos API"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:locale" content="pt_BR"/>
+    <meta property="og:url" content="https://politicos.olhoneles.org"/>
+    <meta property="og:description" content="Todos os candidatos Brasileiros! Aqui você vai encontrar os dados, ferramentas e recursos para realizar pesquisas, desenvolver aplicativos, visualizações de dados, e muito mais."/>
+    <meta property="og:image" content="https://olhoneles.org/static/olhoneles_op.png"/>
+    <link rel="icon" type="image/png" href="https://olhoneles.org/static/olhoneles_icon.png"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <style>
+      .navbar-dark .navbar-nav .nav-link {
+        color: #fff;
+        font-weight: bold;
+      }
+
+      .navbar-dark .navbar-nav .nav-link:focus,
+      .navbar-dark .navbar-nav .nav-link:hover {
+        text-decoration: underline;
+      }
+
+      body {
+        padding-top: 70px;
+      }
+
+      main {
+        padding-bottom: 42px;
+      }
+
+      footer pre {
+        display: block;
+        padding: 9.5px;
+        margin: 0 0 10px;
+        font-size: 13px;
+        line-height: 1.42857143;
+        color: #333;
+        word-break: break-all;
+        word-wrap: break-word;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .footer {
+        padding: 20px 0;
+        color: #999;
+        background-color: #f9f9f9;
+        border-top: 1px solid #e5e5e5;
+      }
+    </style>
+
+    <title>{% block title %}Políticos API{% end %}</title>
+    {% block head %}{% end %}
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="/">Políticos API</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/routes">Rotas da API</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/examples">Exemplos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/developers">Quer contribuir?</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="http://olhoneles.github.io/politicos-react/" target="_blank">Demonstração</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main role="main">
+      {% block content %}{% end %}
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3">
+            <h3>Links</h3>
+            <ul class="content-menu">
+              <li class="links"><a href="http://olhoneles.github.io/politicos-react/" target="_blank">Exemplo em React.JS</a></li>
+              <li class="links"><a href="https://olhoneles.org/fale-conosco" target="_blank">Fale Conosco</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-5">
+            <h3>Código Fonte</h3>
+            <p>O código deste site é <a href="http://www.gnu.org/philosophy/philosophy.pt-br.html" target="_blank">livre</a>, licenciado sob a <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank">Affero GPL</a>.
+            Você pode pegar o código executando o seguinte comando:</p>
+            <pre>$ git clone https://github.com/olhoneles/politicos.git</pre>
+            <p>Você também pode <a href="https://github.com/olhoneles/politicos" target="_blank">navegar</a> no nosso repositório.</p>
+          </div>
+          <div class="col-lg-4">
+            <h3>Conteúdo</h3>
+            <p>Os dados usados neste site são públicos e foram extraídos de sites oficiais.</p>
+            <ul>
+            {% for year in range(2018, 1994, -2) %}
+              <li>
+                <a href="http://agencia.tse.jus.br/estatistica/sead/odsele/consulta_cand/consulta_cand_{{year}}.zip" target="_blank">
+                  TSE: Eleições {{year}}
+                </a>
+              </li>
+            {% end %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    {% block footer %}{% end %}
+  </body>
+</html>

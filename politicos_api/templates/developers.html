@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Quer contribuir? - Politicos API{% end %}
+
+{% block head %}
+<style>
+h3 {
+  margin-top: 48px;
+}
+h4 {
+  margin-top: 24px;
+}
+</style>
+{% end %}
+
+{% block content %}
+  <div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+      <div class="col-lg-12">
+
+        <h2>Quer contribuir?</h2>
+
+        <p>A base da <strong>Politicos API</strong> é o framework <a
+            href="https://www.tornadoweb.org/" target="_blank">Tornado</a>. Os
+        dados são salvos e indexados no <a href="https://www.elastic.co/"
+            target="_blank">ElasticSearch</a> e também existe uma camada de
+        cache utilizando o <a href="https://redis.io/"
+            target="_blank">Redis</a>.
+
+        <h3>Arquitetura</h3>
+
+        O projeto foi dividido em dois módulos: o coletor e a API.
+
+        <h4>Coletor</h4>
+        <p>Pega os dados no site do TSE e salva no ElasticSearch. Criamos um
+        índice para cada ano e um <i>alias</i> para unificar todos os
+        índices.</p>
+
+        <h4>API</h4>
+        <p>Faz a consulta no ElasticSearch e armazena temporariamente no
+        Redis.</p>
+
+        <h3>Informações</h3>
+
+        <p>O endereço da API é:</p>
+        <pre><code>https://politicos.olhoneles.org/api/v1/</code></pre>
+
+        <p>Você pode ver todas as rotas da API no item <a href="/routes">Rotas da API</a> no menu superior.</p>
+
+        <p>Alguns exemplos de rotas e filtros:</p>
+        <pre><code>https://politicos.olhoneles.org/api/v1/<strong>educations/</strong></code></pre>
+        <pre><code>https://politicos.olhoneles.org/api/v1/<strong>candidacies/?ano_eleicao=2014</strong></code></pre>
+
+        <h3>Software Livre</h3>
+
+        <p>O código da API é livre e licenciado sob a Affero GPL. Você pode
+        pegar o código executando o seguinte comando:</p>
+        <pre><code class="shell">$ git clone https://github.com/olhoneles/politicos.git</code></pre>
+
+        <h3>Contribuindo</h3>
+
+        <p>Vamos deixar as contribuições para este projeto tão fácil e
+        transparente quanto possível. Portanto faça um <i>fork</i> do repositório e
+        nos envie suas melhorias.</p>
+
+        <p>Usamos o GitHub para armazenar o código, acompanhar as questões e
+        solicitações de recursos.</p>
+
+        <h3>Ajuda</h3>
+
+        <p>Você pode abrir um <a href="https://github.com/olhoneles/politicos/issues" target="_blank">ticket via GitHub</a>,
+        mas se preferir temos uma <a href="https://listas.olhoneles.org/cgi-bin/mailman/listinfo/montanha-dev" target="_blank">lista de email</a>
+        do projeto e também estamos online via IRC no canal <strong>#olhoneles</strong> na Freenode.</p>
+
+      </div>
+    </div> <!-- /row -->
+  </div> <!-- /container -->
+
+{% end %}

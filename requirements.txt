@@ -1,0 +1,9 @@
+aioredis>=1.1.0,<1.2.0
+elasticsearch-async>=6.2.0,<6.3.0
+elasticsearch-dsl>=6.2.1,<6.3.0
+pandas>=0.23.0,<0.24.0
+pycurl>=7.43.0.2,<7.44
+python-dateutil>=2.7.3,<2.8.0
+requests>=2.19.1,<2.20.0
+tornado>=5.1,<5.2.0
+ujson>=1.35,<2.0

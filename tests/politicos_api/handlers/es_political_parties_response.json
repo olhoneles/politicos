@@ -1,0 +1,439 @@
+{
+  "took":1,
+  "timed_out":false,
+  "_shards":{
+    "total":18,
+    "successful":18,
+    "skipped":0,
+    "failed":0
+  },
+  "hits":{
+    "total":3489672,
+    "max_score":0,
+    "hits":[
+
+    ]
+  },
+  "aggregations":{
+    "result":{
+      "buckets":[
+        {
+          "key":{
+            "NOME_PARTIDO":"1790",
+            "SIGLA_PARTIDO":"PARTIDO DA REPÚBLICA",
+            "NUMERO_PARTIDO":"PR"
+          },
+          "doc_count":1
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"4470",
+            "SIGLA_PARTIDO":"PARTIDO POPULAR SOCIALISTA",
+            "NUMERO_PARTIDO":"PPS"
+          },
+          "doc_count":1
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"5",
+            "SIGLA_PARTIDO":"PARTIDO DOS TRABALHADORES",
+            "NUMERO_PARTIDO":"PT"
+          },
+          "doc_count":2
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"DEMOCRATAS",
+            "SIGLA_PARTIDO":"DEM",
+            "NUMERO_PARTIDO":"25"
+          },
+          "doc_count":75792
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"NÃO",
+            "SIGLA_PARTIDO":"NÃO",
+            "NUMERO_PARTIDO":"77"
+          },
+          "doc_count":2
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO COMUNISTA BRASILEIRO",
+            "SIGLA_PARTIDO":"PCB",
+            "NUMERO_PARTIDO":"21"
+          },
+          "doc_count":3433
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO COMUNISTA DO BRASIL",
+            "SIGLA_PARTIDO":"PC do B",
+            "NUMERO_PARTIDO":"65"
+          },
+          "doc_count":50409
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO DA CAUSA OPERÁRIA",
+            "SIGLA_PARTIDO":"PCO",
+            "NUMERO_PARTIDO":"29"
+          },
+          "doc_count":1400
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO DA FRENTE LIBERAL",
+            "SIGLA_PARTIDO":"PFL",
+            "NUMERO_PARTIDO":"25"
+          },
+          "doc_count":227707
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO DA MOBILIZAÇÃO NACIONAL",
+            "SIGLA_PARTIDO":"PMN",
+            "NUMERO_PARTIDO":"33"
+          },
+          "doc_count":53822
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO DA MULHER BRASILEIRA",
+            "SIGLA_PARTIDO":"PMB",
+            "NUMERO_PARTIDO":"35"
+          },
+          "doc_count":4621
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO DA RECONSTRUÇÃO NACIONAL",
+            "SIGLA_PARTIDO":"PRN",
+            "NUMERO_PARTIDO":"36"
+          },
+          "doc_count":5416
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO DA REEDIFICAÇÃO DA ORDEM NACIONAL",
+            "SIGLA_PARTIDO":"PRONA",
+            "NUMERO_PARTIDO":"56"
+          },
+          "doc_count":9116
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO DA REPÚBLICA",
+            "SIGLA_PARTIDO":"PR",
+            "NUMERO_PARTIDO":"22"
+          },
+          "doc_count":70009
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO DA SOCIAL DEMOCRACIA BRASILEIRA",
+            "SIGLA_PARTIDO":"PSDB",
+            "NUMERO_PARTIDO":"45"
+          },
+          "doc_count":323611
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO DE REEDIFICAÇÃO DA ORDEM NACIONAL",
+            "SIGLA_PARTIDO":"PRONA",
+            "NUMERO_PARTIDO":"56"
+          },
+          "doc_count":572
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO DEMOCRÁTICO TRABALHISTA",
+            "SIGLA_PARTIDO":"PDT",
+            "NUMERO_PARTIDO":"12"
+          },
+          "doc_count":216472
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO",
+            "SIGLA_PARTIDO":"PMDB",
+            "NUMERO_PARTIDO":"15"
+          },
+          "doc_count":409362
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO DOS APOSENTADOS DA NAÇÃO",
+            "SIGLA_PARTIDO":"PAN",
+            "NUMERO_PARTIDO":"26"
+          },
+          "doc_count":10624
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO DOS TRABALHADORES",
+            "SIGLA_PARTIDO":"PT",
+            "NUMERO_PARTIDO":"13"
+          },
+          "doc_count":267254
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO ECOLÓGICO NACIONAL",
+            "SIGLA_PARTIDO":"PEN",
+            "NUMERO_PARTIDO":"51"
+          },
+          "doc_count":11321
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO GERAL DOS TRABALHADORES",
+            "SIGLA_PARTIDO":"PGT",
+            "NUMERO_PARTIDO":"30"
+          },
+          "doc_count":7147
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO HUMANISTA DA SOLIDARIEDADE",
+            "SIGLA_PARTIDO":"PHS",
+            "NUMERO_PARTIDO":"31"
+          },
+          "doc_count":48752
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO LIBERAL",
+            "SIGLA_PARTIDO":"PL",
+            "NUMERO_PARTIDO":"22"
+          },
+          "doc_count":118415
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO NOVO",
+            "SIGLA_PARTIDO":"NOVO",
+            "NUMERO_PARTIDO":"30"
+          },
+          "doc_count":144
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO POPULAR SOCIALISTA",
+            "SIGLA_PARTIDO":"PPS",
+            "NUMERO_PARTIDO":"23"
+          },
+          "doc_count":168498
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO PROGRESSISTA",
+            "SIGLA_PARTIDO":"PP",
+            "NUMERO_PARTIDO":"11"
+          },
+          "doc_count":120349
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO PROGRESSISTA BRASILEIRO",
+            "SIGLA_PARTIDO":"PPB",
+            "NUMERO_PARTIDO":"11"
+          },
+          "doc_count":151370
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO PÁTRIA LIVRE",
+            "SIGLA_PARTIDO":"PPL",
+            "NUMERO_PARTIDO":"54"
+          },
+          "doc_count":6471
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO RENOVADOR TRABALHISTA BRASILEIRO",
+            "SIGLA_PARTIDO":"PRTB",
+            "NUMERO_PARTIDO":"28"
+          },
+          "doc_count":37135
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO REPUBLICANO BRASILEIRO",
+            "SIGLA_PARTIDO":"PRB",
+            "NUMERO_PARTIDO":"10"
+          },
+          "doc_count":43688
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO REPUBLICANO DA ORDEM SOCIAL",
+            "SIGLA_PARTIDO":"PROS",
+            "NUMERO_PARTIDO":"90"
+          },
+          "doc_count":11576
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO REPUBLICANO PROGRESSISTA",
+            "SIGLA_PARTIDO":"PRP",
+            "NUMERO_PARTIDO":"44"
+          },
+          "doc_count":52013
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO SOCIAL CRISTÃO",
+            "SIGLA_PARTIDO":"PSC",
+            "NUMERO_PARTIDO":"20"
+          },
+          "doc_count":96762
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO SOCIAL DEMOCRATA CRISTÃO",
+            "SIGLA_PARTIDO":"PSDC",
+            "NUMERO_PARTIDO":"27"
+          },
+          "doc_count":46924
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO SOCIAL DEMOCRÁTICO",
+            "SIGLA_PARTIDO":"PSD",
+            "NUMERO_PARTIDO":"41"
+          },
+          "doc_count":46917
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO SOCIAL DEMOCRÁTICO",
+            "SIGLA_PARTIDO":"PSD",
+            "NUMERO_PARTIDO":"55"
+          },
+          "doc_count":55484
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO SOCIAL LIBERAL",
+            "SIGLA_PARTIDO":"PSL",
+            "NUMERO_PARTIDO":"17"
+          },
+          "doc_count":60890
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO SOCIAL TRABALHISTA",
+            "SIGLA_PARTIDO":"PST",
+            "NUMERO_PARTIDO":"18"
+          },
+          "doc_count":21643
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO SOCIALISMO E LIBERDADE",
+            "SIGLA_PARTIDO":"PSOL",
+            "NUMERO_PARTIDO":"50"
+          },
+          "doc_count":17147
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO SOCIALISTA BRASILEIRO",
+            "SIGLA_PARTIDO":"PSB",
+            "NUMERO_PARTIDO":"40"
+          },
+          "doc_count":168585
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO SOCIALISTA DOS TRABALHADORES UNIFICADO",
+            "SIGLA_PARTIDO":"PSTU",
+            "NUMERO_PARTIDO":"16"
+          },
+          "doc_count":4297
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO TRABALHISTA BRASILEIRO",
+            "SIGLA_PARTIDO":"PTB",
+            "NUMERO_PARTIDO":"14"
+          },
+          "doc_count":239382
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO TRABALHISTA CRISTÃO",
+            "SIGLA_PARTIDO":"PTC",
+            "NUMERO_PARTIDO":"36"
+          },
+          "doc_count":30375
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO TRABALHISTA DO BRASIL",
+            "SIGLA_PARTIDO":"PT do B",
+            "NUMERO_PARTIDO":"70"
+          },
+          "doc_count":41982
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO TRABALHISTA NACIONAL",
+            "SIGLA_PARTIDO":"PTN",
+            "NUMERO_PARTIDO":"19"
+          },
+          "doc_count":38707
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PARTIDO VERDE",
+            "SIGLA_PARTIDO":"PV",
+            "NUMERO_PARTIDO":"43"
+          },
+          "doc_count":94597
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PODEMOS",
+            "SIGLA_PARTIDO":"PODE",
+            "NUMERO_PARTIDO":"19"
+          },
+          "doc_count":8
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"PRESTAGCO DE CONTAS - CANDIDATO SEM NZMERO",
+            "SIGLA_PARTIDO":"PRESTCONTAS",
+            "NUMERO_PARTIDO":"90"
+          },
+          "doc_count":1
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"REDE SUSTENTABILIDADE",
+            "SIGLA_PARTIDO":"REDE",
+            "NUMERO_PARTIDO":"18"
+          },
+          "doc_count":3909
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"SIM",
+            "SIGLA_PARTIDO":"SIM",
+            "NUMERO_PARTIDO":"55"
+          },
+          "doc_count":2
+        },
+        {
+          "key":{
+            "NOME_PARTIDO":"SOLIDARIEDADE",
+            "SIGLA_PARTIDO":"SD",
+            "NUMERO_PARTIDO":"77"
+          },
+          "doc_count":15555
+        }
+      ]
+    }
+  }
+}

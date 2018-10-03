@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Rotas da API - Politicos API{% end %}
+
+{% block head %}
+<style>
+.route-name {
+  color: #999;
+  font-weight: bold;
+}
+.route-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+}
+.route-list-item {
+  background-color: #e7f0f7;
+  border: 1px solid #c3d9ec;
+  display:flex;
+  align-items: center;
+}
+.route-method {
+  background-color: #0f6ab4;
+  margin-right: 8px;
+  color: #fff;
+  padding: 0px 8px;
+  font-size: 10px;
+  line-height: 24px;
+}
+</style>
+{% end %}
+
+{% block content %}
+  <div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+      <div class="col-lg-12">
+
+        <h2>Rotas da API</h2>
+
+        <p>Sugestão, instale um plugin para formatar a visualização caso necessário: <a href="https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=pt-BR">JSON Formatter</a> (Chrome)</p>
+
+        {% for handler in handlers %}
+            <div class="route-name">{{ handler['name'] }}</div>
+            <ul class="route-list">
+              <li class="route-list-item">
+                <div class="route-method">GET</div>
+                <div><a alt="Retrieve a list of {{ handler['name'] }}" title="Retrieve a list of {{ handler['name'] }}" href="{{ escape(handler['url']) }}" target="_blank">{{ escape(handler['url']) }}</a>
+              </li>
+            </ul>
+        {% end %}
+
+      </div>
+    </div> <!-- /row -->
+  </div> <!-- /container -->
+{% end %}

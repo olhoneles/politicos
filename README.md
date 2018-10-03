@@ -1,52 +1,102 @@
-# Politicos API [![Build Status](https://secure.travis-ci.org/olhoneles/politicos.png?branch=master)](https://travis-ci.org/olhoneles/politicos)
+# Politicos API [![Build Status][build-status]][travis]
 
-Aqui você vai encontrar os dados, ferramentas e recursos para realizar pesquisas, desenvolver aplicativos, visualizações de dados, e muito mais.
+Aqui você vai encontrar os dados, ferramentas e recursos para realizar
+pesquisas, desenvolver aplicativos, visualizações de dados e muito mais.
 
 
 ## Instalação
 
-1.  Clone o repositório:
+Temos duas formas para rodar o projeto, via [docker compose][docker-compose] ou
+instalando as dependências manualmente.
 
-        git clone https://github.com/olhoneles/politicos.git
+### Clone o repositório:
 
-1.  Crie um [*virtualenv*](http://virtualenvwrapper.readthedocs.org/en/latest/install.html):
+```
+git clone https://github.com/olhoneles/politicos.git
+```
 
-        cd politicos
-        mkvirtualenv politicos
+### Docker Compose
 
-1.  Instale as dependências:
+#### Subindo o projeto
 
-        make setup
+```
+cd politicos
+docker-compose up
+```
 
-1.  Crie o banco de dados:
+#### Para coletar os dados do TSE:
 
-        make data
+```
+make collect
+```
 
-1.  Inicialize o projeto:
+#### Para visualizar os dados:
 
-        make run
+Abra seu navegador e entre no endereço http://localhost:8888
 
-1.  Se você quiser sobrescrever algumas configurações do settings.py, como SECRET_KEY, DATABASES, ALLOWED_HOSTS, por favor crie o arquivo `politicos/local.config`.
+### Manualmente
 
+#### Crie um [*virtualenv*][virtualenv]:
+
+```
+cd politicos
+mkvirtualenv politicos
+```
+
+#### Instale as dependências (python):
+
+```
+make setup
+```
+
+#### Instale o ElasticSearch e o Redis
+
+
+* [ElasticSearch][elasticsearch]
+* [Redis][redis-server]
+
+#### Para coletar os dados do TSE:
+
+```
+make collect
+```
+
+#### Inicialize o projeto:
+
+```
+make run
+```
+
+Abra seu navegador e entre no endereço http://localhost:8888
 
 ## Como Contribuir
 
-Participe da [lista de email](http://listas.olhoneles.org/cgi-bin/mailman/listinfo/montanha-dev) e também via IRC no canal [#olhoneles](irc://irc.freenode.net:6667/olhoneles) na Freenode.
+Participe da [lista de email][lista] e também via IRC no canal
+[#olhoneles][freenode] na Freenode.
 
 Faça uma cópia do repositório e envie seus pull-requests.
 
 
 ## Licença
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU Affero General Public License for more
+details.
 
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU Affero General Public License along
+with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+[virtualenv]: http://virtualenvwrapper.readthedocs.org/en/latest/install.html
+[lista]: http://listas.olhoneles.org/cgi-bin/mailman/listinfo/montanha-dev
+[freenode]: irc://irc.freenode.net:6667/olhoneles
+[build-status]: https://secure.travis-ci.org/olhoneles/politicos.png?branch=master
+[travis]: https://travis-ci.org/olhoneles/politicos
+[docker-compose]: https://docs.docker.com/compose/install/
+[elasticsearch]: https://www.elastic.co/downloads/elasticsearch
+[redis-server]: https://redis.io/download

@@ -58,7 +58,6 @@ report.html
 # VIM
 *.swp
 
-# settings
-local.config
-
-logs
+# Coverage
+.coverage
+htmlcov/
