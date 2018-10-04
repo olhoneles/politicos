@@ -22,9 +22,6 @@ from elasticsearch_dsl import (
 from elasticsearch_dsl.connections import connections
 
 
-# Define a default Elasticsearch client
-connections.create_connection()
-
 INDEX_NAME = 'politicians'
 
 text_analyzer = analyzer(

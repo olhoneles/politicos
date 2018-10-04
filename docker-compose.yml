@@ -9,6 +9,8 @@ services:
     links:
       - redis
       - elasticsearch
+    volumes:
+      - tse-files:/root/Downloads/tse
 
   redis:
     image: redis:latest
@@ -22,3 +24,6 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
+
+volumes:
+  tse-files:

@@ -27,7 +27,7 @@ docker-compose up
 #### Para coletar os dados do TSE:
 
 ```
-make collect
+docker-compose exec api python collector.py -eh elasticsearch -l info
 ```
 
 #### Para visualizar os dados:

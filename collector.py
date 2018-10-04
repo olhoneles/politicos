@@ -20,6 +20,8 @@ import argparse
 import logging
 import os
 
+from elasticsearch_dsl.connections import connections
+
 from collector.models import setup_indices
 from collector.tse import TSE
 from collector.tse_headers import year_headers
@@ -32,13 +34,20 @@ DEFAULT_DOWNLOAD_DIRECTORY = os.path.abspath(
 
 def run(args):
     "Collect data"
+
     FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     logging.basicConfig(format=FORMAT, level=args.log_level)
     # mute elasticsearch INFO logs
     log = logging.getLogger('elasticsearch')
     log.setLevel('ERROR')
+
+    # Define a default ElasticSearch client
+    es_hosts = [dict(host=args.es_host, port=args.es_port)]
+    connections.create_connection(hosts=es_hosts)
+
     # Setup elastic search indices once before starting
     setup_indices()
+
     # Collect!
     for year in year_headers.keys():
         tse = TSE(year, path=args.download_directory)
@@ -68,6 +77,20 @@ def main():
         choices=log_levels,
         type=lambda x: x.upper(),
         help=f'Log verbosity level: {", ".join(log_levels)}',
+    )
+
+    parser.add_argument(
+        '-eh', '--es-host',
+        action='store',
+        default='localhost',
+        help='the elasticsearch host (default: localhost)',
+    )
+
+    parser.add_argument(
+        '-ep', '--es-port',
+        action='store',
+        default=9200,
+        help='the elasticsearch port (default: 9200)',
     )
 
     run(parser.parse_args())
