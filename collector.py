@@ -48,8 +48,13 @@ def run(args):
     # Setup elastic search indices once before starting
     setup_indices()
 
+    if args.year:
+        years = args.year.split(',')
+    else:
+        years = year_headers.keys()
+
     # Collect!
-    for year in year_headers.keys():
+    for year in years:
         tse = TSE(year, path=args.download_directory)
         tse.download_and_extract(remove_tmp_dir=False, remove_zip=False)
         tse.all_candidates()
@@ -91,6 +96,13 @@ def main():
         action='store',
         default=9200,
         help='the elasticsearch port (default: 9200)',
+    )
+
+    parser.add_argument(
+        '-y', '--year',
+        action='store',
+        default=None,
+        help='the election year',
     )
 
     run(parser.parse_args())
