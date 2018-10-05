@@ -33,6 +33,7 @@ from collector.models import Politicians
 
 
 OBJECT_LIST_MAXIMUM_COUNTER = 5000
+TSE_IMAGE_URL = 'http://divulgacandcontas.tse.jus.br/divulga/images'
 
 
 class TSE(object):
@@ -130,6 +131,12 @@ class TSE(object):
         except ValueError:
             pass
 
+    def _format_sigla_uf(self, data):
+        if data['sigla_uf']:
+            state_image = f'{TSE_IMAGE_URL}/{data["sigla_uf"]}.png'
+            data['unidade_eleitoral'] = {}
+            data['unidade_eleitoral']['bandeira'] = state_image
+
     # FIXME: use pandas?
     def _parse_str(self, rows):
         # convert all to string =/
@@ -172,6 +179,8 @@ class TSE(object):
                 rows['data_nascimento'] = birthday
         except Exception:
             pass
+
+        self._format_sigla_uf(rows)
 
         return rows
 
