@@ -34,6 +34,7 @@ from collector.models import Politicians
 
 OBJECT_LIST_MAXIMUM_COUNTER = 5000
 TSE_IMAGE_URL = 'http://divulgacandcontas.tse.jus.br/divulga/images'
+TSE_URL = 'http://divulgacandcontas.tse.jus.br/candidaturas/oficial'
 
 
 class TSE(object):
@@ -137,6 +138,54 @@ class TSE(object):
             data['unidade_eleitoral'] = {}
             data['unidade_eleitoral']['bandeira'] = state_image
 
+    def _format_sigla_ue(self, data):
+        sg_ue = data['sg_ue']
+        # FIXME
+        if isinstance(sg_ue, str):
+            return
+        zeros = '0' * (5 - len(data['sg_ue']))
+        data['sg_ue'] = f'{zeros}{sg_ue}'
+
+    def _format_electoral_card(self, data):
+        if len(data['num_titulo_eleitoral_candidato']) == 11:
+            electoral_card = f'0{data["num_titulo_eleitoral_candidato"]}'
+            data['num_titulo_eleitoral_candidato'] = electoral_card
+
+    def _format_politician_image(self, data):
+        elections_id = {
+            2004: '14431',
+            2006: '14423',
+            2008: '14422',
+            2010: '14417',
+            2012: '1699',
+            2014: '680',
+            2016: '01120',
+        }
+        election_id = elections_id.get(data['ano_eleicao'])
+
+        if not election_id:
+            data['foto_url'] = ''
+            return
+
+        sg_ue = data['sg_ue']
+        politician_id = data['sq_candidato']
+        uf = data['sg_uf']
+        url = f'{TSE_URL}/{data["ano_eleicao"]}'
+        electoral_card = data['nr_titulo_eleitoral_candidato']
+        if data['ano_eleicao'] in [2004, 2008, 2012]:
+            foto_url = f'{url}/{uf}/{sg_ue}/{election_id}'
+            foto_url = f'{foto_url}/{election_id}/{politician_id}/foto.png'
+        elif data['ano_eleicao'] in [2006, 2010]:
+            foto_url = f'{url}/BR/{uf}/{election_id}/{politician_id}'
+            foto_url = f'{foto_url}/foto.png'
+        elif data['ano_eleicao'] == 2014:
+            foto_url = f'{url}/BR/{uf}/{election_id}/{politician_id}'
+            foto_url = f'{foto_url}/{electoral_card}.jpg'
+        elif data['ano_eleicao'] == 2016:
+            foto_url = f'{url}/{uf}/{sg_ue}/2/{politician_id}'
+            foto_url = f'{foto_url}/{electoral_card}.jpg'
+        data['foto_url'] = foto_url
+
     # FIXME: use pandas?
     def _parse_str(self, rows):
         # convert all to string =/
@@ -181,6 +230,9 @@ class TSE(object):
             pass
 
         self._format_sigla_uf(rows)
+        self._format_electoral_card(rows)
+        self._format_sigla_ue(rows)
+        self._format_politician_image(rows)
 
         return rows
 

@@ -44,6 +44,7 @@ class UnidadeEleitoral(InnerDoc):
 class Politicians(Document):
     source = Nested(Source)
     unidade_eleitoral = Nested(UnidadeEleitoral)
+    foto_url = Text()
     # CSV fields
     ano_eleicao = Integer(required=True)
     codigo_cargo = Text(fields={'keyword': Keyword()})
