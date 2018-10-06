@@ -90,25 +90,38 @@ class TSE(object):
 
     def _get_all_csv_files(self):
         dir_name = os.path.join(self.temp_dir, f'consulta_cand_{self.year}')
+        # FIXME
+        if int(self.year) >= 2014:
+            return glob.glob(os.path.join(dir_name, '*.csv'.format(dir_name)))
         return glob.glob(os.path.join(dir_name, '*.txt'.format(dir_name)))
 
-    def _get_data(self, filename):
-        # read file and add header
+    def _read_csv(self, filename, without_header=False):
+        params = {
+            'delimiter': ';',
+            'encoding': 'ISO-8859-1',
+            'quotechar': '"',
+        }
+        if without_header:
+            params['header'] = None
         try:
-            file_data = os.path.basename(filename).split('_')
-            state = file_data[3].split('.txt')[0]
-            logging.info(f'Processing state {state}')
-            df = read_csv(
-                filename,
-                delimiter=';',
-                encoding='ISO-8859-1',
-                quotechar='"',
-                header=None,
-            )
+            df = read_csv(filename, **params)
+            return df
         except EmptyDataError:
             logging.info(f'{filename} is empty')
             return []
 
+    def _get_data(self, filename):
+        file_data = os.path.basename(filename).split('_')
+        state = os.path.splitext(file_data[3])[0]
+        logging.info(f'Processing state {state}')
+        # FIXME
+        if int(self.year) >= 2014:
+            df = self._read_csv(filename)
+            df.columns = df.columns.str.lower()
+            return df.to_dict(orient='records')
+
+        # read file and add header
+        df = self._read_csv(filename, without_header=True)
         df.columns = year_headers.get(self.year)
         # return df.to_dict(orient='records')
         # create new file with header
@@ -133,8 +146,8 @@ class TSE(object):
             pass
 
     def _format_sigla_uf(self, data):
-        if data['sigla_uf']:
-            state_image = f'{TSE_IMAGE_URL}/{data["sigla_uf"]}.png'
+        if data['sg_uf']:
+            state_image = f'{TSE_IMAGE_URL}/{data["sg_uf"]}.png'
             data['unidade_eleitoral'] = {}
             data['unidade_eleitoral']['bandeira'] = state_image
 
@@ -143,13 +156,13 @@ class TSE(object):
         # FIXME
         if isinstance(sg_ue, str):
             return
-        zeros = '0' * (5 - len(data['sg_ue']))
+        zeros = '0' * (5 - len(str(data['sg_ue'])))
         data['sg_ue'] = f'{zeros}{sg_ue}'
 
     def _format_electoral_card(self, data):
-        if len(data['num_titulo_eleitoral_candidato']) == 11:
-            electoral_card = f'0{data["num_titulo_eleitoral_candidato"]}'
-            data['num_titulo_eleitoral_candidato'] = electoral_card
+        if len(str(data['nr_titulo_eleitoral_candidato'])) == 11:
+            electoral_card = f'0{data["nr_titulo_eleitoral_candidato"]}'
+            data['nr_titulo_eleitoral_candidato'] = electoral_card
 
     def _format_politician_image(self, data):
         elections_id = {
@@ -191,41 +204,42 @@ class TSE(object):
         # convert all to string =/
         # rows = {x: str(y) for x, y in rows.items()}
         rows['ano_eleicao'] = int(rows['ano_eleicao'])
-        rows['data_geracao'] = parser.parse(rows['data_geracao'])
+        rows['dt_geracao'] = parser.parse(rows['dt_geracao'])
 
-        self._string_int_to_int(rows, 'codigo_cargo')
-        self._string_int_to_int(rows, 'codigo_estado_civil')
-        self._string_int_to_int(rows, 'codigo_nacionalidade')
-        self._string_int_to_int(rows, 'codigo_ocupacao')
-        self._string_int_to_int(rows, 'codigo_sexo')
-        self._string_int_to_int(rows, 'cod_grau_instrucao')
-        self._string_int_to_int(rows, 'cod_situacao_candidatura')
-        self._string_int_to_int(rows, 'numero_partido')
-        self._string_int_to_int(rows, 'sequencial_candidato')
+        self._string_int_to_int(rows, 'cd_cargo')
+        self._string_int_to_int(rows, 'cd_estado_civil')
+        self._string_int_to_int(rows, 'cd_nacionalidade')
+        self._string_int_to_int(rows, 'cd_ocupacao')
+        self._string_int_to_int(rows, 'cd_genero')
+        self._string_int_to_int(rows, 'cd_grau_instrucao')
+        self._string_int_to_int(rows, 'cd_situacao_candidatura')
+        self._string_int_to_int(rows, 'nr_partido')
+        self._string_int_to_int(rows, 'sq_candidato')
 
-        self._string_float_to_int(rows, 'codigo_legenda')
-        self._string_float_to_int(rows, 'cod_sit_tot_turno')
-        self._string_float_to_int(rows, 'numero_candidato')
-        self._string_float_to_int(rows, 'num_turno')
+        if 'codigo_legenda' in rows:
+            self._string_float_to_int(rows, 'codigo_legenda')
+        self._string_float_to_int(rows, 'cd_sit_tot_turno')
+        self._string_float_to_int(rows, 'nr_candidato')
+        self._string_float_to_int(rows, 'nr_turno')
 
         # FIXME: leap year (convert model to Date)
         try:
-            birthday = rows['data_nascimento']
+            birthday = rows['dt_nascimento']
             if birthday == 'nan':
-                rows['data_nascimento'] = None
+                rows['dt_nascimento'] = None
             elif birthday.find('/') != -1:
                 birthday = birthday.split('/')
                 if len(birthday[2]) == 2:
                     # FIXME
                     birthday[2] = f'19{birthday[2]}'
                 birthday = f'{birthday[2]}-{birthday[1]}-{birthday[0]}'
-                rows['data_nascimento'] = birthday
+                rows['dt_nascimento'] = birthday
             else:
                 if len(birthday) == 9:
                     birthday = f'0{birthday}'
                 birthday = birthday.replace('.0', '')
                 birthday = f'{birthday[4:]}-{birthday[2:4]}-{birthday[:2]}'
-                rows['data_nascimento'] = birthday
+                rows['dt_nascimento'] = birthday
         except Exception:
             pass
 

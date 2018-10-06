@@ -24,7 +24,7 @@ class EducationsHandler(BaseHandler):
     @cache(5)
     async def get(self):
         response = await self.agg_query([
-            'cod_grau_instrucao',
-            'descricao_grau_instrucao',
+            'cd_grau_instrucao',
+            'ds_grau_instrucao',
         ])
         await self.json_response(response)

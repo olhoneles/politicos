@@ -24,7 +24,7 @@ class GenderHandler(BaseHandler):
     @cache(5)
     async def get(self):
         response = await self.agg_query([
-            'codigo_sexo',
-            'descricao_sexo',
+            'cd_genero',
+            'ds_genero',
         ])
         await self.json_response(response)

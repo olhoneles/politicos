@@ -24,7 +24,7 @@ class CandidaciesStatusHandler(BaseHandler):
     @cache(5)
     async def get(self):
         response = await self.agg_query([
-            'cod_situacao_candidatura',
-            'des_situacao_candidatura',
+            'cd_situacao_candidatura',
+            'ds_situacao_candidatura',
         ])
         await self.json_response(response)

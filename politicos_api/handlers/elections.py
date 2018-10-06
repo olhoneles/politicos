@@ -26,6 +26,6 @@ class ElectionsHandler(BaseHandler):
         # FIXME
         response = await self.agg_query([
             'ano_eleicao',
-            'descricao_eleicao',
+            'ds_eleicao',
         ])
         await self.json_response(response)

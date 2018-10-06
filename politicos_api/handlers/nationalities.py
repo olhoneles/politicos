@@ -24,7 +24,7 @@ class NationalitiesHandler(BaseHandler):
     @cache(5)
     async def get(self):
         response = await self.agg_query([
-            'codigo_nacionalidade',
-            'descricao_nacionalidade',
+            'cd_nacionalidade',
+            'ds_nacionalidade',
         ])
         await self.json_response(response)

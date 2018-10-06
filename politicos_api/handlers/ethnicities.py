@@ -24,7 +24,7 @@ class EthnicitiesHandler(BaseHandler):
     @cache(5)
     async def get(self):
         response = await self.agg_query([
-            'codigo_cor_raca',
-            'descricao_cor_raca',
+            'cd_cor_raca',
+            'ds_cor_raca',
         ])
         await self.json_response(response)

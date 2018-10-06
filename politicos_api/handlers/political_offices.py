@@ -40,7 +40,7 @@ class PoliticalOfficesHandler(BaseHandler):
     @cache(5)
     async def get(self):
         response = await self.agg_query([
-            'codigo_cargo',
-            'descricao_cargo',
+            'cd_cargo',
+            'ds_cargo',
         ])
         await self.json_response(response)
