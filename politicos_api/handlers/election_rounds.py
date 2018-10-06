@@ -36,6 +36,6 @@ class ElectionRoundsHandler(BaseHandler):
     @cache(5)
     async def get(self):
         response = await self.agg_query([
-            'num_turno',
+            'nr_turno',
         ])
         await self.json_response(response)

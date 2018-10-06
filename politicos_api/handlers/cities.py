@@ -24,7 +24,7 @@ class CitiesHandler(BaseHandler):
     @cache(5)
     async def get(self):
         response = await self.agg_query([
-            'codigo_municipio_nascimento',
-            'nome_municipio_nascimento',
+            'cd_municipio_nascimento',
+            'nm_municipio_nascimento',
         ])
         await self.json_response(response)

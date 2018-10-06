@@ -24,8 +24,8 @@ class PoliticalPartiesHandler(BaseHandler):
     @cache(5)
     async def get(self):
         response = await self.agg_query([
-            'nome_partido',
-            'sigla_partido',
-            'numero_partido',
+            'nm_partido',
+            'sg_partido',
+            'nr_partido',
         ])
         await self.json_response(response)

@@ -24,7 +24,7 @@ class OccupationsHandler(BaseHandler):
     @cache(5)
     async def get(self):
         response = await self.agg_query([
-            'codigo_ocupacao',
-            'descricao_ocupacao',
+            'cd_ocupacao',
+            'ds_ocupacao',
         ])
         await self.json_response(response)
