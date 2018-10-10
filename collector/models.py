@@ -132,6 +132,18 @@ class Politicians(Document):
         client = connections.get_connection()
         return bulk(client, objects)
 
+    @classmethod
+    def bulk_update(cls, dicts, client=None):
+        def upsert(doc):
+            d = doc.to_dict(True)
+            d['_op_type'] = 'update'
+            d['doc'] = d['_source']
+            d['doc_as_upsert'] = True
+            del d['_source']
+            return d
+        client = client or connections.get_connection()
+        return bulk(client, (upsert(d) for d in dicts))
+
 
 def setup_indices():
     index = Index(f'{INDEX_NAME}-index')
