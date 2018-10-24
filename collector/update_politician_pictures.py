@@ -27,7 +27,7 @@ from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Q, Search
 from ujson import loads
 
-from collector.models import Politicians
+from models import Politicians
 
 
 FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
