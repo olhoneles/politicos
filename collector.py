@@ -43,7 +43,7 @@ def run(args):
 
     # Define a default ElasticSearch client
     es_hosts = [dict(host=args.es_host, port=args.es_port)]
-    connections.create_connection(hosts=es_hosts)
+    connections.create_connection(hosts=es_hosts, timeout=30)
 
     # Setup elastic search indices once before starting
     setup_indices()
