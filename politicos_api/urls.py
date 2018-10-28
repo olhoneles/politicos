@@ -19,19 +19,34 @@ from tornado.web import url
 
 from politicos_api.handlers.candidacies import CandidaciesHandler
 from politicos_api.handlers.candidacies_status import CandidaciesStatusHandler
-from politicos_api.handlers.cities import CitiesHandler
+from politicos_api.handlers.cities import CitiesHandler, CitiesSuggestHandler
 from politicos_api.handlers.developers import DevelopersHandler
-from politicos_api.handlers.educations import EducationsHandler
+from politicos_api.handlers.educations import (
+    EducationsHandler, EducationsSuggestHandler
+)
 from politicos_api.handlers.election_rounds import ElectionRoundsHandler
-from politicos_api.handlers.elections import ElectionsHandler
-from politicos_api.handlers.ethnicities import EthnicitiesHandler
+from politicos_api.handlers.elections import (
+    ElectionsHandler, ElectionsSuggestHandler
+)
+from politicos_api.handlers.ethnicities import (
+    EthnicitiesHandler, EthnicitiesSuggestHandler
+)
 from politicos_api.handlers.examples import ExamplesHandler
-from politicos_api.handlers.genders import GenderHandler
+from politicos_api.handlers.genders import GenderHandler, GenderSuggestHandler
 from politicos_api.handlers.main import MainHandler
-from politicos_api.handlers.nationalities import NationalitiesHandler
-from politicos_api.handlers.occupations import OccupationsHandler
-from politicos_api.handlers.political_offices import PoliticalOfficesHandler
-from politicos_api.handlers.political_parties import PoliticalPartiesHandler
+from politicos_api.handlers.nationalities import (
+    NationalitiesHandler, NationalitiesSuggestHandler
+)
+from politicos_api.handlers.occupations import (
+    OccupationsHandler, OccupationsSuggestHandler
+)
+from politicos_api.handlers.political_offices import (
+    PoliticalOfficesHandler, PoliticalOfficesSuggestHandler
+)
+from politicos_api.handlers.political_parties import (
+    PoliticalPartiesHandler, PoliticalPartiesSuggestHandler
+)
+from politicos_api.handlers.politicians import PoliticiansSuggestHandler
 from politicos_api.handlers.routes import RoutesHandler
 
 
@@ -54,6 +69,16 @@ handlers_api = [
     url(r'/api/v1/?', CandidaciesHandler, name='api-v1'),
     url(r'/api/v1/candidacies/?', CandidaciesHandler, name='candidacies'),
     url(
+        r'/api/v1/politicians/suggest/?',
+        PoliticiansSuggestHandler,
+        name='politicians-suggest',
+    ),
+    url(
+        r'/api/v1/political-parties/suggest/?',
+        PoliticalPartiesSuggestHandler,
+        name='political-parties-suggest',
+    ),
+    url(
         r'/api/v1/political-parties/?',
         PoliticalPartiesHandler,
         name='political-parties',
@@ -63,22 +88,62 @@ handlers_api = [
         CandidaciesStatusHandler,
         name='candidacies-status',
     ),
+    url(
+        r'/api/v1/cities/suggest/?',
+        CitiesSuggestHandler,
+        name='cities-suggest',
+    ),
     url(r'/api/v1/cities/?', CitiesHandler, name='cities'),
+    url(
+        r'/api/v1/gender/suggest/?',
+        GenderSuggestHandler,
+        name='gender-suggest'
+    ),
     url(r'/api/v1/gender/?', GenderHandler, name='gender'),
+    url(
+        r'/api/v1/educations/suggest/?',
+        EducationsSuggestHandler,
+        name='educations-suggest'
+    ),
     url(r'/api/v1/educations/?', EducationsHandler, name='educations'),
     url(
         r'/api/v1/election-rounds/?',
         ElectionRoundsHandler,
         name='election-rounds',
     ),
+    url(
+        r'/api/v1/elections/suggest/?',
+        ElectionsSuggestHandler,
+        name='elections-suggest'
+    ),
     url(r'/api/v1/elections/?', ElectionsHandler, name='elections'),
+    url(
+        r'/api/v1/ethnicities/suggest/?',
+        EthnicitiesSuggestHandler,
+        name='ethnicities-suggest'
+    ),
     url(r'/api/v1/ethnicities/?', EthnicitiesHandler, name='ethnicities'),
+    url(
+        r'/api/v1/nationalities/suggest/?',
+        NationalitiesSuggestHandler,
+        name='nationalities-suggest',
+    ),
     url(
         r'/api/v1/nationalities/?',
         NationalitiesHandler,
         name='nationalities',
     ),
+    url(
+        r'/api/v1/occupations/suggest/?',
+        OccupationsSuggestHandler,
+        name='occupations-suggest'
+    ),
     url(r'/api/v1/occupations/?', OccupationsHandler, name='occupations'),
+    url(
+        r'/api/v1/political-offices/suggest/?',
+        PoliticalOfficesSuggestHandler,
+        name='political-offices-suggest',
+    ),
     url(
         r'/api/v1/political-offices/?',
         PoliticalOfficesHandler,

@@ -28,3 +28,10 @@ class NationalitiesHandler(BaseHandler):
             'ds_nacionalidade',
         ])
         await self.json_response(response)
+
+
+class NationalitiesSuggestHandler(BaseHandler):
+
+    @cache(5)
+    async def get(self):
+        await self.suggest_response('ds_nacionalidade', ['cd_nacionalidade'])

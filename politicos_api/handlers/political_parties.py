@@ -29,3 +29,13 @@ class PoliticalPartiesHandler(BaseHandler):
             'nr_partido',
         ])
         await self.json_response(response)
+
+
+class PoliticalPartiesSuggestHandler(BaseHandler):
+
+    @cache(5)
+    async def get(self):
+        await self.suggest_response(
+            'nm_partido',
+            ['sg_partido', 'nr_partido'],
+        )

@@ -28,3 +28,13 @@ class CitiesHandler(BaseHandler):
             'nm_municipio_nascimento',
         ])
         await self.json_response(response)
+
+
+class CitiesSuggestHandler(BaseHandler):
+
+    @cache(5)
+    async def get(self):
+        await self.suggest_response(
+            'nm_municipio_nascimento',
+            ['cd_municipio_nascimento'],
+        )

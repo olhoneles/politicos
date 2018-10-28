@@ -28,3 +28,10 @@ class GenderHandler(BaseHandler):
             'ds_genero',
         ])
         await self.json_response(response)
+
+
+class GenderSuggestHandler(BaseHandler):
+
+    @cache(5)
+    async def get(self):
+        await self.suggest_response('ds_genero', ['cd_genero'])

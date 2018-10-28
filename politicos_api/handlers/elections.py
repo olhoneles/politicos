@@ -29,3 +29,15 @@ class ElectionsHandler(BaseHandler):
             'ds_eleicao',
         ])
         await self.json_response(response)
+
+
+class ElectionsSuggestHandler(BaseHandler):
+
+    @cache(5)
+    async def get(self):
+        response = await self.agg_query([
+            'ano_eleicao',
+            'ds_eleicao',
+        ])
+        response = response['objects']
+        await self.json_response(response)
