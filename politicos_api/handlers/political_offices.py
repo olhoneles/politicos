@@ -44,3 +44,10 @@ class PoliticalOfficesHandler(BaseHandler):
             'ds_cargo',
         ])
         await self.json_response(response)
+
+
+class PoliticalOfficesSuggestHandler(BaseHandler):
+
+    @cache(5)
+    async def get(self):
+        await self.suggest_response('ds_cargo', ['cd_cargo'])

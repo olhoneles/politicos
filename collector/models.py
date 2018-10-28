@@ -17,13 +17,15 @@
 
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import (
-    analyzer, Date, Document, Index, Integer, InnerDoc, Keyword, Nested,
-    Short, Text
+    analyzer, Completion, Date, Document, Index, Integer, InnerDoc, Keyword,
+    Nested, Short, Text
 )
 from elasticsearch_dsl.connections import connections
 
 
 INDEX_NAME = 'politicians'
+
+brazilian_analyzer = analyzer('brazilian')
 
 
 class Source(InnerDoc):
@@ -33,6 +35,19 @@ class Source(InnerDoc):
 
 class UnidadeEleitoral(InnerDoc):
     bandeira = Text()
+
+
+class CompletionField(Text):
+    def __init__(self, *args, **kwargs):
+        kwargs['fields'] = {
+            'keyword': Keyword(),
+            'suggest': Completion(
+                analyzer=brazilian_analyzer,
+                preserve_separators=False,
+                preserve_position_increments=False,
+            )
+        }
+        super(CompletionField, self).__init__(*args, **kwargs)
 
 
 class Politicians(Document):
@@ -56,14 +71,14 @@ class Politicians(Document):
     nr_cpf_candidato = Text(fields={'keyword': Keyword()})
     dt_geracao = Date()
     dt_nascimento = Text(fields={'keyword': Keyword()})
-    ds_cargo = Text(fields={'keyword': Keyword()})
-    ds_cor_raca = Text(fields={'keyword': Keyword()})
+    ds_cargo = CompletionField()
+    ds_cor_raca = CompletionField()
     ds_eleicao = Text(fields={'keyword': Keyword()})
     ds_estado_civil = Text(fields={'keyword': Keyword()})
-    ds_grau_instrucao = Text(fields={'keyword': Keyword()})
-    ds_nacionalidade = Text(fields={'keyword': Keyword()})
-    ds_ocupacao = Text(fields={'keyword': Keyword()})
-    ds_genero = Text(fields={'keyword': Keyword()})
+    ds_grau_instrucao = CompletionField()
+    ds_nacionalidade = CompletionField()
+    ds_ocupacao = CompletionField()
+    ds_genero = CompletionField()
     nm_ue = Text(fields={'keyword': Keyword()})
     ds_sit_tot_turno = Text(fields={'keyword': Keyword()})
     nr_despesa_max_campanha = Text(fields={'keyword': Keyword()})
@@ -71,10 +86,10 @@ class Politicians(Document):
     hr_geracao = Text(fields={'keyword': Keyword()})
     idade_data_eleicao = Text(fields={'keyword': Keyword()})
     nm_email = Text(fields={'keyword': Keyword()})
-    nm_candidato = Text(fields={'keyword': Keyword()})
+    nm_candidato = CompletionField()
     nome_legenda = Text(fields={'keyword': Keyword()})
     nm_municipio_nascimento = Text(fields={'keyword': Keyword()})
-    nm_partido = Text(fields={'keyword': Keyword()})
+    nm_partido = CompletionField()
     nm_urna_candidato = Text(fields={'keyword': Keyword()})
     nr_candidato = Text(fields={'keyword': Keyword()})
     nr_partido = Text(fields={'keyword': Keyword()})
@@ -83,7 +98,7 @@ class Politicians(Document):
     sq_candidato = Text(fields={'keyword': Keyword()})
     sigla_legenda = Text(fields={'keyword': Keyword()})
     sg_partido = Text(fields={'keyword': Keyword()})
-    sg_ue = Text(fields={'keyword': Keyword()})
+    sg_ue = CompletionField()
     sg_uf = Text(fields={'keyword': Keyword()})
     sg_uf_nascimento = Text(fields={'keyword': Keyword()})
     # 2018
@@ -154,5 +169,5 @@ def setup_index(year):
     index.settings(number_of_shards=2, number_of_replicas=0)
     index.aliases(politicians={})
     index.document(Politicians)
-    index.analyzer(analyzer('brazilian'))
+    index.analyzer(brazilian_analyzer)
     index.create()

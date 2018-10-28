@@ -28,3 +28,10 @@ class EducationsHandler(BaseHandler):
             'ds_grau_instrucao',
         ])
         await self.json_response(response)
+
+
+class EducationsSuggestHandler(BaseHandler):
+
+    @cache(5)
+    async def get(self):
+        await self.suggest_response('ds_grau_instrucao', ['cd_grau_instrucao'])

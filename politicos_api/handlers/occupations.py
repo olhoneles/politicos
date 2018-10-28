@@ -28,3 +28,10 @@ class OccupationsHandler(BaseHandler):
             'ds_ocupacao',
         ])
         await self.json_response(response)
+
+
+class OccupationsSuggestHandler(BaseHandler):
+
+    @cache(5)
+    async def get(self):
+        await self.suggest_response('ds_ocupacao', ['cd_ocupacao'])

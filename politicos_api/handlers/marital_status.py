@@ -19,19 +19,16 @@ from politicos_api.cache import cache
 from politicos_api.handlers.base import BaseHandler
 
 
-class EthnicitiesHandler(BaseHandler):
+class MaritalStatusHandler(BaseHandler):
 
     @cache(5)
     async def get(self):
-        response = await self.agg_query([
-            'cd_cor_raca',
-            'ds_cor_raca',
-        ])
+        response = await self.agg_query(['ds_estado_civil', 'cd_estado_civil'])
         await self.json_response(response)
 
 
-class EthnicitiesSuggestHandler(BaseHandler):
+class MaritalStatusSuggestHandler(BaseHandler):
 
     @cache(5)
     async def get(self):
-        await self.suggest_response('ds_cor_raca', ['cd_cor_raca'])
+        await self.suggest_response('ds_estado_civil', ['cd_estado_civil'])

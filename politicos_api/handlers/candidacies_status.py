@@ -28,3 +28,10 @@ class CandidaciesStatusHandler(BaseHandler):
             'ds_situacao_candidatura',
         ])
         await self.json_response(response)
+
+
+class CandidaciesStatusSuggestHandler(BaseHandler):
+
+    @cache(5)
+    async def get(self):
+        await self.suggest_response('ds_sit_tot_turno', ['cd_sit_tot_turno'])

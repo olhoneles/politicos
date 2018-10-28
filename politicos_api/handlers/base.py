@@ -97,7 +97,7 @@ class BaseHandler(CacheMixin, RequestHandler):
             'total': total,
         }
 
-    async def agg_query(self, fields):
+    async def agg_query(self, fields, size=1000):
         sources = []
         for x in fields:
             # FIXME: added way to integer fields
@@ -111,7 +111,7 @@ class BaseHandler(CacheMixin, RequestHandler):
             'aggs': {
                 'result': {
                     'composite': {
-                        'size': 1000,
+                        'size': size,
                         'sources': sources,
                     }
                 }
@@ -132,6 +132,51 @@ class BaseHandler(CacheMixin, RequestHandler):
             'objects': result,
         }
         return response
+
+    async def suggest_query(self, text, field, other_fields=[], size=10):
+        query = {
+            'query': {
+                'prefix': text or '',
+                'completion': {
+                    'field': field,
+                    'size': size,
+                    'skip_duplicates': True,
+                    'fuzzy': True,
+                }
+            }
+        }
+        query = await self.es.search(
+            index=options.es_index,
+            body={'suggest': query},
+        )
+        response_options = query['suggest']['query'][0]['options']
+        key = field.split('.suggest')[0]
+        results = []
+        for option in response_options:
+            items = {key: option.get('text')}
+            for other_field in other_fields:
+                items.update({
+                    other_field: option.get('_source', {}).get(other_field)
+                })
+            results.append(items)
+        return results
+
+    async def suggest_response(self, key, extra_fields=[]):
+        text = self.get_argument('q', '')
+        if text:
+            response = await self.suggest_query(
+                text,
+                f'{key}.suggest',
+                extra_fields,
+            )
+        else:
+            extra_fields.insert(0, key)
+            response = await self.agg_query(
+                extra_fields,
+                size=10,
+            )
+            response = response['objects']
+        await self.json_response(response)
 
 
 class ErrorHandler(BaseErrorHandler):
