@@ -2,7 +2,7 @@ run:
 	@python server.py
 
 setup:
-	@pip install -r requirements.txt -r requirements_dev.txt
+	@pip install -r requirements.txt -r requirements_dev.txt -U
 
 setup-prod:
 	@pip install -r requirements.txt
