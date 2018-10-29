@@ -25,13 +25,6 @@ from elasticsearch_dsl.connections import connections
 
 INDEX_NAME = 'politicians'
 
-text_analyzer = analyzer(
-    'text_analyzer',
-    tokenizer='standard',
-    filter=['standard', 'lowercase', 'stop', 'snowball'],
-    char_filter=['html_strip']
-)
-
 
 class Source(InnerDoc):
     filename = Text()
@@ -80,10 +73,7 @@ class Politicians(Document):
     nm_email = Text(fields={'keyword': Keyword()})
     nm_candidato = Text(fields={'keyword': Keyword()})
     nome_legenda = Text(fields={'keyword': Keyword()})
-    nm_municipio_nascimento = Text(
-        fields={'keyword': Keyword()},
-        analyzer=text_analyzer
-    )
+    nm_municipio_nascimento = Text(fields={'keyword': Keyword()})
     nm_partido = Text(fields={'keyword': Keyword()})
     nm_urna_candidato = Text(fields={'keyword': Keyword()})
     nr_candidato = Text(fields={'keyword': Keyword()})
@@ -159,7 +149,7 @@ def setup_indices():
 
     index.document(Politicians)
 
-    index.analyzer(text_analyzer)
+    index.analyzer(analyzer('brazilian'))
 
     index_template = Politicians._index.as_template(
         INDEX_NAME,
