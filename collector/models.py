@@ -134,25 +134,25 @@ class Politicians(Document):
         client = client or connections.get_connection()
         return bulk(client, (upsert(d) for d in dicts))
 
+    class Index:
+        name = INDEX_NAME
+        settings = {
+            'number_of_shards': 2
+        }
 
-def setup_indices():
-    index = Index(f'{INDEX_NAME}-index')
 
-    index.settings(
-        number_of_shards=1,
-        number_of_replicas=0
-    )
-
-    index.aliases(
-        politicians={}
-    )
-
-    index.document(Politicians)
-
-    index.analyzer(analyzer('brazilian'))
-
+def setup_index_template():
     index_template = Politicians._index.as_template(
         INDEX_NAME,
         f'{INDEX_NAME}-*',
     )
     index_template.save()
+
+
+def setup_index(year):
+    index = Index(f'{INDEX_NAME}-{year}')
+    index.settings(number_of_shards=2, number_of_replicas=0)
+    index.aliases(politicians={})
+    index.document(Politicians)
+    index.analyzer(analyzer('brazilian'))
+    index.create()

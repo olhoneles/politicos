@@ -22,7 +22,7 @@ import os
 
 from elasticsearch_dsl.connections import connections
 
-from collector.models import setup_indices
+from collector.models import setup_index_template, setup_index
 from collector.tse import TSE
 from collector.tse_headers import year_headers
 
@@ -46,7 +46,7 @@ def run(args):
     connections.create_connection(hosts=es_hosts, timeout=30)
 
     # Setup elastic search indices once before starting
-    setup_indices()
+    setup_index_template()
 
     if args.year:
         years = args.year.split(',')
@@ -55,6 +55,7 @@ def run(args):
 
     # Collect!
     for year in years:
+        setup_index(year)
         tse = TSE(year, path=args.download_directory)
         tse.download_and_extract(remove_tmp_dir=False, remove_zip=False)
         tse.all_candidates()
