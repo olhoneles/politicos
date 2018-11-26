@@ -166,7 +166,7 @@ class BaseHandler(CacheMixin, RequestHandler):
             results.append(items)
         return results
 
-    async def suggest_response(self, key, extra_fields):
+    async def suggest_response(self, key, extra_fields=[]):
         text = self.get_argument('q', '')
         if text:
             response = await self.suggest_query(

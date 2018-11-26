@@ -18,7 +18,9 @@
 from tornado.web import url
 
 from politicos_api.handlers.candidacies import CandidaciesHandler
-from politicos_api.handlers.candidacies_status import CandidaciesStatusHandler
+from politicos_api.handlers.candidacies_status import (
+    CandidaciesStatusHandler, CandidaciesStatusSuggestHandler
+)
 from politicos_api.handlers.cities import CitiesHandler, CitiesSuggestHandler
 from politicos_api.handlers.developers import DevelopersHandler
 from politicos_api.handlers.educations import (
@@ -48,6 +50,10 @@ from politicos_api.handlers.political_parties import (
 )
 from politicos_api.handlers.politicians import PoliticiansSuggestHandler
 from politicos_api.handlers.routes import RoutesHandler
+from politicos_api.handlers.states import StatesHandler, StatesSuggestHandler
+from politicos_api.handlers.marital_status import (
+    MaritalStatusHandler, MaritalStatusSuggestHandler
+)
 
 
 handlers_website = [
@@ -82,6 +88,11 @@ handlers_api = [
         r'/api/v1/political-parties/?',
         PoliticalPartiesHandler,
         name='political-parties',
+    ),
+    url(
+        r'/api/v1/candidacies-status/suggest/?',
+        CandidaciesStatusSuggestHandler,
+        name='candidacies-status/-suggest'
     ),
     url(
         r'/api/v1/candidacies-status/?',
@@ -148,5 +159,25 @@ handlers_api = [
         r'/api/v1/political-offices/?',
         PoliticalOfficesHandler,
         name='political-offices',
+    ),
+    url(
+        r'/api/v1/states/suggest/?',
+        StatesSuggestHandler,
+        name='states-suggest',
+    ),
+    url(
+        r'/api/v1/states/?',
+        StatesHandler,
+        name='states',
+    ),
+    url(
+        r'/api/v1/marital-status/suggest/?',
+        MaritalStatusSuggestHandler,
+        name='marital-status-suggest',
+    ),
+    url(
+        r'/api/v1/marital-status/?',
+        MaritalStatusHandler,
+        name='marital-status',
     ),
 ]

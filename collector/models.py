@@ -88,7 +88,7 @@ class Politicians(Document):
     nm_email = Text(fields={'keyword': Keyword()})
     nm_candidato = CompletionField()
     nome_legenda = Text(fields={'keyword': Keyword()})
-    nm_municipio_nascimento = CompletionField()
+    nm_municipio_nascimento = Text(fields={'keyword': Keyword()})
     nm_partido = CompletionField()
     nm_urna_candidato = Text(fields={'keyword': Keyword()})
     nr_candidato = Text(fields={'keyword': Keyword()})
@@ -98,7 +98,7 @@ class Politicians(Document):
     sq_candidato = Text(fields={'keyword': Keyword()})
     sigla_legenda = Text(fields={'keyword': Keyword()})
     sg_partido = Text(fields={'keyword': Keyword()})
-    sg_ue = Text(fields={'keyword': Keyword()})
+    sg_ue = CompletionField()
     sg_uf = Text(fields={'keyword': Keyword()})
     sg_uf_nascimento = Text(fields={'keyword': Keyword()})
     # 2018

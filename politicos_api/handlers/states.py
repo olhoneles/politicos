@@ -19,22 +19,16 @@ from politicos_api.cache import cache
 from politicos_api.handlers.base import BaseHandler
 
 
-class CitiesHandler(BaseHandler):
+class StatesHandler(BaseHandler):
 
     @cache(5)
     async def get(self):
-        response = await self.agg_query([
-            'sg_ue',
-            'nm_ue',
-        ])
+        response = await self.agg_query(['sg_uf'])
         await self.json_response(response)
 
 
-class CitiesSuggestHandler(BaseHandler):
+class StatesSuggestHandler(BaseHandler):
 
     @cache(5)
     async def get(self):
-        await self.suggest_response(
-            'nm_ue',
-            ['sg_ue'],
-        )
+        await self.suggest_response('sg_uf')
