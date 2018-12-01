@@ -101,9 +101,14 @@ class BaseHandler(CacheMixin, RequestHandler):
         sources = []
         for x in fields:
             # FIXME: added way to integer fields
-            sources.append(
-                {x: {'terms': {'field': f'{x}.keyword', 'missing': True}}}
-            )
+            if x == 'ano_eleicao':
+                sources.append(
+                    {x: {'terms': {'field': x}}}
+                )
+            else:
+                sources.append(
+                    {x: {'terms': {'field': f'{x}.keyword', 'missing': True}}}
+                )
 
         # FIXME: size (paginate)
         body = {
