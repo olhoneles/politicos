@@ -100,6 +100,8 @@ class TSE(object):
             'delimiter': ';',
             'encoding': 'ISO-8859-1',
             'quotechar': '"',
+            # Avoiding converting string to int (nr_cpf_candidato)
+            'dtype': object
         }
         if without_header:
             params['header'] = None
