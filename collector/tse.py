@@ -92,8 +92,8 @@ class TSE(object):
         dir_name = os.path.join(self.temp_dir, f'consulta_cand_{self.year}')
         # FIXME
         if int(self.year) >= 2014:
-            return glob.glob(os.path.join(dir_name, '*.csv'.format(dir_name)))
-        return glob.glob(os.path.join(dir_name, '*.txt'.format(dir_name)))
+            return glob.glob(os.path.join(dir_name, '*[!_BRASIL].csv'))
+        return glob.glob(os.path.join(dir_name, '*[!_BRASIL].txt'))
 
     def _read_csv(self, filename, without_header=False):
         params = {
