@@ -19,7 +19,7 @@ from tornado.options import options
 
 from politicos_api.cache import cache
 from politicos_api.handlers.base import BaseHandler
-from collector.models import Politicians
+from collector.models.politicians import Politicians
 
 
 class CandidaciesHandler(BaseHandler):
