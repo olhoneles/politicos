@@ -24,7 +24,7 @@ from elasticsearch_dsl.connections import connections
 from .base import brazilian_analyzer, CompletionField
 
 
-INDEX_NAME = 'politiciansoccupations'
+INDEX_NAME = 'politicians'
 
 
 class Source(InnerDoc):

@@ -23,10 +23,24 @@ class CitiesHandler(BaseHandler):
 
     @cache(5)
     async def get(self):
-        response = await self.agg_query([
-            'sg_ue',
-            'nm_ue',
-        ])
+        body = {
+            'from': self.per_page * (self.page - 1),
+        }
+
+        result = await self.es.search(
+            index='cities',
+            body=body,
+            size=self.per_page,
+        )
+
+        response = {
+            'meta': self.get_meta(result),
+            'objects': [
+                x.get('_source')
+                for x in result.get('hits', {}).get('hits', {})
+            ]
+        }
+
         await self.json_response(response)
 
 

@@ -22,8 +22,8 @@ import os
 
 from elasticsearch_dsl.connections import connections
 
-from collector.models.politicians import setup_index_template, setup_index
 from collector.models.cities import setup_cities_index
+from collector.models.politicians import setup_index_template, setup_index
 from collector.tse import TSE
 from collector.tse_headers import year_headers
 

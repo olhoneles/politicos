@@ -21,8 +21,8 @@ from elasticsearch_dsl import A, Keyword, Text
 from elasticsearch_dsl.connections import connections
 from elasticsearch.helpers import bulk
 
-from base import BaseModel, CompletionField
-from politicians import Politicians
+from .base import BaseModel, CompletionField
+from .politicians import Politicians
 
 
 connections.create_connection(hosts=['localhost'], timeout=20)
@@ -54,6 +54,8 @@ class Cities(BaseModel):
 
 
 def setup_cities_index():
+    logging.info(f'Creating cities index...')
+
     Cities.init()
 
     documents = []
@@ -69,16 +71,14 @@ def setup_cities_index():
         documents.append(city)
         if total >= OBJECT_LIST_MAXIMUM_COUNTER:
             Cities.bulk_save(documents)
-            logging.info(f'Added {OBJECT_LIST_MAXIMUM_COUNTER} items')
+            logging.debug(f'Added {OBJECT_LIST_MAXIMUM_COUNTER} items')
             documents = []
             total = 0
         total += 1
 
     if documents:
         Cities.bulk_save(documents)
-        logging.info(f'Added {total} items')
+        logging.debug(f'Added {total} items')
         documents = []
 
-
-if __name__ == '__main__':
-    setup_cities_index()
+    logging.info(f'Cities index done!')
