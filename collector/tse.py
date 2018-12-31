@@ -89,11 +89,21 @@ class TSE(object):
         return csv_rows
 
     def _get_all_csv_files(self):
-        dir_name = os.path.join(self.temp_dir, f'consulta_cand_{self.year}')
+        def _get_files(extension):
+            dir_name = os.path.join(
+                self.temp_dir,
+                f'consulta_cand_{self.year}'
+            )
+            files = os.path.join(dir_name, f'*.{extension}')
+            return [
+                fn for fn in glob.glob(files)
+                if not fn.endswith(f'_BRASIL.{extension}')
+            ]
+
         # FIXME
         if int(self.year) >= 2014:
-            return glob.glob(os.path.join(dir_name, '*[!_BRASIL].csv'))
-        return glob.glob(os.path.join(dir_name, '*[!_BRASIL].txt'))
+            return _get_files('csv')
+        return _get_files('txt')
 
     def _read_csv(self, filename, without_header=False):
         params = {
