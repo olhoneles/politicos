@@ -65,7 +65,7 @@ class Politicians(Document):
     ds_nacionalidade = CompletionField()
     ds_ocupacao = CompletionField()
     ds_genero = CompletionField()
-    nm_ue = Text(fields={'keyword': Keyword()})
+    nm_ue = CompletionField()
     ds_sit_tot_turno = Text(fields={'keyword': Keyword()})
     nr_despesa_max_campanha = Text(fields={'keyword': Keyword()})
     ds_situacao_candidatura = Text(fields={'keyword': Keyword()})
