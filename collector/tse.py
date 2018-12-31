@@ -95,10 +95,10 @@ class TSE(object):
                 f'consulta_cand_{self.year}'
             )
             files = os.path.join(dir_name, f'*.{extension}')
-            return [
+            return sorted([
                 fn for fn in glob.glob(files)
                 if not fn.endswith(f'_BRASIL.{extension}')
-            ]
+            ])
 
         # FIXME
         if int(self.year) >= 2014:
