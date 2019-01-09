@@ -21,7 +21,7 @@ from elasticsearch_dsl import (
 )
 from elasticsearch_dsl.connections import connections
 
-from .base import brazilian_analyzer, CompletionField
+from base import brazilian_analyzer, CompletionField
 
 
 INDEX_NAME = 'politicians'

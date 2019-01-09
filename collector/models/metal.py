@@ -18,9 +18,12 @@
 import logging
 from collections import defaultdict
 
-from elasticsearch_dsl import Q, Search, InnerDoc, Integer, Nested, Text
+from elasticsearch_dsl import (
+    Boolean, Q, Search, InnerDoc, Integer, Nested, Text
+)
 from elasticsearch_dsl.connections import connections
 from elasticsearch.helpers import bulk
+from pycpfcnpj import cpfcnpj
 
 from politicians import Politicians
 
@@ -60,6 +63,7 @@ class Candidacies(InnerDoc):
 class Metal(Politicians):
 
     candidacies = Nested(Candidacies)
+    nr_cpf_candidato_validado = Boolean()
 
     def add_candidacies(
             self, ano_eleicao, ds_sit_tot_turno, nm_ue, sg_uf, ds_cargo,
@@ -125,8 +129,10 @@ def insert_documents(candidacies):
     for bucket in response.aggregations.politicians.buckets:
         for x in bucket.candidacies:
             data = x.to_dict()
+            cpf = data['nr_cpf_candidato']
             metal = Metal(**data)
-            for m in candidacies[data['nr_cpf_candidato']]:
+            metal.nr_cpf_candidato_validado = cpfcnpj.validate(cpf)
+            for m in candidacies[cpf]:
                 metal.add_candidacies(**m)
             documents.append(metal)
     logging.info(f'Added {len(documents)} items...')
