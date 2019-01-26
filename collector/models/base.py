@@ -36,3 +36,18 @@ class CompletionField(Text):
             )
         }
         super(CompletionField, self).__init__(*args, **kwargs)
+
+
+class BaseModel(object):
+
+    @classmethod
+    def bulk_save(cls, dicts):
+        objects = (
+            dict(
+                d.to_dict(include_meta=True),
+                **{'_index': cls.Index.name}
+            )
+            for d in dicts
+        )
+        client = connections.get_connection()
+        return bulk(client, objects)
