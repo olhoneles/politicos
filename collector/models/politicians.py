@@ -17,15 +17,14 @@
 
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import (
-    analyzer, Completion, Date, Document, Index, Integer, InnerDoc, Keyword,
-    Nested, Short, Text
+    Date, Document, Index, Integer, InnerDoc, Keyword, Nested, Short, Text
 )
 from elasticsearch_dsl.connections import connections
 
+from .base import brazilian_analyzer, CompletionField
+
 
 INDEX_NAME = 'politicians'
-
-brazilian_analyzer = analyzer('brazilian')
 
 
 class Source(InnerDoc):
@@ -35,19 +34,6 @@ class Source(InnerDoc):
 
 class UnidadeEleitoral(InnerDoc):
     bandeira = Text()
-
-
-class CompletionField(Text):
-    def __init__(self, *args, **kwargs):
-        kwargs['fields'] = {
-            'keyword': Keyword(),
-            'suggest': Completion(
-                analyzer=brazilian_analyzer,
-                preserve_separators=False,
-                preserve_position_increments=False,
-            )
-        }
-        super(CompletionField, self).__init__(*args, **kwargs)
 
 
 class Politicians(Document):

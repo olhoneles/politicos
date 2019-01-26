@@ -29,7 +29,7 @@ from pandas import read_csv
 from pandas.errors import EmptyDataError
 
 from collector.tse_headers import year_headers
-from collector.models import Politicians
+from collector.models.politicians import Politicians
 
 
 OBJECT_LIST_MAXIMUM_COUNTER = 5000
