@@ -22,8 +22,8 @@ import os
 
 from elasticsearch_dsl.connections import connections
 
-from collector.models.politicians import setup_index_template, setup_index
-from collector.tse import TSE
+from collector.models import setup
+from collector.tse import import_tse
 from collector.tse_headers import year_headers
 
 
@@ -45,20 +45,15 @@ def run(args):
     es_hosts = [dict(host=args.es_host, port=args.es_port)]
     connections.create_connection(hosts=es_hosts, timeout=30)
 
-    # Setup elastic search indices once before starting
-    setup_index_template()
-
     if args.year:
         years = args.year.split(',')
     else:
         years = year_headers.keys()
 
-    # Collect!
-    for year in years:
-        setup_index(year)
-        tse = TSE(year, path=args.download_directory)
-        tse.download_and_extract(remove_tmp_dir=False, remove_zip=False)
-        tse.all_candidates()
+    # Setup elastic search indices once before starting
+    setup(years)
+    # Kickoff the pipeline
+    import_tse(years, args.download_directory)
 
 
 def main():
