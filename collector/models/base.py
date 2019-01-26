@@ -15,7 +15,7 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from elasticsearch_dsl import analyzer, Completion, Keyword, Text
+from elasticsearch_dsl import analyzer, Completion, Keyword, Text, Document
 from elasticsearch_dsl.connections import connections
 from elasticsearch.helpers import bulk
 
@@ -38,7 +38,7 @@ class CompletionField(Text):
         super(CompletionField, self).__init__(*args, **kwargs)
 
 
-class BaseModel(object):
+class BaseModel(Document):
 
     @classmethod
     def bulk_save(cls, dicts):
