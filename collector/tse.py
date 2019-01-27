@@ -300,6 +300,7 @@ def import_tse(years, path):
     cpf_unique = df['nr_cpf_candidato'].unique()
     cpf_groups = df.groupby('nr_cpf_candidato')
 
+    logging.info(f'Save data')
     documents = []
 
     def save_batch():
@@ -330,3 +331,4 @@ def import_tse(years, path):
             save_batch()
     if documents:
         save_batch()
+    logging.info(f'Done with data indexing')
