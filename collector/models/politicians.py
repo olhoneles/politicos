@@ -27,17 +27,12 @@ from .base import brazilian_analyzer, CompletionField
 INDEX_NAME = 'politicians'
 
 
-class Source(InnerDoc):
-    filename = Text()
-    line = Integer()
-
-
 class UnidadeEleitoral(InnerDoc):
     bandeira = Text()
 
 
 class Politicians(Document):
-    source = Nested(Source)
+    filename = Text()
     unidade_eleitoral = Nested(UnidadeEleitoral)
     foto_url = Text()
     # CSV fields

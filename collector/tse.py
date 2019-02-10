@@ -130,14 +130,14 @@ class TSE(object):
         # FIXME
         if int(self.year) >= 2014:
             df = self._read_csv(filename)
-            df['filename'] = filename
+            df['filename'] = basename
             df.columns = df.columns.str.lower()
             return df
 
         # read file and add header
         df = self._read_csv(filename, without_header=True)
         df.columns = year_headers.get(self.year)
-        df['filename'] = filename
+        df['filename'] = basename
         # create new file with header
         header_file = f'{filename}_header.csv'
         df.to_csv(header_file, index=False)
@@ -324,7 +324,7 @@ def import_tse(years, path):
                 candidacy['nm_ue'],
                 candidacy['sg_uf'],
                 candidacy['ds_cargo'],
-                source='',
+                candidacy['filename'],
             )
         documents.append(politician)
         if len(documents) == OBJECT_LIST_MAXIMUM_COUNTER:

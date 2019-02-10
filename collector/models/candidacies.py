@@ -31,6 +31,7 @@ class Candidacies(InnerDoc):
     ds_sit_tot_turno = Text(fields={'keyword': Keyword()})
     nm_ue = Text(fields={'keyword': Keyword()})
     sg_uf = Text(fields={'keyword': Keyword()})
+    filename = Text()
 
 
 class PoliticianCandidacies(Politicians):
@@ -44,7 +45,7 @@ class PoliticianCandidacies(Politicians):
 
     def add_candidacies(
             self, ano_eleicao, ds_sit_tot_turno, nm_ue, sg_uf, ds_cargo,
-            source):
+            filename):
 
         self.candidacies.append(
             Candidacies(
@@ -52,7 +53,7 @@ class PoliticianCandidacies(Politicians):
                 ds_sit_tot_turno=ds_sit_tot_turno,
                 nm_ue=nm_ue, sg_uf=sg_uf,
                 ds_cargo=ds_cargo,
-                source=source,
+                filename=filename,
             )
         )
 
