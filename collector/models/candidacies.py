@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (c) 2019, Marcelo Jorge Vieira <metal@alucinados.com>
+# Copyright (c) 2018, Marcelo Jorge Vieira <metal@alucinados.com>
 #
 #  This program is free software: you can redistribute it and/or modify it
 #  under the terms of the GNU Affero General Public License as published by the
@@ -16,13 +16,19 @@
 #  along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from elasticsearch.helpers import bulk
-from elasticsearch_dsl import InnerDoc, Integer, Keyword, Nested, Text
+from elasticsearch_dsl import (
+    Document, Date, InnerDoc, Integer, Keyword, Nested, Short, Text
+)
 from elasticsearch_dsl.connections import connections
 
-from .politicians import Politicians
+from .base import CompletionField
 
 
 INDEX_NAME = 'candidacies'
+
+
+class UnidadeEleitoral(InnerDoc):
+    bandeira = Text()
 
 
 class Candidacies(InnerDoc):
@@ -34,8 +40,73 @@ class Candidacies(InnerDoc):
     filename = Text()
 
 
-class PoliticianCandidacies(Politicians):
+class PoliticianCandidacies(Document):
+    filename = Text()
     candidacies = Nested(Candidacies)
+    unidade_eleitoral = Nested(UnidadeEleitoral)
+    foto_url = Text()
+    # CSV fields
+    ano_eleicao = Integer(required=True)
+    cd_cargo = Text(fields={'keyword': Keyword()})
+    cd_cor_raca = Text(fields={'keyword': Keyword()})
+    cd_estado_civil = Text(fields={'keyword': Keyword()})
+    codigo_legenda = Text(fields={'keyword': Keyword()})
+    cd_municipio_nascimento = Text(fields={'keyword': Keyword()})
+    cd_nacionalidade = Text(fields={'keyword': Keyword()})
+    cd_ocupacao = Text(fields={'keyword': Keyword()})
+    cd_genero = Text(fields={'keyword': Keyword()})
+    cd_grau_instrucao = Text(fields={'keyword': Keyword()})
+    cd_situacao_candidatura = Text(fields={'keyword': Keyword()})
+    cd_sit_tot_turno = Text(fields={'keyword': Keyword()})
+    composicao_legenda = Text(fields={'keyword': Keyword()})
+    nr_cpf_candidato = Text(fields={'keyword': Keyword()})
+    dt_geracao = Date()
+    dt_nascimento = Text(fields={'keyword': Keyword()})
+    ds_cargo = CompletionField()
+    ds_cor_raca = CompletionField()
+    ds_eleicao = Text(fields={'keyword': Keyword()})
+    ds_estado_civil = Text(fields={'keyword': Keyword()})
+    ds_grau_instrucao = CompletionField()
+    ds_nacionalidade = CompletionField()
+    ds_ocupacao = CompletionField()
+    ds_genero = CompletionField()
+    nm_ue = CompletionField()
+    ds_sit_tot_turno = Text(fields={'keyword': Keyword()})
+    nr_despesa_max_campanha = Text(fields={'keyword': Keyword()})
+    ds_situacao_candidatura = Text(fields={'keyword': Keyword()})
+    hr_geracao = Text(fields={'keyword': Keyword()})
+    idade_data_eleicao = Text(fields={'keyword': Keyword()})
+    nm_email = Text(fields={'keyword': Keyword()})
+    nm_candidato = CompletionField()
+    nome_legenda = Text(fields={'keyword': Keyword()})
+    nm_municipio_nascimento = Text(fields={'keyword': Keyword()})
+    nm_partido = CompletionField()
+    nm_urna_candidato = Text(fields={'keyword': Keyword()})
+    nr_candidato = Text(fields={'keyword': Keyword()})
+    nr_partido = Text(fields={'keyword': Keyword()})
+    nr_titulo_eleitoral_candidato = Text(fields={'keyword': Keyword()})
+    nr_turno = Text(fields={'keyword': Keyword()})
+    sq_candidato = Text(fields={'keyword': Keyword()})
+    sigla_legenda = Text(fields={'keyword': Keyword()})
+    sg_partido = Text(fields={'keyword': Keyword()})
+    sg_ue = CompletionField()
+    sg_uf = Text(fields={'keyword': Keyword()})
+    sg_uf_nascimento = Text(fields={'keyword': Keyword()})
+    # 2018
+    cd_detalhe_situacao_cand = Integer()
+    cd_eleicao = Integer()
+    cd_tipo_eleicao = Short()
+    ds_detalhe_situacao_cand = Text(fields={'keyword': Keyword()})
+    dt_eleicao = Text(fields={'keyword': Keyword()})
+    nm_social_candidato = Text(fields={'keyword': Keyword()})
+    nm_tipo_eleicao = Text(fields={'keyword': Keyword()})
+    nr_idade_data_posse = Short()
+    nr_processo = Text(fields={'keyword': Keyword()})
+    nr_protocolo_candidatura = Text(fields={'keyword': Keyword()})
+    st_declarar_bens = Text(fields={'keyword': Keyword()})
+    st_reeleicao = Text(fields={'keyword': Keyword()})
+    tp_abrangencia = Text(fields={'keyword': Keyword()})
+    tp_agremiacao = Text(fields={'keyword': Keyword()})
 
     class Index:
         name = INDEX_NAME

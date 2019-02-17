@@ -17,9 +17,9 @@
 
 from tornado.options import options
 
+from collector.models.candidacies import PoliticianCandidacies as Candidacies
 from politicos_api.cache import cache
 from politicos_api.handlers.base import BaseHandler
-from collector.models.politicians import Politicians
 
 
 class CandidaciesHandler(BaseHandler):
@@ -34,7 +34,7 @@ class CandidaciesHandler(BaseHandler):
         errors = []
         # mapping = await self.es.indices.get_mapping(index=options.es_index)
         for field in self.query_arguments:
-            if not Politicians._doc_type.mapping.resolve_field(field):
+            if not Candidacies._doc_type.mapping.resolve_field(field):
                 errors.append({field: 'Invalid Attribute'})
         if errors:
             errors = dict(errors=errors)

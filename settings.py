@@ -22,7 +22,7 @@ define('port', default=8888, help='port to listen on', type=int)
 define('redis_port', default=6379, help='redis port')
 define('redis_host', default='localhost', help='redis hostname or IP')
 define('es_hosts', default='localhost', help='elasticsearch hosts')
-define('es_index', default='politicians', help='elasticsearch index')
+define('es_index', default='candidacies', help='elasticsearch index')
 
 options.parse_command_line()
 

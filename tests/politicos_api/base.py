@@ -31,7 +31,7 @@ define('port', default=8888, help='port to listen on')
 define('redis_host', default='localhost', help='redis hostname or IP')
 define('redis_port', default=6379, help='redis port')
 define('es_hosts', default='localhost', help='elasticsearch hosts')
-define('es_index', default='politicians', help='elasticsearch index')
+define('es_index', default='candidacies', help='elasticsearch index')
 define('per_page', default=10, help='items per page')
 define('max_per_page', default=50, help='max items per page')
 
