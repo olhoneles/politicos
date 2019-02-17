@@ -179,6 +179,7 @@ def _string_int_to_int(rows, value):
     except ValueError:
         pass
 
+
 def _string_float_to_int(rows, value):
     if not rows[value]:
         return None
@@ -187,11 +188,13 @@ def _string_float_to_int(rows, value):
     except ValueError:
         pass
 
+
 def _format_sigla_uf(data):
     if data['sg_uf']:
         state_image = f'{TSE_IMAGE_URL}/{data["sg_uf"]}.png'
         data['unidade_eleitoral'] = {}
         data['unidade_eleitoral']['bandeira'] = state_image
+
 
 def _format_sigla_ue(data):
     sg_ue = data['sg_ue']
@@ -201,10 +204,12 @@ def _format_sigla_ue(data):
     zeros = '0' * (5 - len(str(data['sg_ue'])))
     data['sg_ue'] = f'{zeros}{sg_ue}'
 
+
 def _format_electoral_card(data):
     if len(str(data['nr_titulo_eleitoral_candidato'])) == 11:
         electoral_card = f'0{data["nr_titulo_eleitoral_candidato"]}'
         data['nr_titulo_eleitoral_candidato'] = electoral_card
+
 
 def _format_politician_image(data):
     elections_id = {
@@ -240,6 +245,7 @@ def _format_politician_image(data):
         foto_url = f'{url}/{uf}/{sg_ue}/2/{politician_id}'
         foto_url = f'{foto_url}/{electoral_card}.jpg'
     data['foto_url'] = foto_url
+
 
 # FIXME: use pandas?
 def _parse_str(rows):
