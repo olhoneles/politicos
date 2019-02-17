@@ -234,7 +234,7 @@ def _format_politician_image(data):
     electoral_card = data['nr_titulo_eleitoral_candidato']
     if data['ano_eleicao'] in [2004, 2008, 2012]:
         foto_url = f'{url}/{uf}/{sg_ue}/{election_id}'
-        foto_url = f'{foto_url}/{election_id}/{politician_id}/foto.png'
+        foto_url = f'{foto_url}/{politician_id}/foto.png'
     elif data['ano_eleicao'] in [2006, 2010]:
         foto_url = f'{url}/BR/{uf}/{election_id}/{politician_id}'
         foto_url = f'{foto_url}/foto.png'
