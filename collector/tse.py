@@ -302,6 +302,8 @@ def _parse_str(rows):
 def import_tse(years, path):
     "Collect data frames and push their data into elastic search"
     df = all_data_frames_together(years, path)
+    # FIXME: NaN values
+    df.fillna('', inplace=True)
     logging.info(f'Categorize data')
     cpf_unique = df['nr_cpf_candidato'].unique()
     cpf_groups = df.groupby('nr_cpf_candidato')
