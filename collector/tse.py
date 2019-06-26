@@ -34,17 +34,16 @@ from config import OBJECT_LIST_MAXIMUM_COUNTER, TSE_IMAGE_URL, TSE_URL
 
 
 class TSE(object):
-    def __init__(self, year, path="/tmp"):
+    def __init__(self, year, path):
         self.year = year
         self.domain_url = "http://agencia.tse.jus.br"
         self.url = "{0}/estatistica/sead/odsele/{1}/{1}_{2}.zip".format(
             self.domain_url, "consulta_cand", self.year
         )
 
-        if not path:
+        self.temp_dir = path
+        if not temp_dir:
             self.temp_dir = tempfile.mkdtemp()
-        else:
-            self.temp_dir = path
 
         self.out_file = os.path.join(
             self.temp_dir, f"consulta_cand_{self.year}.zip"
