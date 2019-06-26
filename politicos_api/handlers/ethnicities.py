@@ -21,7 +21,7 @@ from politicos_api.handlers.base import BaseHandler
 
 class EthnicitiesHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         response = await self.agg_query([
             'cd_cor_raca',
@@ -32,6 +32,6 @@ class EthnicitiesHandler(BaseHandler):
 
 class EthnicitiesSuggestHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         await self.suggest_response('ds_cor_raca', ['cd_cor_raca'])

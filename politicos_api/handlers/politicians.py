@@ -21,7 +21,7 @@ from politicos_api.handlers.base import BaseHandler
 
 class PoliticiansSuggestHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         await self.suggest_response(
             'nm_candidato',

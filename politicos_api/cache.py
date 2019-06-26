@@ -27,9 +27,12 @@ except ImportError:
     import sha
     sha1 = sha.new
 import functools
+import os
+
+from config import CACHE_TIMEOUT
 
 
-def cache(expires=7200):
+def cache(expires=CACHE_TIMEOUT):
     def _func(func):
         @functools.wraps(func)
         def wrapper(handler, *args, **kwargs):

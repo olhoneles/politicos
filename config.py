@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (c) 2018, Marcelo Jorge Vieira <metal@alucinados.com>
+# Copyright (c) 2019, Marcelo Jorge Vieira <metal@alucinados.com>
 #
 #  This program is free software: you can redistribute it and/or modify it
 #  under the terms of the GNU Affero General Public License as published by the
@@ -15,23 +15,15 @@
 #  You should have received a copy of the GNU Affero General Public License
 #  along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from politicos_api.cache import cache
-from politicos_api.handlers.base import BaseHandler
+import os
 
 
-class NationalitiesHandler(BaseHandler):
+LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
-    @cache()
-    async def get(self):
-        response = await self.agg_query([
-            'cd_nacionalidade',
-            'ds_nacionalidade',
-        ])
-        await self.json_response(response)
+CACHE_TIMEOUT = int(os.environ.get('CACHE_TIMEOUT', 7200))
 
+OBJECT_LIST_MAXIMUM_COUNTER = 5000
+TSE_IMAGE_URL = "http://divulgacandcontas.tse.jus.br/divulga/images"
+TSE_URL = "http://divulgacandcontas.tse.jus.br/candidaturas/oficial"
 
-class NationalitiesSuggestHandler(BaseHandler):
-
-    @cache()
-    async def get(self):
-        await self.suggest_response('ds_nacionalidade', ['cd_nacionalidade'])
+DEFAULT_DOWNLOAD_DIRECTORY = os.path.abspath(os.path.expanduser("~/Downloads/tse"))

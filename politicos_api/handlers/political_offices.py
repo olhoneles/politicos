@@ -37,7 +37,7 @@ class PoliticalOfficesHandler(BaseHandler):
     #     {'name': 'Senador 2º Suplente', 'term': 8},
     # ]
 
-    @cache(5)
+    @cache()
     async def get(self):
         response = await self.agg_query([
             'cd_cargo',
@@ -48,6 +48,6 @@ class PoliticalOfficesHandler(BaseHandler):
 
 class PoliticalOfficesSuggestHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         await self.suggest_response('ds_cargo', ['cd_cargo'])

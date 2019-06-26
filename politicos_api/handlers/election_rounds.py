@@ -33,7 +33,7 @@ class ElectionRoundsHandler(BaseHandler):
     #     ('2016', [(1, '02/10/2016'), (2, '30/10/2016')]),
     # ]
 
-    @cache(5)
+    @cache()
     async def get(self):
         response = await self.agg_query([
             'nr_turno',

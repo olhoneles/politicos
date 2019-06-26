@@ -21,7 +21,7 @@ from politicos_api.handlers.base import BaseHandler
 
 class CitiesHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         response = await self.agg_query([
             'sg_ue',
@@ -32,7 +32,7 @@ class CitiesHandler(BaseHandler):
 
 class CitiesSuggestHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         await self.suggest_response(
             'nm_ue',

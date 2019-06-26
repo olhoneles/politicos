@@ -21,7 +21,7 @@ from politicos_api.handlers.base import BaseHandler
 
 class MaritalStatusHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         response = await self.agg_query(['ds_estado_civil', 'cd_estado_civil'])
         await self.json_response(response)
@@ -29,6 +29,6 @@ class MaritalStatusHandler(BaseHandler):
 
 class MaritalStatusSuggestHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         await self.suggest_response('ds_estado_civil', ['cd_estado_civil'])

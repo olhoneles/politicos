@@ -25,18 +25,13 @@ from elasticsearch_dsl.connections import connections
 from collector.models import setup
 from collector.tse import import_tse
 from collector.tse_headers import year_headers
-
-
-DEFAULT_DOWNLOAD_DIRECTORY = os.path.abspath(
-    os.path.expanduser('~/Downloads/tse')
-)
+from config import DEFAULT_DOWNLOAD_DIRECTORY, LOG_FORMAT
 
 
 def run(args):
     "Collect data"
 
-    FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(format=FORMAT, level=args.log_level)
+    logging.basicConfig(format=LOG_FORMAT, level=args.log_level)
     # mute elasticsearch INFO logs
     log = logging.getLogger('elasticsearch')
     log.setLevel('ERROR')

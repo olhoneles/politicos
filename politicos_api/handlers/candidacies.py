@@ -24,7 +24,7 @@ from politicos_api.handlers.base import BaseHandler
 
 class CandidaciesHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         # FIXME: scroll api?
         body = {

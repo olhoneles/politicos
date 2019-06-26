@@ -21,7 +21,7 @@ from politicos_api.handlers.base import BaseHandler
 
 class GenderHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         response = await self.agg_query([
             'cd_genero',
@@ -32,6 +32,6 @@ class GenderHandler(BaseHandler):
 
 class GenderSuggestHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         await self.suggest_response('ds_genero', ['cd_genero'])

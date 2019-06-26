@@ -21,7 +21,7 @@ from politicos_api.handlers.base import BaseHandler
 
 class OccupationsHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         response = await self.agg_query([
             'cd_ocupacao',
@@ -32,6 +32,6 @@ class OccupationsHandler(BaseHandler):
 
 class OccupationsSuggestHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         await self.suggest_response('ds_ocupacao', ['cd_ocupacao'])

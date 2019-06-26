@@ -21,7 +21,7 @@ from politicos_api.handlers.base import BaseHandler
 
 class ElectionsHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         # FIXME: added way to integer fields
         response = await self.agg_query([
@@ -32,7 +32,7 @@ class ElectionsHandler(BaseHandler):
 
 class ElectionsSuggestHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         response = await self.agg_query([
             'ano_eleicao',

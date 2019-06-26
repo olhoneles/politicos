@@ -30,11 +30,7 @@ from pandas.errors import EmptyDataError
 
 from collector.tse_headers import year_headers
 from collector.models.candidacies import PoliticianCandidacies
-
-
-OBJECT_LIST_MAXIMUM_COUNTER = 5000
-TSE_IMAGE_URL = 'http://divulgacandcontas.tse.jus.br/divulga/images'
-TSE_URL = 'http://divulgacandcontas.tse.jus.br/candidaturas/oficial'
+from config import OBJECT_LIST_MAXIMUM_COUNTER, TSE_IMAGE_URL, TSE_URL
 
 
 class TSE(object):

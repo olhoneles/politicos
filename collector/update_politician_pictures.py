@@ -27,12 +27,12 @@ from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Q, Search
 from ujson import loads
 
+from config import LOG_FORMAT, OBJECT_LIST_MAXIMUM_COUNTER
 from models.politicians import Politicians
 
 
-FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 logging.basicConfig(
-    format=FORMAT,
+    format=LOG_FORMAT,
     level=logging.INFO
 )
 # mute elasticsearch INFO logs
@@ -41,7 +41,6 @@ log.setLevel('ERROR')
 
 ANO_ELEICAO = 2018
 NUM_WORKERS = 3
-OBJECT_LIST_MAXIMUM_COUNTER = 5000
 
 conn = sqlite3.connect('politician_pictures.db')
 cursor = conn.cursor()

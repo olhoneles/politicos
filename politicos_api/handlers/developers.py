@@ -23,7 +23,7 @@ from politicos_api.handlers.base import BaseHandler
 
 class DevelopersHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         loader = Loader('politicos_api/templates')
         await self.write(loader.load('developers.html').generate())

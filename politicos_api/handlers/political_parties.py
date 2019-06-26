@@ -21,7 +21,7 @@ from politicos_api.handlers.base import BaseHandler
 
 class PoliticalPartiesHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         response = await self.agg_query([
             'nm_partido',
@@ -33,7 +33,7 @@ class PoliticalPartiesHandler(BaseHandler):
 
 class PoliticalPartiesSuggestHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         await self.suggest_response(
             'nm_partido',

@@ -23,7 +23,7 @@ from politicos_api.handlers.base import BaseHandler
 
 class RoutesHandler(BaseHandler):
 
-    @cache(5)
+    @cache()
     async def get(self):
         handlers = []
         for x in self.application.handlers_api:
