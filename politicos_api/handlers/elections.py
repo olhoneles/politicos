@@ -20,22 +20,16 @@ from politicos_api.handlers.base import BaseHandler
 
 
 class ElectionsHandler(BaseHandler):
-
     @cache()
     async def get(self):
         # FIXME: added way to integer fields
-        response = await self.agg_query([
-            'ano_eleicao',
-        ])
+        response = await self.agg_query(["ano_eleicao"])
         await self.json_response(response)
 
 
 class ElectionsSuggestHandler(BaseHandler):
-
     @cache()
     async def get(self):
-        response = await self.agg_query([
-            'ano_eleicao',
-        ])
-        response = response['objects']
+        response = await self.agg_query(["ano_eleicao"])
+        response = response["objects"]
         await self.json_response(response)

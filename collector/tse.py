@@ -34,12 +34,11 @@ from config import OBJECT_LIST_MAXIMUM_COUNTER, TSE_IMAGE_URL, TSE_URL
 
 
 class TSE(object):
-
-    def __init__(self, year, path='/tmp'):
+    def __init__(self, year, path="/tmp"):
         self.year = year
-        self.domain_url = 'http://agencia.tse.jus.br'
-        self.url = '{0}/estatistica/sead/odsele/{1}/{1}_{2}.zip'.format(
-            self.domain_url, 'consulta_cand', self.year
+        self.domain_url = "http://agencia.tse.jus.br"
+        self.url = "{0}/estatistica/sead/odsele/{1}/{1}_{2}.zip".format(
+            self.domain_url, "consulta_cand", self.year
         )
 
         if not path:
@@ -48,20 +47,19 @@ class TSE(object):
             self.temp_dir = path
 
         self.out_file = os.path.join(
-            self.temp_dir,
-            f'consulta_cand_{self.year}.zip'
+            self.temp_dir, f"consulta_cand_{self.year}.zip"
         )
 
     def _download(self):
-        logging.info(f'Downloading {self.year} file...')
+        logging.info(f"Downloading {self.year} file...")
         response = requests.get(self.url, stream=True)
-        with open(self.out_file, 'wb') as out_file:
+        with open(self.out_file, "wb") as out_file:
             shutil.copyfileobj(response.raw, out_file)
         del response
 
     def _extract(self):
-        logging.info(f'Extracting files from year {self.year}')
-        dir_name = f'consulta_cand_{self.year}'
+        logging.info(f"Extracting files from year {self.year}")
+        dir_name = f"consulta_cand_{self.year}"
         zip_ref = zipfile.ZipFile(self.out_file)
         zip_ref.extractall(os.path.join(self.temp_dir, dir_name))
         zip_ref.close()
@@ -86,56 +84,56 @@ class TSE(object):
 
     def _get_all_csv_files(self):
         def _get_files(extension):
-            dir_name = os.path.join(
-                self.temp_dir,
-                f'consulta_cand_{self.year}'
+            dir_name = os.path.join(self.temp_dir, f"consulta_cand_{self.year}")
+            files = os.path.join(dir_name, f"*.{extension}")
+            return sorted(
+                [
+                    fn
+                    for fn in glob.glob(files)
+                    if not fn.endswith(f"_BRASIL.{extension}")
+                ]
             )
-            files = os.path.join(dir_name, f'*.{extension}')
-            return sorted([
-                fn for fn in glob.glob(files)
-                if not fn.endswith(f'_BRASIL.{extension}')
-            ])
 
         # FIXME
         if int(self.year) >= 2014:
-            return _get_files('csv')
-        return _get_files('txt')
+            return _get_files("csv")
+        return _get_files("txt")
 
     def _read_csv(self, filename, without_header=False):
         params = {
-            'delimiter': ';',
-            'encoding': 'ISO-8859-1',
-            'quotechar': '"',
+            "delimiter": ";",
+            "encoding": "ISO-8859-1",
+            "quotechar": '"',
             # Avoiding converting string to int (nr_cpf_candidato)
-            'dtype': object
+            "dtype": object,
         }
         if without_header:
-            params['header'] = None
+            params["header"] = None
         try:
             df = read_csv(filename, **params)
             return df
         except EmptyDataError:
-            logging.info(f'{filename} is empty')
+            logging.info(f"{filename} is empty")
             return []
 
     def _get_data_frame(self, filename):
         basename = os.path.basename(filename)
-        file_data = basename.split('_')
+        file_data = basename.split("_")
         state = os.path.splitext(file_data[3])[0]
-        logging.info(f'Processing state {state}')
+        logging.info(f"Processing state {state}")
         # FIXME
         if int(self.year) >= 2014:
             df = self._read_csv(filename)
-            df['filename'] = basename
+            df["filename"] = basename
             df.columns = df.columns.str.lower()
             return df
 
         # read file and add header
         df = self._read_csv(filename, without_header=True)
         df.columns = year_headers.get(self.year)
-        df['filename'] = basename
+        df["filename"] = basename
         # create new file with header
-        header_file = f'{filename}_header.csv'
+        header_file = f"{filename}_header.csv"
         df.to_csv(header_file, index=False)
         return df
 
@@ -149,7 +147,8 @@ class TSE(object):
             self._remove_tmp_dir()
 
     def all_state_data_frames(self):
-        "Concatenate all data frames of a single year"
+        """ Concatenate all data frames of a single year """
+
         data_frames = []
         for filename in self._get_all_csv_files():
             rows = self._get_data_frame(filename)
@@ -158,7 +157,8 @@ class TSE(object):
 
 
 def all_data_frames_together(years, path):
-    "Concat data frames for all the `years'"
+    """ Concat data frames for all the `years' """
+
     data_frames = []
     for year in years:
         tse = TSE(year, path=path)
@@ -186,104 +186,100 @@ def _string_float_to_int(rows, value):
 
 
 def _format_sigla_uf(data):
-    if data['sg_uf']:
+    if data["sg_uf"]:
         state_image = f'{TSE_IMAGE_URL}/{data["sg_uf"]}.png'
-        data['unidade_eleitoral'] = {}
-        data['unidade_eleitoral']['bandeira'] = state_image
+        data["unidade_eleitoral"] = {}
+        data["unidade_eleitoral"]["bandeira"] = state_image
 
 
 def _format_sigla_ue(data):
-    sg_ue = data['sg_ue']
+    sg_ue = data["sg_ue"]
     # FIXME
     if isinstance(sg_ue, str):
         return
-    zeros = '0' * (5 - len(str(data['sg_ue'])))
-    data['sg_ue'] = f'{zeros}{sg_ue}'
+    zeros = "0" * (5 - len(str(data["sg_ue"])))
+    data["sg_ue"] = f"{zeros}{sg_ue}"
 
 
 def _format_electoral_card(data):
-    if len(str(data['nr_titulo_eleitoral_candidato'])) == 11:
+    if len(str(data["nr_titulo_eleitoral_candidato"])) == 11:
         electoral_card = f'0{data["nr_titulo_eleitoral_candidato"]}'
-        data['nr_titulo_eleitoral_candidato'] = electoral_card
+        data["nr_titulo_eleitoral_candidato"] = electoral_card
 
 
 def _format_politician_image(data):
     elections_id = {
-        2004: '14431',
-        2006: '14423',
-        2008: '14422',
-        2010: '14417',
-        2012: '1699',
-        2014: '680',
-        2016: '01120',
+        2004: "14431",
+        2006: "14423",
+        2008: "14422",
+        2010: "14417",
+        2012: "1699",
+        2014: "680",
+        2016: "01120",
     }
-    election_id = elections_id.get(data['ano_eleicao'])
+    election_id = elections_id.get(data["ano_eleicao"])
 
     if not election_id:
-        data['foto_url'] = ''
+        data["foto_url"] = ""
         return
 
-    sg_ue = data['sg_ue']
-    politician_id = data['sq_candidato']
-    uf = data['sg_uf']
+    sg_ue = data["sg_ue"]
+    politician_id = data["sq_candidato"]
+    uf = data["sg_uf"]
     url = f'{TSE_URL}/{data["ano_eleicao"]}'
-    electoral_card = data['nr_titulo_eleitoral_candidato']
-    if data['ano_eleicao'] in [2004, 2008, 2012]:
-        foto_url = f'{url}/{uf}/{sg_ue}/{election_id}'
-        foto_url = f'{foto_url}/{politician_id}/foto.png'
-    elif data['ano_eleicao'] in [2006, 2010]:
-        foto_url = f'{url}/BR/{uf}/{election_id}/{politician_id}'
-        foto_url = f'{foto_url}/foto.png'
-    elif data['ano_eleicao'] == 2014:
-        foto_url = f'{url}/BR/{uf}/{election_id}/{politician_id}'
-        foto_url = f'{foto_url}/{electoral_card}.jpg'
-    elif data['ano_eleicao'] == 2016:
-        foto_url = f'{url}/{uf}/{sg_ue}/2/{politician_id}'
-        foto_url = f'{foto_url}/{electoral_card}.jpg'
-    data['foto_url'] = foto_url
+    electoral_card = data["nr_titulo_eleitoral_candidato"]
+    if data["ano_eleicao"] in [2004, 2008, 2012]:
+        foto_url = f"{uf}/{sg_ue}/{election_id}/{politician_id}/foto.png"
+    elif data["ano_eleicao"] in [2006, 2010]:
+        foto_url = f"BR/{uf}/{election_id}/{politician_id}/foto.png"
+    elif data["ano_eleicao"] == 2014:
+        foto_url = f"BR/{uf}/{election_id}/{politician_id}/{electoral_card}.jpg"
+    elif data["ano_eleicao"] == 2016:
+        foto_url = f"{uf}/{sg_ue}/2/{politician_id}/{electoral_card}.jpg"
+    data["foto_url"] = "{url}/{foto_url}"
 
 
 # FIXME: use pandas?
 def _parse_str(rows):
     # convert all to string =/
     # rows = {x: str(y) for x, y in rows.items()}
-    rows['ano_eleicao'] = int(rows['ano_eleicao'])
-    rows['dt_geracao'] = parser.parse(rows['dt_geracao'])
+    rows["ano_eleicao"] = int(rows["ano_eleicao"])
+    rows["dt_geracao"] = parser.parse(rows["dt_geracao"])
 
-    _string_int_to_int(rows, 'cd_cargo')
-    _string_int_to_int(rows, 'cd_estado_civil')
-    _string_int_to_int(rows, 'cd_nacionalidade')
-    _string_int_to_int(rows, 'cd_ocupacao')
-    _string_int_to_int(rows, 'cd_genero')
-    _string_int_to_int(rows, 'cd_grau_instrucao')
-    _string_int_to_int(rows, 'cd_situacao_candidatura')
-    _string_int_to_int(rows, 'nr_partido')
-    _string_int_to_int(rows, 'sq_candidato')
+    _string_int_to_int(rows, "cd_cargo")
+    _string_int_to_int(rows, "cd_estado_civil")
+    _string_int_to_int(rows, "cd_nacionalidade")
+    _string_int_to_int(rows, "cd_ocupacao")
+    _string_int_to_int(rows, "cd_genero")
+    _string_int_to_int(rows, "cd_grau_instrucao")
+    _string_int_to_int(rows, "cd_situacao_candidatura")
+    _string_int_to_int(rows, "nr_partido")
+    _string_int_to_int(rows, "sq_candidato")
 
-    if 'codigo_legenda' in rows:
-        _string_float_to_int(rows, 'codigo_legenda')
-    _string_float_to_int(rows, 'cd_sit_tot_turno')
-    _string_float_to_int(rows, 'nr_candidato')
-    _string_float_to_int(rows, 'nr_turno')
+    if "codigo_legenda" in rows:
+        _string_float_to_int(rows, "codigo_legenda")
+    _string_float_to_int(rows, "cd_sit_tot_turno")
+    _string_float_to_int(rows, "nr_candidato")
+    _string_float_to_int(rows, "nr_turno")
 
     # FIXME: leap year (convert model to Date)
     try:
-        birthday = rows['dt_nascimento']
-        if birthday == 'nan':
-            rows['dt_nascimento'] = None
-        elif birthday.find('/') != -1:
-            birthday = birthday.split('/')
+        birthday = rows["dt_nascimento"]
+        if birthday == "nan":
+            rows["dt_nascimento"] = None
+        elif birthday.find("/") != -1:
+            birthday = birthday.split("/")
             if len(birthday[2]) == 2:
                 # FIXME
-                birthday[2] = f'19{birthday[2]}'
-            birthday = f'{birthday[2]}-{birthday[1]}-{birthday[0]}'
-            rows['dt_nascimento'] = birthday
+                birthday[2] = f"19{birthday[2]}"
+            birthday = f"{birthday[2]}-{birthday[1]}-{birthday[0]}"
+            rows["dt_nascimento"] = birthday
         else:
             if len(birthday) == 9:
-                birthday = f'0{birthday}'
-            birthday = birthday.replace('.0', '')
-            birthday = f'{birthday[4:]}-{birthday[2:4]}-{birthday[:2]}'
-            rows['dt_nascimento'] = birthday
+                birthday = f"0{birthday}"
+            birthday = birthday.replace(".0", "")
+            birthday = f"{birthday[4:]}-{birthday[2:4]}-{birthday[:2]}"
+            rows["dt_nascimento"] = birthday
     except Exception:
         pass
 
@@ -296,43 +292,45 @@ def _parse_str(rows):
 
 
 def import_tse(years, path):
-    "Collect data frames and push their data into elastic search"
+    """ Collect data frames and push their data into elastic search """
+
     df = all_data_frames_together(years, path)
     # FIXME: NaN values
-    df.fillna('', inplace=True)
-    logging.info(f'Categorize data')
-    cpf_unique = df['nr_cpf_candidato'].unique()
-    cpf_groups = df.groupby('nr_cpf_candidato')
+    df.fillna("", inplace=True)
+    logging.info(f"Categorize data")
+    cpf_unique = df["nr_cpf_candidato"].unique()
+    cpf_groups = df.groupby("nr_cpf_candidato")
 
-    logging.info(f'Save data')
+    logging.info(f"Save data")
     documents = []
 
     def save_batch():
         PoliticianCandidacies.bulk_save(documents)
-        logging.info(f'Added {OBJECT_LIST_MAXIMUM_COUNTER} items')
+        logging.info(f"Added {OBJECT_LIST_MAXIMUM_COUNTER} items")
         documents[:] = []
 
     for cpf in cpf_unique:
-        group = (cpf_groups
-                 .get_group(cpf)
-                 .sort_values('ano_eleicao', ascending=False)
-                 .to_dict(orient='records'))
+        group = (
+            cpf_groups.get_group(cpf)
+            .sort_values("ano_eleicao", ascending=False)
+            .to_dict(orient="records")
+        )
 
         politician_data = _parse_str(group[0])
         politician = PoliticianCandidacies(**politician_data)
 
         for idx, candidacy in enumerate(group):
             politician.add_candidacies(
-                int(candidacy['ano_eleicao']),
-                candidacy['ds_sit_tot_turno'],
-                candidacy['nm_ue'],
-                candidacy['sg_uf'],
-                candidacy['ds_cargo'],
-                candidacy['filename'],
+                int(candidacy["ano_eleicao"]),
+                candidacy["ds_sit_tot_turno"],
+                candidacy["nm_ue"],
+                candidacy["sg_uf"],
+                candidacy["ds_cargo"],
+                candidacy["filename"],
             )
         documents.append(politician)
         if len(documents) == OBJECT_LIST_MAXIMUM_COUNTER:
             save_batch()
     if documents:
         save_batch()
-    logging.info(f'Done with data indexing')
+    logging.info(f"Done with data indexing")

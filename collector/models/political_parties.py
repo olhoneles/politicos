@@ -22,14 +22,12 @@ from .base import BaseModel, CompletionField
 
 class PoliticalParties(BaseModel):
     nm_partido = CompletionField()
-    sg_partido = Text(fields={'keyword': Keyword()})
-    nr_partido = Text(fields={'keyword': Keyword()})
+    sg_partido = Text(fields={"keyword": Keyword()})
+    nr_partido = Text(fields={"keyword": Keyword()})
 
     class Index:
-        name = 'political-parties'
-        settings = {
-            'number_of_shards': 2
-        }
+        name = "political-parties"
+        settings = {"number_of_shards": 2}
 
 
 def setup_index():

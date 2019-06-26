@@ -26,7 +26,6 @@ from politicos_api.handlers.base import ErrorHandler
 
 
 class Application(tornado.web.Application):
-
     def __init__(self):
         settings = dict(
             debug=options.debug,
@@ -41,10 +40,9 @@ class Application(tornado.web.Application):
     def init_with_loop(self, loop):
         self.redis = loop.run_until_complete(
             aioredis.create_redis(
-                (options.redis_host, options.redis_port),
-                loop=loop
+                (options.redis_host, options.redis_port), loop=loop
             )
         )
         self.cache = RedisCacheBackend(self.redis)
-        es_hosts = [x.strip() for x in options.es_hosts.split(',')]
+        es_hosts = [x.strip() for x in options.es_hosts.split(",")]
         self.es = AsyncElasticsearch(hosts=es_hosts, loop=loop)

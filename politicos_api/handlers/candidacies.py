@@ -23,29 +23,24 @@ from politicos_api.handlers.base import BaseHandler
 
 
 class CandidaciesHandler(BaseHandler):
-
     @cache()
     async def get(self):
         # FIXME: scroll api?
-        body = {
-            'from': self.per_page * (self.page - 1),
-        }
+        body = {"from": self.per_page * (self.page - 1)}
 
         errors = []
         # mapping = await self.es.indices.get_mapping(index=options.es_index)
         for field in self.query_arguments:
             if not Candidacies._doc_type.mapping.resolve_field(field):
-                errors.append({field: 'Invalid Attribute'})
+                errors.append({field: "Invalid Attribute"})
         if errors:
             errors = dict(errors=errors)
             return await self.json_response(errors, 422)
 
         # FIXME
         if self.query_arguments:
-            items = [
-                {'match': {x: y}} for x, y in self.query_arguments.items()
-            ]
-            body.update({'query': {'bool': {'must': items}}})
+            items = [{"match": {x: y}} for x, y in self.query_arguments.items()]
+            body.update({"query": {"bool": {"must": items}}})
 
         result = await self.es.search(
             index=options.es_index,
@@ -55,10 +50,9 @@ class CandidaciesHandler(BaseHandler):
         )
 
         response = {
-            'meta': self.get_meta(result),
-            'objects': [
-                x.get('_source')
-                for x in result.get('hits', {}).get('hits', {})
-            ]
+            "meta": self.get_meta(result),
+            "objects": [
+                x.get("_source") for x in result.get("hits", {}).get("hits", {})
+            ],
         }
         await self.json_response(response)

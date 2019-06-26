@@ -22,13 +22,11 @@ from .base import BaseModel, CompletionField
 
 class Cities(BaseModel):
     nm_ue = CompletionField()
-    sg_uf = Text(fields={'keyword': Keyword()})
+    sg_uf = Text(fields={"keyword": Keyword()})
 
     class Index:
-        name = 'cities'
-        settings = {
-            'number_of_shards': 2
-        }
+        name = "cities"
+        settings = {"number_of_shards": 2}
 
 
 def setup_index():

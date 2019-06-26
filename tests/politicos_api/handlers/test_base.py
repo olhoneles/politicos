@@ -25,7 +25,6 @@ from tests.politicos_api.base import BaseTestCase
 
 
 class BaseHandlerTestCase(BaseTestCase):
-
     def setUp(self):
         super(BaseHandlerTestCase, self).setUp()
         self.request = Mock()
@@ -34,7 +33,7 @@ class BaseHandlerTestCase(BaseTestCase):
         self.base_handler.page = 1
         self.base_handler.per_page = 10
 
-    @patch('elasticsearch_async.AsyncElasticsearch.search')
+    @patch("elasticsearch_async.AsyncElasticsearch.search")
     @gen_test
     async def test_agg_query(self, search_mock):
         f = asyncio.Future()
@@ -43,23 +42,29 @@ class BaseHandlerTestCase(BaseTestCase):
         search_mock.return_value = f
 
         response = await self.base_handler.agg_query([])
-        self.assertEqual(response, {
-            'meta': {
-                'next': None,
-                'page': 1,
-                'perPage': 10,
-                'previous': None,
-                'total': 0
+        self.assertEqual(
+            response,
+            {
+                "meta": {
+                    "next": None,
+                    "page": 1,
+                    "perPage": 10,
+                    "previous": None,
+                    "total": 0,
+                },
+                "objects": [],
             },
-            'objects': []
-        })
+        )
 
     def test_get_meta(self):
         meta = self.base_handler.get_meta({})
-        self.assertEqual(meta, {
-            'next': None,
-            'page': 1,
-            'perPage': 10,
-            'previous': None,
-            'total': 0,
-        })
+        self.assertEqual(
+            meta,
+            {
+                "next": None,
+                "page": 1,
+                "perPage": 10,
+                "previous": None,
+                "total": 0,
+            },
+        )

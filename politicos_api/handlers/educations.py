@@ -20,18 +20,15 @@ from politicos_api.handlers.base import BaseHandler
 
 
 class EducationsHandler(BaseHandler):
-
     @cache()
     async def get(self):
-        response = await self.agg_query([
-            'cd_grau_instrucao',
-            'ds_grau_instrucao',
-        ])
+        response = await self.agg_query(
+            ["cd_grau_instrucao", "ds_grau_instrucao"]
+        )
         await self.json_response(response)
 
 
 class EducationsSuggestHandler(BaseHandler):
-
     @cache()
     async def get(self):
-        await self.suggest_response('ds_grau_instrucao', ['cd_grau_instrucao'])
+        await self.suggest_response("ds_grau_instrucao", ["cd_grau_instrucao"])

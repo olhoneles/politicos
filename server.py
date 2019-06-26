@@ -21,7 +21,7 @@ import asyncio
 from tornado.options import options
 from tornado.log import enable_pretty_logging
 
-import settings   # noqa: F401
+import settings  # noqa: F401
 from politicos_api.application import Application
 
 
@@ -34,12 +34,12 @@ def main():
     enable_pretty_logging()
 
     if options.debug:
-        env = 'development'
+        env = "development"
     else:
-        env = 'production'
+        env = "production"
 
-    print(f'Starting {env} server at http://localhost:{options.port}/')
-    print('Quit the server with CONTROL-C.')
+    print(f"Starting {env} server at http://localhost:{options.port}/")
+    print("Quit the server with CONTROL-C.")
 
     loop.run_forever()
 

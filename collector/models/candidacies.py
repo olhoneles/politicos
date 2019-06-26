@@ -17,14 +17,21 @@
 
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import (
-    Document, Date, InnerDoc, Integer, Keyword, Nested, Short, Text
+    Document,
+    Date,
+    InnerDoc,
+    Integer,
+    Keyword,
+    Nested,
+    Short,
+    Text,
 )
 from elasticsearch_dsl.connections import connections
 
 from .base import CompletionField
 
 
-INDEX_NAME = 'candidacies'
+INDEX_NAME = "candidacies"
 
 
 class UnidadeEleitoral(InnerDoc):
@@ -33,10 +40,10 @@ class UnidadeEleitoral(InnerDoc):
 
 class Candidacies(InnerDoc):
     ano_eleicao = Integer()
-    ds_cargo = Text(fields={'keyword': Keyword()})
-    ds_sit_tot_turno = Text(fields={'keyword': Keyword()})
-    nm_ue = Text(fields={'keyword': Keyword()})
-    sg_uf = Text(fields={'keyword': Keyword()})
+    ds_cargo = Text(fields={"keyword": Keyword()})
+    ds_sit_tot_turno = Text(fields={"keyword": Keyword()})
+    nm_ue = Text(fields={"keyword": Keyword()})
+    sg_uf = Text(fields={"keyword": Keyword()})
     filename = Text()
 
 
@@ -47,82 +54,81 @@ class PoliticianCandidacies(Document):
     foto_url = Text()
     # CSV fields
     ano_eleicao = Integer(required=True)
-    cd_cargo = Text(fields={'keyword': Keyword()})
-    cd_cor_raca = Text(fields={'keyword': Keyword()})
-    cd_estado_civil = Text(fields={'keyword': Keyword()})
-    codigo_legenda = Text(fields={'keyword': Keyword()})
-    cd_municipio_nascimento = Text(fields={'keyword': Keyword()})
-    cd_nacionalidade = Text(fields={'keyword': Keyword()})
-    cd_ocupacao = Text(fields={'keyword': Keyword()})
-    cd_genero = Text(fields={'keyword': Keyword()})
-    cd_grau_instrucao = Text(fields={'keyword': Keyword()})
-    cd_situacao_candidatura = Text(fields={'keyword': Keyword()})
-    cd_sit_tot_turno = Text(fields={'keyword': Keyword()})
-    composicao_legenda = Text(fields={'keyword': Keyword()})
-    nr_cpf_candidato = Text(fields={'keyword': Keyword()})
+    cd_cargo = Text(fields={"keyword": Keyword()})
+    cd_cor_raca = Text(fields={"keyword": Keyword()})
+    cd_estado_civil = Text(fields={"keyword": Keyword()})
+    codigo_legenda = Text(fields={"keyword": Keyword()})
+    cd_municipio_nascimento = Text(fields={"keyword": Keyword()})
+    cd_nacionalidade = Text(fields={"keyword": Keyword()})
+    cd_ocupacao = Text(fields={"keyword": Keyword()})
+    cd_genero = Text(fields={"keyword": Keyword()})
+    cd_grau_instrucao = Text(fields={"keyword": Keyword()})
+    cd_situacao_candidatura = Text(fields={"keyword": Keyword()})
+    cd_sit_tot_turno = Text(fields={"keyword": Keyword()})
+    composicao_legenda = Text(fields={"keyword": Keyword()})
+    nr_cpf_candidato = Text(fields={"keyword": Keyword()})
     dt_geracao = Date()
-    dt_nascimento = Text(fields={'keyword': Keyword()})
+    dt_nascimento = Text(fields={"keyword": Keyword()})
     ds_cargo = CompletionField()
     ds_cor_raca = CompletionField()
-    ds_eleicao = Text(fields={'keyword': Keyword()})
-    ds_estado_civil = Text(fields={'keyword': Keyword()})
+    ds_eleicao = Text(fields={"keyword": Keyword()})
+    ds_estado_civil = Text(fields={"keyword": Keyword()})
     ds_grau_instrucao = CompletionField()
     ds_nacionalidade = CompletionField()
     ds_ocupacao = CompletionField()
     ds_genero = CompletionField()
     nm_ue = CompletionField()
-    ds_sit_tot_turno = Text(fields={'keyword': Keyword()})
-    nr_despesa_max_campanha = Text(fields={'keyword': Keyword()})
-    ds_situacao_candidatura = Text(fields={'keyword': Keyword()})
-    hr_geracao = Text(fields={'keyword': Keyword()})
-    idade_data_eleicao = Text(fields={'keyword': Keyword()})
-    nm_email = Text(fields={'keyword': Keyword()})
+    ds_sit_tot_turno = Text(fields={"keyword": Keyword()})
+    nr_despesa_max_campanha = Text(fields={"keyword": Keyword()})
+    ds_situacao_candidatura = Text(fields={"keyword": Keyword()})
+    hr_geracao = Text(fields={"keyword": Keyword()})
+    idade_data_eleicao = Text(fields={"keyword": Keyword()})
+    nm_email = Text(fields={"keyword": Keyword()})
     nm_candidato = CompletionField()
-    nome_legenda = Text(fields={'keyword': Keyword()})
-    nm_municipio_nascimento = Text(fields={'keyword': Keyword()})
+    nome_legenda = Text(fields={"keyword": Keyword()})
+    nm_municipio_nascimento = Text(fields={"keyword": Keyword()})
     nm_partido = CompletionField()
-    nm_urna_candidato = Text(fields={'keyword': Keyword()})
-    nr_candidato = Text(fields={'keyword': Keyword()})
-    nr_partido = Text(fields={'keyword': Keyword()})
-    nr_titulo_eleitoral_candidato = Text(fields={'keyword': Keyword()})
-    nr_turno = Text(fields={'keyword': Keyword()})
-    sq_candidato = Text(fields={'keyword': Keyword()})
-    sigla_legenda = Text(fields={'keyword': Keyword()})
-    sg_partido = Text(fields={'keyword': Keyword()})
+    nm_urna_candidato = Text(fields={"keyword": Keyword()})
+    nr_candidato = Text(fields={"keyword": Keyword()})
+    nr_partido = Text(fields={"keyword": Keyword()})
+    nr_titulo_eleitoral_candidato = Text(fields={"keyword": Keyword()})
+    nr_turno = Text(fields={"keyword": Keyword()})
+    sq_candidato = Text(fields={"keyword": Keyword()})
+    sigla_legenda = Text(fields={"keyword": Keyword()})
+    sg_partido = Text(fields={"keyword": Keyword()})
     sg_ue = CompletionField()
-    sg_uf = Text(fields={'keyword': Keyword()})
-    sg_uf_nascimento = Text(fields={'keyword': Keyword()})
+    sg_uf = Text(fields={"keyword": Keyword()})
+    sg_uf_nascimento = Text(fields={"keyword": Keyword()})
     # 2018
     cd_detalhe_situacao_cand = Integer()
     cd_eleicao = Integer()
     cd_tipo_eleicao = Short()
-    ds_detalhe_situacao_cand = Text(fields={'keyword': Keyword()})
-    dt_eleicao = Text(fields={'keyword': Keyword()})
-    nm_social_candidato = Text(fields={'keyword': Keyword()})
-    nm_tipo_eleicao = Text(fields={'keyword': Keyword()})
+    ds_detalhe_situacao_cand = Text(fields={"keyword": Keyword()})
+    dt_eleicao = Text(fields={"keyword": Keyword()})
+    nm_social_candidato = Text(fields={"keyword": Keyword()})
+    nm_tipo_eleicao = Text(fields={"keyword": Keyword()})
     nr_idade_data_posse = Short()
-    nr_processo = Text(fields={'keyword': Keyword()})
-    nr_protocolo_candidatura = Text(fields={'keyword': Keyword()})
-    st_declarar_bens = Text(fields={'keyword': Keyword()})
-    st_reeleicao = Text(fields={'keyword': Keyword()})
-    tp_abrangencia = Text(fields={'keyword': Keyword()})
-    tp_agremiacao = Text(fields={'keyword': Keyword()})
+    nr_processo = Text(fields={"keyword": Keyword()})
+    nr_protocolo_candidatura = Text(fields={"keyword": Keyword()})
+    st_declarar_bens = Text(fields={"keyword": Keyword()})
+    st_reeleicao = Text(fields={"keyword": Keyword()})
+    tp_abrangencia = Text(fields={"keyword": Keyword()})
+    tp_agremiacao = Text(fields={"keyword": Keyword()})
 
     class Index:
         name = INDEX_NAME
-        settings = {
-            'number_of_shards': 2
-        }
+        settings = {"number_of_shards": 2}
 
     def add_candidacies(
-            self, ano_eleicao, ds_sit_tot_turno, nm_ue, sg_uf, ds_cargo,
-            filename):
+        self, ano_eleicao, ds_sit_tot_turno, nm_ue, sg_uf, ds_cargo, filename
+    ):
 
         self.candidacies.append(
             Candidacies(
                 ano_eleicao=ano_eleicao,
                 ds_sit_tot_turno=ds_sit_tot_turno,
-                nm_ue=nm_ue, sg_uf=sg_uf,
+                nm_ue=nm_ue,
+                sg_uf=sg_uf,
                 ds_cargo=ds_cargo,
                 filename=filename,
             )
@@ -131,10 +137,7 @@ class PoliticianCandidacies(Document):
     @classmethod
     def bulk_save(cls, dicts):
         objects = (
-            dict(
-                d.to_dict(include_meta=True),
-                **{'_index': INDEX_NAME}
-            )
+            dict(d.to_dict(include_meta=True), **{"_index": INDEX_NAME})
             for d in dicts
         )
         client = connections.get_connection()

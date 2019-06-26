@@ -20,22 +20,15 @@ from politicos_api.handlers.base import BaseHandler
 
 
 class PoliticalPartiesHandler(BaseHandler):
-
     @cache()
     async def get(self):
-        response = await self.agg_query([
-            'nm_partido',
-            'sg_partido',
-            'nr_partido',
-        ])
+        response = await self.agg_query(
+            ["nm_partido", "sg_partido", "nr_partido"]
+        )
         await self.json_response(response)
 
 
 class PoliticalPartiesSuggestHandler(BaseHandler):
-
     @cache()
     async def get(self):
-        await self.suggest_response(
-            'nm_partido',
-            ['sg_partido', 'nr_partido'],
-        )
+        await self.suggest_response("nm_partido", ["sg_partido", "nr_partido"])

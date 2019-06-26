@@ -23,20 +23,19 @@ from tests.politicos_api.base import BaseTestCase, get_json_mock
 
 
 class PoliticalPartiesHandlerTestCase(BaseTestCase):
-
-    @patch('elasticsearch_async.AsyncElasticsearch.search')
+    @patch("elasticsearch_async.AsyncElasticsearch.search")
     def test_political_parties_handler(self, search_mock):
         f = asyncio.Future()
         es_political_parties = get_json_mock(
-            'es_political_parties_response.json'
+            "es_political_parties_response.json"
         )
         f.set_result(es_political_parties)
         search_mock.return_value = f
 
-        response = self.fetch('/api/v1/political-parties/')
+        response = self.fetch("/api/v1/political-parties/")
 
         self.assertEqual(response.code, 200)
         api_political_parties = get_json_mock(
-            'api_political_parties_response.json'
+            "api_political_parties_response.json"
         )
         self.assertEqual(loads(response.body), api_political_parties)

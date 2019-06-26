@@ -22,16 +22,15 @@ from politicos_api.handlers.base import BaseHandler
 
 
 class RoutesHandler(BaseHandler):
-
     @cache()
     async def get(self):
         handlers = []
         for x in self.application.handlers_api:
             # FIXME
-            url = x.reverse().replace('?', '')
-            handlers.append({'name': x.name, 'url': url})
+            url = x.reverse().replace("?", "")
+            handlers.append({"name": x.name, "url": url})
         if handlers:
-            handlers = sorted(handlers, key=lambda k: k['name'])
-        loader = Loader('politicos_api/templates')
-        content = loader.load('routes.html').generate(handlers=handlers)
+            handlers = sorted(handlers, key=lambda k: k["name"])
+        loader = Loader("politicos_api/templates")
+        content = loader.load("routes.html").generate(handlers=handlers)
         await self.write(content)

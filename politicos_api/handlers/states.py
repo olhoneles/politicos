@@ -20,15 +20,13 @@ from politicos_api.handlers.base import BaseHandler
 
 
 class StatesHandler(BaseHandler):
-
     @cache()
     async def get(self):
-        response = await self.agg_query(['sg_uf'])
+        response = await self.agg_query(["sg_uf"])
         await self.json_response(response)
 
 
 class StatesSuggestHandler(BaseHandler):
-
     @cache()
     async def get(self):
-        await self.suggest_response('sg_uf')
+        await self.suggest_response("sg_uf")

@@ -39,15 +39,11 @@ class PoliticalOfficesHandler(BaseHandler):
 
     @cache()
     async def get(self):
-        response = await self.agg_query([
-            'cd_cargo',
-            'ds_cargo',
-        ])
+        response = await self.agg_query(["cd_cargo", "ds_cargo"])
         await self.json_response(response)
 
 
 class PoliticalOfficesSuggestHandler(BaseHandler):
-
     @cache()
     async def get(self):
-        await self.suggest_response('ds_cargo', ['cd_cargo'])
+        await self.suggest_response("ds_cargo", ["cd_cargo"])

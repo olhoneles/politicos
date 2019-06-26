@@ -20,18 +20,15 @@ from politicos_api.handlers.base import BaseHandler
 
 
 class CandidaciesStatusHandler(BaseHandler):
-
     @cache()
     async def get(self):
-        response = await self.agg_query([
-            'cd_situacao_candidatura',
-            'ds_situacao_candidatura',
-        ])
+        response = await self.agg_query(
+            ["cd_situacao_candidatura", "ds_situacao_candidatura"]
+        )
         await self.json_response(response)
 
 
 class CandidaciesStatusSuggestHandler(BaseHandler):
-
     @cache()
     async def get(self):
-        await self.suggest_response('ds_sit_tot_turno', ['cd_sit_tot_turno'])
+        await self.suggest_response("ds_sit_tot_turno", ["cd_sit_tot_turno"])

@@ -20,33 +20,29 @@ from elasticsearch_dsl.connections import connections
 from elasticsearch.helpers import bulk
 
 
-connections.create_connection(hosts=['localhost'], timeout=20)
+connections.create_connection(hosts=["localhost"], timeout=20)
 
-brazilian_analyzer = analyzer('brazilian')
+brazilian_analyzer = analyzer("brazilian")
 
 
 class CompletionField(Text):
     def __init__(self, *args, **kwargs):
-        kwargs['fields'] = {
-            'keyword': Keyword(),
-            'suggest': Completion(
+        kwargs["fields"] = {
+            "keyword": Keyword(),
+            "suggest": Completion(
                 analyzer=brazilian_analyzer,
                 preserve_separators=False,
                 preserve_position_increments=False,
-            )
+            ),
         }
         super(CompletionField, self).__init__(*args, **kwargs)
 
 
 class BaseModel(Document):
-
     @classmethod
     def bulk_save(cls, dicts):
         objects = (
-            dict(
-                d.to_dict(include_meta=True),
-                **{'_index': cls.Index.name}
-            )
+            dict(d.to_dict(include_meta=True), **{"_index": cls.Index.name})
             for d in dicts
         )
         client = connections.get_connection()

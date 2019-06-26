@@ -18,9 +18,9 @@
 import os
 
 
-LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
-CACHE_TIMEOUT = int(os.environ.get('CACHE_TIMEOUT', 7200))
+CACHE_TIMEOUT = int(os.environ.get("CACHE_TIMEOUT", 7200))
 
 OBJECT_LIST_MAXIMUM_COUNTER = 5000
 TSE_IMAGE_URL = "http://divulgacandcontas.tse.jus.br/divulga/images"

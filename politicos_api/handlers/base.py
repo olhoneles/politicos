@@ -26,16 +26,15 @@ from politicos_api.cache import CacheMixin
 
 
 class BaseHandler(CacheMixin, RequestHandler):
-
     @property
     def es(self):
         return self.application.es
 
     async def prepare(self):
-        self.page = int(self.get_argument('page', 1))
+        self.page = int(self.get_argument("page", 1))
 
         # FIXME: lowercase
-        self.per_page = int(self.get_argument('perPage', options.per_page))
+        self.per_page = int(self.get_argument("perPage", options.per_page))
         if self.per_page > options.max_per_page:
             self.per_page = options.per_page
 
@@ -43,20 +42,20 @@ class BaseHandler(CacheMixin, RequestHandler):
         # Validate fields in mapping?
         query_string = urlparse(self.request.query).path
         self.query_arguments = dict(parse_qsl(query_string))
-        if 'page' in self.query_arguments:
-            del self.query_arguments['page']
-        if 'perPage' in self.query_arguments:
-            del self.query_arguments['perPage']
+        if "page" in self.query_arguments:
+            del self.query_arguments["page"]
+        if "perPage" in self.query_arguments:
+            del self.query_arguments["perPage"]
 
         await super(BaseHandler, self).prepare()
 
     def set_default_headers(self):
-        self.set_header('Access-Control-Allow-Origin', '*')
-        self.set_header('Access-Control-Allow-Headers', 'x-requested-with')
-        self.set_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header("Access-Control-Allow-Methods", "GET, OPTIONS")
         self.set_header(
-            'Access-Control-Allow-Headers',
-            'access-control-allow-origin,authorization,content-type'
+            "Access-Control-Allow-Headers",
+            "access-control-allow-origin,authorization,content-type",
         )
 
     def options(self):
@@ -65,22 +64,22 @@ class BaseHandler(CacheMixin, RequestHandler):
         self.finish()
 
     async def json_response(self, data, status=200):
-        self.set_header('Content-Type', 'application/json; charset="utf-8"')
+        self.set_header("Content-Type", 'application/json; charset="utf-8"')
         self.set_status(status)
         await self.write(dumps(data))
 
     def get_meta(self, result):
         # FIXME: is it for all items?
         try:
-            total = result.get('hits', {}).get('total')
-            url = self.reverse_url('main')
+            total = result.get("hits", {}).get("total")
+            url = self.reverse_url("main")
             _next = dict(page=self.page + 1, perPage=self.per_page)
             _next = {**_next, **self.query_arguments}
-            next_url = f'{url}{urlencode(_next)}'
+            next_url = f"{url}{urlencode(_next)}"
             if self.page > 1:
                 previous = dict(page=self.page - 1, perPage=self.per_page)
                 previous = {**previous, **self.query_arguments}
-                previous_url = f'{url}{urlencode(previous)}'
+                previous_url = f"{url}{urlencode(previous)}"
             else:
                 previous_url = None
         except AttributeError:
@@ -90,104 +89,84 @@ class BaseHandler(CacheMixin, RequestHandler):
             self.page = 1
 
         return {
-            'next': None if total <= 0 else next_url,
-            'page': self.page,
-            'perPage': self.per_page,
-            'previous': None if total <= 0 else previous_url,
-            'total': total,
+            "next": None if total <= 0 else next_url,
+            "page": self.page,
+            "perPage": self.per_page,
+            "previous": None if total <= 0 else previous_url,
+            "total": total,
         }
 
     async def agg_query(self, fields, size=1000):
         sources = []
         for x in fields:
             # FIXME: added way to integer fields
-            if x == 'ano_eleicao':
-                sources.append(
-                    {x: {'terms': {'field': x}}}
-                )
+            if x == "ano_eleicao":
+                sources.append({x: {"terms": {"field": x}}})
             else:
                 sources.append(
-                    {x: {'terms': {'field': f'{x}.keyword', 'missing': True}}}
+                    {x: {"terms": {"field": f"{x}.keyword", "missing": True}}}
                 )
 
         # FIXME: size (paginate)
         body = {
-            'size': 0,
-            'aggs': {
-                'result': {
-                    'composite': {
-                        'size': size,
-                        'sources': sources,
-                    }
-                }
-            }
+            "size": 0,
+            "aggs": {
+                "result": {"composite": {"size": size, "sources": sources}}
+            },
         }
 
-        result = await self.es.search(
-            index=options.es_index,
-            body=body,
+        result = await self.es.search(index=options.es_index, body=body)
+        result = (
+            result.get("aggregations", {}).get("result", {}).get("buckets", {})
         )
-        result = result \
-            .get('aggregations', {}) \
-            .get('result', {}) \
-            .get('buckets', {})
-        result = [x.get('key') for x in result]
-        response = {
-            'meta': self.get_meta(result),
-            'objects': result,
-        }
+        result = [x.get("key") for x in result]
+        response = {"meta": self.get_meta(result), "objects": result}
         return response
 
     async def suggest_query(self, text, field, other_fields=[], size=10):
         query = {
-            'query': {
-                'prefix': text or '',
-                'completion': {
-                    'field': field,
-                    'size': size,
-                    'skip_duplicates': True,
-                    'fuzzy': True,
-                }
+            "query": {
+                "prefix": text or "",
+                "completion": {
+                    "field": field,
+                    "size": size,
+                    "skip_duplicates": True,
+                    "fuzzy": True,
+                },
             }
         }
         query = await self.es.search(
-            index=options.es_index,
-            body={'suggest': query},
+            index=options.es_index, body={"suggest": query}
         )
-        response_options = query['suggest']['query'][0]['options']
-        key = field.split('.suggest')[0]
+        response_options = query["suggest"]["query"][0]["options"]
+        key = field.split(".suggest")[0]
         results = []
         for option in response_options:
-            items = {key: option.get('text')}
+            items = {key: option.get("text")}
             for other_field in other_fields:
-                items.update({
-                    other_field: option.get('_source', {}).get(other_field)
-                })
+                items.update(
+                    {other_field: option.get("_source", {}).get(other_field)}
+                )
             results.append(items)
         return results
 
     async def suggest_response(self, key, extra_fields=[]):
-        text = self.get_argument('q', '')
+        text = self.get_argument("q", "")
         if text:
             response = await self.suggest_query(
-                text,
-                f'{key}.suggest',
-                extra_fields,
+                text, f"{key}.suggest", extra_fields
             )
         else:
             extra_fields.insert(0, key)
-            response = await self.agg_query(
-                extra_fields,
-                size=10,
-            )
-            response = response['objects']
+            response = await self.agg_query(extra_fields, size=10)
+            response = response["objects"]
         await self.json_response(response)
 
 
 class ErrorHandler(BaseErrorHandler):
     def write_error(self, status_code, **kwargs):
-        loader = Loader('politicos_api/templates')
+        loader = Loader("politicos_api/templates")
         if status_code == 404:
-            self.write(loader.load('404.html').generate())
+            self.write(loader.load("404.html").generate())
         else:
-            self.write(loader.load('error.html').generate())
+            self.write(loader.load("error.html").generate())

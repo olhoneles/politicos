@@ -17,14 +17,14 @@
 
 from tornado.options import define, options
 
-define('debug', default=True, help='debug mode')
-define('port', default=8888, help='port to listen on', type=int)
-define('redis_port', default=6379, help='redis port')
-define('redis_host', default='localhost', help='redis hostname or IP')
-define('es_hosts', default='localhost', help='elasticsearch hosts')
-define('es_index', default='candidacies', help='elasticsearch index')
+define("debug", default=True, help="debug mode")
+define("port", default=8888, help="port to listen on", type=int)
+define("redis_port", default=6379, help="redis port")
+define("redis_host", default="localhost", help="redis hostname or IP")
+define("es_hosts", default="localhost", help="elasticsearch hosts")
+define("es_index", default="candidacies", help="elasticsearch index")
 
 options.parse_command_line()
 
-define('per_page', default=10, help='items per page')
-define('max_per_page', default=50, help='max items per page')
+define("per_page", default=10, help="items per page")
+define("max_per_page", default=50, help="max items per page")

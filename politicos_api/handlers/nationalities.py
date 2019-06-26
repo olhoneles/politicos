@@ -20,18 +20,15 @@ from politicos_api.handlers.base import BaseHandler
 
 
 class NationalitiesHandler(BaseHandler):
-
     @cache()
     async def get(self):
-        response = await self.agg_query([
-            'cd_nacionalidade',
-            'ds_nacionalidade',
-        ])
+        response = await self.agg_query(
+            ["cd_nacionalidade", "ds_nacionalidade"]
+        )
         await self.json_response(response)
 
 
 class NationalitiesSuggestHandler(BaseHandler):
-
     @cache()
     async def get(self):
-        await self.suggest_response('ds_nacionalidade', ['cd_nacionalidade'])
+        await self.suggest_response("ds_nacionalidade", ["cd_nacionalidade"])

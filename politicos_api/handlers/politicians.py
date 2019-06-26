@@ -20,10 +20,8 @@ from politicos_api.handlers.base import BaseHandler
 
 
 class PoliticiansSuggestHandler(BaseHandler):
-
     @cache()
     async def get(self):
         await self.suggest_response(
-            'nm_candidato',
-            ['nm_urna_candidato', 'nr_cpf_candidato'],
+            "nm_candidato", ["nm_urna_candidato", "nr_cpf_candidato"]
         )

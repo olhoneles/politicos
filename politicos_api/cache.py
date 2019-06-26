@@ -22,9 +22,11 @@ except ImportError:
     import pickle
 try:
     import hashlib
+
     sha1 = hashlib.sha1
 except ImportError:
     import sha
+
     sha1 = sha.new
 import functools
 import os
@@ -38,12 +40,13 @@ def cache(expires=CACHE_TIMEOUT):
         def wrapper(handler, *args, **kwargs):
             handler.expires = expires
             return func(handler, *args, **kwargs)
+
         return wrapper
+
     return _func
 
 
 class CacheMixin(object):
-
     @property
     def cache(self):
         return self.application.cache
@@ -61,7 +64,7 @@ class CacheMixin(object):
         return sha1(key).hexdigest()
 
     def _prefix(self, key):
-        return 'Cache:%s' % key
+        return "Cache:%s" % key
 
     def write_cache(self, chunk):
         super(CacheMixin, self).write(chunk)
@@ -69,7 +72,7 @@ class CacheMixin(object):
     async def write(self, chunk):
         pickled = pickle.dumps(chunk)
         key = self._generate_key(self.request)
-        if hasattr(self, 'expires'):
+        if hasattr(self, "expires"):
             await self.cache.set(self._prefix(key), pickled, self.expires)
         else:
             await self.cache.set(self._prefix(key), pickled)
@@ -77,9 +80,7 @@ class CacheMixin(object):
 
 
 class CacheBackend(object):
-    '''
-    The base Cache Backend class
-    '''
+    """ The base Cache Backend class """
 
     def get(self, key):
         raise NotImplementedError
@@ -95,7 +96,6 @@ class CacheBackend(object):
 
 
 class RedisCacheBackend(CacheBackend):
-
     def __init__(self, redis_connection, **options):
         self.options = dict(timeout=86400)
         self.options.update(options)
@@ -111,7 +111,7 @@ class RedisCacheBackend(CacheBackend):
         if timeout:
             await self.redis.expire(key, timeout)
         else:
-            await self.redis.expire(key, self.options['timeout'])
+            await self.redis.expire(key, self.options["timeout"])
 
     async def delitem(self, key):
         await self.redis.delete(key)
